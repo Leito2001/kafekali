@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
         case 'readAll':
-            if ($result['dataset'] = $categoria->readAll()) {
+            if ($result['dataset'] = $categoria->readAllCategorias()) {
                 $result['status'] = 1;
             } else {
                 $result['exception'] = 'Contenido no disponible';
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
             break;
         case 'readOne':
             if ($producto->setId($_POST['id_producto'])) {
-                if ($result['dataset'] = $producto->readOne()) {
+                if ($result['dataset'] = $producto->readOneProducto()) {
                     $result['status'] = 1;
                 } else {
                     $result['exception'] = 'Contenido no disponible';

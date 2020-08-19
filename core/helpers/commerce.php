@@ -39,7 +39,7 @@ class Commerce
                 print('
                     <header>
                         <div class="navbar-fixed">
-                            <nav class="green">
+                            <nav class="orange darken-4">
                                 <div class="nav-wrapper">
                                     <a href="index.php" class="brand-logo"><img src="../../resources/img/logo_texto_blanco.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>

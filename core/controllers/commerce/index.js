@@ -24,31 +24,26 @@ function readAllCategorias()
             // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
             response.dataset.forEach(function( row ) {
                 // Se define una dirección con los datos de cada categoría para mostrar sus productos en otra página web.
-                url = `productos.php?id=${row.id_categoria}&nombre=${row.nombre_categoria}`;
+                url = `productos.php?id=${row.id_tipo_producto}&nombre=${row.tipo_producto}`;
                 // Se crean y concatenan las tarjetas con los datos de cada categoría.
                 content += `
                     <div class="col s12 m6 l4">
-                        <div class="card hoverable">
+                        <div class="card">
                             <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="../../resources/img/categorias/${row.imagen_categoria}">
+                                <img class="activator" src="../../resources/img/categorias/${row.imagen}">
                             </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">
-                                    ${row.nombre_categoria}
-                                    <i class="material-icons right">more_vert</i>
-                                </span>
-                                <p class="center">
-                                    <a href="${url}" class="tooltipped" data-tooltip="Ver más">
-                                        <i class="material-icons small">local_cafe</i>
+                            <div class="card-content row">
+                                <div class="col s10">
+                                    <span class="card-title activator grey-text text-darken-4">
+                                        ${row.tipo_producto}
+                                    </span>  
+                                </div>
+                                <div class="col s2 right-align">
+                                    <a href="${url}" class="tooltipped" data-tooltip="Ver productos">
+                                        <i class="material-icons small">add_circle</i>
                                     </a>
-                                </p>
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">
-                                    ${row.nombre_categoria}
-                                    <i class="material-icons right">close</i>
-                                </span>
-                                <p>${row.descripcion_categoria}</p>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
