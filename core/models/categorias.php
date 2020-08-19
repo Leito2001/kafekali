@@ -1,7 +1,7 @@
 <?php
 /*
-*	Clase para manejar la tabla categorias de la base de datos. Es clase hija de Validator.
-*/
+ *    Clase para manejar la tabla categorias de la base de datos. Es clase hija de Validator.
+ */
 class Categorias extends Validator
 {
     // Declaración de atributos (propiedades).
@@ -12,8 +12,8 @@ class Categorias extends Validator
     private $ruta = '../../../resources/img/categorias/';
 
     /*
-    *   Métodos para asignar valores a los atributos.
-    */
+     *   Métodos para asignar valores a los atributos.
+     */
     public function setId($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -26,14 +26,14 @@ class Categorias extends Validator
 
     public function setCategoria($value)
     {
-        if($this->validateAlphanumeric($value, 1, 35)) {
+        if ($this->validateAlphanumeric($value, 1, 35)) {
             $this->categoria = $value;
             return true;
         } else {
             return false;
         }
     }
-
+    
     public function setImagen($file)
     {
         if ($this->validateImageFile($file, 500, 500)) {
@@ -46,8 +46,8 @@ class Categorias extends Validator
     }
 
     /*
-    *   Métodos para obtener valores de los atributos.
-    */
+     *   Métodos para obtener valores de los atributos.
+     */
     public function getId()
     {
         return $this->id;
@@ -69,13 +69,13 @@ class Categorias extends Validator
     }
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
-    */
+     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+     */
 
     public function createCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'INSERT INTO tipo_producto (tipo_producto, imagen) 
+            $sql = 'INSERT INTO tipo_producto (tipo_producto, imagen)
                     VALUES (?, ?)';
             $params = array($this->categoria, $this->imagen);
             return Database::executeRow($sql, $params);
@@ -86,7 +86,7 @@ class Categorias extends Validator
 
     public function readAllCategorias()
     {
-        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen 
+        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen
                 FROM tipo_producto
                 ORDER BY tipo_producto';
         $params = null;
@@ -95,7 +95,7 @@ class Categorias extends Validator
 
     public function readOneCategoria()
     {
-        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen 
+        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen
                 FROM tipo_producto
                 WHERE id_tipo_producto = ?';
         $params = array($this->id);
@@ -105,12 +105,12 @@ class Categorias extends Validator
     public function updateCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'UPDATE tipo_producto 
-                    SET tipo_producto = ?, imagen = ? 
+            $sql = 'UPDATE tipo_producto
+                    SET tipo_producto = ?, imagen = ?
                     WHERE id_tipo_producto = ?';
             $params = array($this->categoria, $this->imagen, $this->id);
         } else {
-            $sql = 'UPDATE tipo_producto 
+            $sql = 'UPDATE tipo_producto
                     SET tipo_producto = ?
                     WHERE id_tipo_producto = ?';
             $params = array($this->categoria, $this->id);
@@ -120,10 +120,9 @@ class Categorias extends Validator
 
     public function deleteCategoria()
     {
-        $sql = 'DELETE FROM tipo_producto 
+        $sql = 'DELETE FROM tipo_producto
                 WHERE id_tipo_producto = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }
-?>
