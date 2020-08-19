@@ -19,11 +19,11 @@ if ($dataCategorias = $categoria->readAllCategorias()) {
         // Se establece la fuente para el nombre de la categoría.
         $pdf->SetFont('Times', 'B', 12);
         // Se imprime una celda con el nombre de la categoría.
-        $pdf->Cell(0, 10, utf8_decode('Categoría: '.$rowCategoria['nombre_categoria']), 1, 1, 'C', 1);
+        $pdf->Cell(0, 10, utf8_decode('Categoría: '.$rowCategoria['tipo_producto']), 1, 1, 'C', 1);
         // Se instancia el módelo Productos para obtener los datos.
         $producto = new Productos;
         // Se establece la categoría para obtener sus productos, de lo contrario se imprime un mensaje de error.
-        if ($producto->setCategoria($rowCategoria['id_categoria'])) {
+        if ($producto->setCategoria($rowCategoria['id_tipo_producto'])) {
             // Se verifica si existen registros (productos) para mostrar, de lo contrario se imprime un mensaje.
             if ($dataProductos = $producto->readProductosCategoria()) {
                 // Se establece un color de relleno para los encabezados.
@@ -38,8 +38,8 @@ if ($dataCategorias = $categoria->readAllCategorias()) {
                 // Se recorren los registros ($dataProductos) fila por fila ($rowProducto).
                 foreach ($dataProductos as $rowProducto) {
                     // Se imprimen las celdas con los datos de los productos.
-                    $pdf->Cell(140, 10, utf8_decode($rowProducto['nombre_producto']), 1, 0);
-                    $pdf->Cell(46, 10, $rowProducto['precio_producto'], 1, 1);
+                    $pdf->Cell(140, 10, utf8_decode($rowProducto['tipo_producto']), 1, 0);
+                    $pdf->Cell(46, 10, $rowProducto['precio'], 1, 1);
                 }
             } else {
                 $pdf->Cell(0, 10, utf8_decode('No hay productos para esta categoría'), 1, 1);

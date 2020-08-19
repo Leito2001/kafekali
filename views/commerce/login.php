@@ -9,17 +9,21 @@ Commerce::headerTemplate('Iniciar sesión');
     <!-- Formulario para iniciar sesión -->
     <form method="post" id="session-form">
         <div class="row">
+
             <div class="input-field col s12 m4 offset-m4">
-                <i class="material-icons prefix">email</i>
-                <input type="email" id="usuario" name="usuario" class="validate" required/>
-                <label for="usuario">Correo electrónico</label>
+                <i class="material-icons prefix">person</i>
+                <input type="text" id="usuario_c" name="usuario_c" class="validate" required/>
+                <label for="usuario_c">Nombre de usuario</label>
             </div>
+
             <div class="input-field col s12 m4 offset-m4">
-                <i class="material-icons prefix">security</i>
-                <input type="password" id="clave" name="clave" class="validate" required/>
-                <label for="clave">Clave</label>
+                <i class="material-icons prefix">lock</i>
+                <input type="password" id="clave_cliente" name="clave_cliente" class="validate" required/>
+                <label for="clave_cliente">Clave</label>
             </div>
+
         </div>
+
         <div class="row center-align">
             <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>
         </div>
