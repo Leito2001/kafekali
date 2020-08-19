@@ -1,5 +1,5 @@
 Esta demo ha sido desarrollada con las siguientes herramientas:
-- XAMMP
+- XAMPP
 - PHP 7.3.11
 - PostgreSQL 10)
 - Materialize v1.0.0
