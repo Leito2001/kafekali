@@ -7,6 +7,8 @@ Dashboard::headerTemplate('Administrar productos');
     <div class="col s12 m4">
         <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
         <a href="#" onclick="openCreateModal()" class="btn waves-effect teal tooltipped" data-tooltip="Agregar nuevo producto"><i class="material-icons">add_circle</i></a>
+        <!-- Enlace para generar reporte de productos por categoría -->
+        <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber darken-2 tooltipped" data-tooltip="Reporte de productos por categoría"><i class="material-icons">assignment</i></a>
     </div>       
 </div>
 
