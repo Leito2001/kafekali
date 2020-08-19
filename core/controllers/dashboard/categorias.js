@@ -10,28 +10,52 @@ $( document ).ready(function() {
 // Función para llenar la tabla con los datos de los registros.
 function fillTable( dataset )
 {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    dataset.forEach(function( row ) {
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
-            <tr>
-                <td><img src="../../resources/img/categorias/${row.imagen_categoria}" class="materialboxed" height="100"></td>
-                <td>${row.nombre_categoria}</td>
-                <td>${row.descripcion_categoria}</td>
-                <td>
-                    <a href="#" onclick="openUpdateModal(${row.id_categoria})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_categoria})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
-                </td>
-            </tr>
-        `;
-    });
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    $( '#tbody-rows' ).html( content );
-    // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
-    $( '.materialboxed' ).materialbox();
-    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
-    $( '.tooltipped' ).tooltip();
+    var table = $('#tabla');
+    if($.fn.dataTable.isDataTable(table)){
+        table = $('#tabla').DataTable();
+        table.clear();
+        table.rows.add(dataset);
+        table.draw();
+    }
+    else{
+        table.DataTable( {
+            responsive: true,
+            bLengthChange: false,
+            dom:
+            "<'row'<'col-sm-12 col-md-12'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            data: dataset,
+            language: {
+                url: '../../resources/es_ES.json'
+            },
+            columns: [
+
+                { data: null,
+                ordereable: false,
+                render: function(data, type, meta) 
+                {
+                    return `<img src="../../resources/img/categorias/${data.imagen}" class="materialboxed" height="100">`;
+                },
+                targets: -1
+                },
+                { data: 'tipo_producto' },
+                { data: null,
+                orderable: false,
+                    
+                render:function(data, type, row)
+                {
+                  return `
+                        <td>
+                            <a href="#" onclick="openUpdateModal(${data.id_tipo_producto})" class="btn waves-effect teal tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                            <a href="#" onclick="openDeleteDialog(${data.id_tipo_producto})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                        </td>`;
+                },
+                targets: -1
+                },
+            ]
+        } );
+    }
 }
 
 // Evento para mostrar los resultados de una búsqueda.
@@ -52,7 +76,7 @@ function openCreateModal()
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Crear categoría' );
     // Se establece el campo de tipo archivo como obligatorio.
-    $( '#archivo_categoria' ).prop( 'required', true );
+    $( '#imagen' ).prop( 'required', true );
 }
 
 // Función que prepara formulario para modificar un registro.
@@ -65,21 +89,20 @@ function openUpdateModal( id )
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar categoría' );
     // Se establece el campo de tipo archivo como opcional.
-    $( '#archivo_categoria' ).prop( 'required', false );
+    $( '#imagen' ).prop( 'required', false );
 
     $.ajax({
         dataType: 'json',
         url: API_CATEGORIAS + 'readOne',
-        data: { id_categoria: id },
+        data: { id_tipo_producto: id },
         type: 'post'
     })
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_categoria' ).val( response.dataset.id_categoria );
-            $( '#nombre_categoria' ).val( response.dataset.nombre_categoria );
-            $( '#descripcion_categoria' ).val( response.dataset.descripcion_categoria );
+            $( '#id_tipo_producto' ).val( response.dataset.id_tipo_producto );
+            $( '#tipo_producto' ).val( response.dataset.tipo_producto );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();
         } else {
@@ -101,7 +124,7 @@ $( '#save-form' ).submit(function( event ) {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario se crea un registro.
-    if ( $( '#id_categoria' ).val() ) {
+    if ( $( '#id_tipo_producto' ).val() ) {
         saveRow( API_CATEGORIAS, 'update', this, 'save-modal' );
     } else {
         saveRow( API_CATEGORIAS, 'create', this, 'save-modal' );
@@ -112,7 +135,7 @@ $( '#save-form' ).submit(function( event ) {
 function openDeleteDialog( id )
 {
     // Se declara e inicializa un objeto con el id del registro que será borrado.
-    let identifier = { id_categoria: id };
+    let identifier = { id_tipo_producto: id };
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete( API_CATEGORIAS, identifier );
 }

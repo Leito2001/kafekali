@@ -6,10 +6,10 @@ class Categorias extends Validator
 {
     // Declaración de atributos (propiedades).
     private $id = null;
-    private $tipoProducto = null;
+    private $categoria = null;
     private $imagen = null;
     private $archivo = null;
-    private $ruta = '../../../resources/img/pventa/';
+    private $ruta = '../../../resources/img/categorias/';
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -24,10 +24,10 @@ class Categorias extends Validator
         }
     }
 
-    public function setTipoProducto($value)
+    public function setCategoria($value)
     {
         if($this->validateAlphanumeric($value, 1, 35)) {
-            $this->tipoProducto = $value;
+            $this->categoria = $value;
             return true;
         } else {
             return false;
@@ -45,7 +45,6 @@ class Categorias extends Validator
         }
     }
 
-    
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -54,9 +53,9 @@ class Categorias extends Validator
         return $this->id;
     }
 
-    public function getTipoProducto()
+    public function getCategoria()
     {
-        return $this->tipoProducto;
+        return $this->categoria;
     }
 
     public function getImagen()
@@ -73,53 +72,53 @@ class Categorias extends Validator
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
 
-    public function createTProducto()
+    public function createCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'INSERT INTO tipo_producto (tipo_producto, imagen) 
                     VALUES (?, ?)';
-            $params = array($this->tipoProducto,  $this->imagen);
+            $params = array($this->categoria, $this->imagen);
             return Database::executeRow($sql, $params);
         } else {
             return false;
         }
     }
 
-    public function readAllTProducto()
+    public function readAllCategorias()
     {
-        $sql = 'SELECT id_tipo_producto, tipo_producto,  imagen 
+        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen 
                 FROM tipo_producto
                 ORDER BY tipo_producto';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
-    public function readOneTProducto()
+    public function readOneCategoria()
     {
-        $sql = 'SELECT id_tipo_producto, tipo_producto,  imagen 
+        $sql = 'SELECT id_tipo_producto, tipo_producto, imagen 
                 FROM tipo_producto
                 WHERE id_tipo_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
-    public function updateTProducto()
+    public function updateCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'UPDATE tipo_producto 
-                    SET tipo_producto = ?,  imagen = ?
+                    SET tipo_producto = ?, imagen = ? 
                     WHERE id_tipo_producto = ?';
-            $params = array($this->tipoProducto, $this->imagen, $this->id);
+            $params = array($this->categoria, $this->imagen, $this->id);
         } else {
-            $sql = 'UPDATE tipo_producto
+            $sql = 'UPDATE tipo_producto 
                     SET tipo_producto = ?
                     WHERE id_tipo_producto = ?';
-            $params = array($this->tipoProducto,  $this->id);
+            $params = array($this->categoria, $this->id);
         }
         return Database::executeRow($sql, $params);
     }
 
-    public function deleteTProducto()
+    public function deleteCategoria()
     {
         $sql = 'DELETE FROM tipo_producto 
                 WHERE id_tipo_producto = ?';

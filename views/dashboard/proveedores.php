@@ -40,7 +40,7 @@ Dashboard::headerTemplate('Administrar proveedores');
             <div class="row">
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person</i>
+                    <i class="material-icons prefix">work</i>
                     <input id="nombre_empresa" type="text" name="nombre_empresa" class="validate" required/>
                     <label for="nombre_empresa">Nombre de la empresa</label>
                 </div>
@@ -58,19 +58,19 @@ Dashboard::headerTemplate('Administrar proveedores');
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">email</i>
+                    <i class="material-icons prefix">credit_card</i>
                     <input id="dui" type="text" name="dui" class="validate" required/>
                     <label for="dui">DUI del proveedor</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">credit_card</i>
+                    <i class="material-icons prefix">format_list_numbered</i>
                     <input id="numero_empresa" type="number" name="numero_empresa" class="validate" required/>
                     <label for="numero_empresa">Número de empresa</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person_pin</i>
+                    <i class="material-icons prefix">swap_horizontal_circle</i>
                     <input id="rubro" type="text" name="rubro" class="validate" required/>
                     <label for="rubro">Rubro de la empresa</label>
                 </div>

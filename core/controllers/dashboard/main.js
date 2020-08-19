@@ -40,7 +40,7 @@ function graficaCategorias()
             // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
             response.dataset.forEach(function( row ) {
                 // Se asignan los datos a los arreglos.
-                categorias.push( row.nombre_categoria );
+                categorias.push( row.tipo_producto );
                 cantidad.push( row.cantidad );
             });
             // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js

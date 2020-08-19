@@ -19,7 +19,7 @@ class Database
         $server = 'localhost';
         $database = 'kafekali';
         $username = 'postgres';
-        $password = '12345';
+        $password = 'ricaldone';
         // Se controlan las excepciones al momento de establecer conexión con el servidor de bases de datos.
         try {
             // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.

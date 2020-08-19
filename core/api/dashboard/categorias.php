@@ -16,109 +16,107 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readAll':
-                if ($result['dataset'] = $categoria->readAllTProducto()) {
+                if ($result['dataset'] = $categoria->readAllCategorias()) {
                     $result['status'] = 1;
                 } else {
-                    $result['exception'] = 'No hay categorias registradas';
+                    $result['exception'] = 'No hay categorías registradas';
                 }
                 break;
 
             case 'create':
                 $_POST = $categoria->validateForm($_POST);
-                if ($categoria->setTipoProducto($_POST['tipo_producto'])) {
-                        if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
-                            if ($categoria->setImagen($_FILES['imagen'])) {
-                                if ($categoria->createTProducto()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Categoria creado correctamente';
-                                } else {
-                                    $result['exception'] = Database::getException();
-                                }
-                            } else {
-                                $result['exception'] = $categoria->getImageError();
-                            }
-                        } else {
-                            $result['exception'] = 'Seleccione una imagen';
-                        }
-                   
-                } else {
-                    $result['exception'] = 'categoria incorrecta';
-                }
-                break;
-            case 'readOne':
-                if ($categoria->setId($_POST['id_tipo_producto'])) {
-                    if ($result['dataset'] = $categoria->readOneTProducto()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'categoria inexistente';
-                    }
-                } else {
-                    $result['exception'] = 'categoria incorrecta';
-                }
-                break;
-
-            
-                case 'update':
-                    $_POST = $categoria->validateForm($_POST);
-                    if ($categoria->setId($_POST['id_tipo_producto'])) {
-                        if ($data = $categoria->readOneTProducto()) {
-                            if ($categoria->setTipoProducto($_POST['tipo_producto'])) {
-                                    if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
-                                        if ($categoria->setImagen($_FILES['imagen'])) {
-                                            if ($categoria->updateTProducto()) {
-                                                $result['status'] = 1;
-                                                if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
-                                                    $result['message'] = 'Categoría modificada correctamente';
-                                                } else {
-                                                    $result['message'] = 'Categoría modificada, pero no se borró la imagen anterior';
-                                                }
-                                            } else {
-                                                $result['exception'] = Database::getException();
-                                            } 
-                                        } else {
-                                            $result['exception'] = $categoria->getImageError();
-                                        }
-                                    } else {
-                                        if ($categoria->updateTProducto()) {
-                                            $result['status'] = 1;
-                                            $result['message'] = 'Categoría modificada correctamente';
-                                        } else {
-                                            $result['exception'] = Database::getException();
-                                        }
-                                    }
-                            } else {
-                                $result['exception'] = 'Nombre incorrecto';
-                            }
-                        } else {
-                            $result['exception'] = 'Punto inexistente';
-                        }
-                    } else {
-                        $result['exception'] = 'Punto incorrecto';
-                    }
-                    break;
-
-                case 'delete':
-                    if ($categoria->setId($_POST['id_tipo_producto'])) {
-                        if ($data = $categoria->readOneTProducto()) {
-                            if ($categoria->deleteTProducto()) {
+                if ($categoria->setCategoria($_POST['tipo_producto'])) {
+                    if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
+                        if ($categoria->setImagen($_FILES['imagen'])) {
+                            if ($categoria->createCategoria()) {
                                 $result['status'] = 1;
-                                if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
-                                    $result['message'] = 'Punto de venta eliminado correctamente';
-                                } else {
-                                    $result['message'] = 'Punto de venta eliminado, pero no se borró la imagen';
-                                }
+                                $result['message'] = 'Categoría creada correctamente';
                             } else {
                                 $result['exception'] = Database::getException();
                             }
                         } else {
-                            $result['exception'] = 'Punto inexistente';
+                            $result['exception'] = $categoria->getImageError();
                         }
                     } else {
-                        $result['exception'] = 'Punto incorrecto';
+                        $result['exception'] = 'Seleccione una imagen';
                     }
-                    break;
+                } else {
+                    $result['exception'] = 'Nombre incorrecto';
+                }
+            break;
+
+            case 'readOne':
+                if ($categoria->setId($_POST['id_tipo_producto'])) {
+                    if ($result['dataset'] = $categoria->readOneCategoria()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'Categoría inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Categoría incorrecta';
+                }
+            break;
+
+            case 'update':
+                $_POST = $categoria->validateForm($_POST);
+                if ($categoria->setId($_POST['id_tipo_producto'])) {
+                    if ($data = $categoria->readOneCategoria()) {
+                        if ($categoria->setCategoria($_POST['tipo_producto'])) {
+                            if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
+                                if ($categoria->setImagen($_FILES['imagen'])) {
+                                    if ($categoria->updateCategoria()) {
+                                        $result['status'] = 1;
+                                        if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
+                                            $result['message'] = 'Categoría modificada correctamente';
+                                        } else {
+                                            $result['message'] = 'Categoría modificada pero no se borro la imagen anterior';
+                                        }
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    } 
+                                } else {
+                                    $result['exception'] = $categoria->getImageError();
+                                }
+                            } else {
+                                if ($categoria->updateCategoria()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Categoría modificada correctamente';
+                                } else {
+                                    $result['exception'] = Database::getException();
+                                }                                }
+                        } else {
+                            $result['exception'] = 'Nombre incorrecto';
+                        }
+                    } else {
+                        $result['exception'] = 'Categoría inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Categoría incorrecta';
+                }
+                break;
+
+            case 'delete':
+                if ($categoria->setId($_POST['id_tipo_producto'])) {
+                    if ($data = $categoria->readOneCategoria()) {
+                        if ($categoria->deleteCategoria()) {
+                            $result['status'] = 1;
+                            if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
+                                $result['message'] = 'Categoría eliminada correctamente';
+                            } else {
+                                $result['message'] = 'Categoría eliminada pero no se borro la imagen';
+                            }
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    } else {
+                        $result['exception'] = 'Categoría inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Categoría incorrecta';
+                }
+                break;
             default:
-                exit('Acción no disponible dentro de la sesión');
+            exit('Acción no disponible dentro de la sesión');
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');

@@ -21,7 +21,7 @@ class Commerce
             <html lang="es">
                 <head>
                     <meta charset="utf-8">
-                    <title>Coffeeshop - '.$title.'</title>
+                    <title>'.$title.'</title>
                     <link type="image/png" rel="icon" href="../../resources/img/logo.png"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
@@ -41,7 +41,7 @@ class Commerce
                         <div class="navbar-fixed">
                             <nav class="green">
                                 <div class="nav-wrapper">
-                                    <a href="index.php" class="brand-logo"><img src="../../resources/img/logo.png" height="60"></a>
+                                    <a href="index.php" class="brand-logo"><img src="../../resources/img/logo_texto_blanco.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
                                         <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
@@ -68,12 +68,12 @@ class Commerce
                 print('
                     <header>
                         <div class="navbar-fixed">
-                            <nav class="green">
+                            <nav class="orange darken-4">
                                 <div class="nav-wrapper">
-                                    <a href="index.php" class="brand-logo"><img src="../../resources/img/logo.png" height="60"></a>
+                                    <a href="index.php" class="brand-logo"><img src="../../resources/img/logo_texto_blanco.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
-                                        <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
+                                        <li><a href="#title"><i class="material-icons left">view_module</i>Catálogo</a></li>
                                         <li><a href="signin.php"><i class="material-icons left">person</i>Crear cuenta</a></li>
                                         <li><a href="login.php"><i class="material-icons left">login</i>Iniciar sesión</a></li>
                                     </ul>
@@ -114,45 +114,36 @@ class Commerce
                         </div>
                     </div>
                 </main>
-                <footer class="page-footer green">
+                <!--Pie de página-->
+                <footer class="page-footer">
                     <div class="container">
                         <div class="row">
-                            <div class="col s12 m6 l6">
-                                <h5 class="white-text">Nosotros</h5>
-                                <p>
-                                    <blockquote>
-                                        <a href="#mision" class="modal-trigger white-text"><b>Misión</b></a>
-                                        <span>|</span>
-                                        <a href="#vision" class="modal-trigger white-text"><b>Visión</b></a>
-                                        <span>|</span>
-                                        <a href="#valores" class="modal-trigger white-text"><b>Valores</b></a>
-                                    </blockquote>
-                                    <blockquote>
-                                        <a href="#terminos" class="modal-trigger white-text"><b>Términos y condiciones</b></a>
-                                    </blockquote>
-                                </p>
+                            <div class="col m4 s12">
+                                <h5 class="white-text" id="kfot">Kafekali</h5>
+                                <p class="grey-text text-lighten-4">Un proyecto impulsado por</p>
+                                <img src="../../resources/img/conamype_blanco.png" alt="logo" width="270">
                             </div>
-                            <div class="col s12 m6 l6">
-                                <h5 class="white-text">Contáctanos</h5>
-                                <p>
-                                    <blockquote>
-                                        <a class="white-text" href="https://www.facebook.com/" target="_blank"><b>facebook</b></a>
-                                        <span>|</span>
-                                        <a class="white-text" href="https://twitter.com/" target="_blank"><b>twitter</b></a>
-                                    </blockquote>
-                                    <blockquote>
-                                        <a class="white-text" href="https://www.instagram.com/" target="_blank"><b>instagram</b></a>
-                                        <span>|</span>
-                                        <a class="white-text" href="https://www.youtube.com/" target="_blank"><b>youtube</b></a>
-                                    </blockquote>
-                                </p>
+                            <div class="col m4 s12">
+                                <h5 class="white-text" id="kfot">¿Necesitas ayuda?</h5>
+                                <ul>
+                                    <li><a class="grey-text text-lighten-3" href="#!">Preguntas frecuentes</a></li>
+                                    <br>
+                                    <li><a href="#terminos" class="modal-trigger white-text"><b>Términos y condiciones</b></a></li>
+                                    <br>
+                                    <li><a class="grey-text text-lighten-3" href="#!">+503 78613311</a></li>
+                                </ul>
+                            </div>
+                            <div class="col m4 s12">
+                                <h5 class="white-text" id="kfot">Conócenos</h5>
+                                <ul>
+                                    <li><a class="grey-text text-lighten-3" href="index.php">Sobre nosotros</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="footer-copyright">
                         <div class="container">
-                            <span>© Coffeeshop, todos los derechos reservados.</span>
-                            <span class="grey-text text-lighten-4 right">Diseñado con <a class="red-text text-accent-1" href="http://materializecss.com/" target="_blank"><b>Materialize</b></a></span>
+                            © 2020 Kafekali
                         </div>
                     </div>
                 </footer>
@@ -179,7 +170,15 @@ class Commerce
             <div id="terminos" class="modal">
                 <div class="modal-content">
                     <h4 class="center-align">TÉRMINOS Y CONDICIONES</h4>
-                    <p>Nuestra empresa ofrece los mejores productos a nivel nacional con una calidad garantizada y...</p>
+                    <p class="center"> <b>¡Bienvenido a Kafekali!</b> <br><br>
+                    Es muy importante que lea los siguientes términos y condiciones antes de hacer alguna compra en nuestra tienda. <br>
+                    Usando el sitio wwww.kafekali.com el cliente conviene y acepta estos términos de uso. <br>
+                    El uso del sitio www.kafekali.com, el cual otorga acceso a productos de belleza, está sujetos a los términos y condiciones de este acuerdo. 
+                    www.kafekali.com se reserva el derecho de cambiar, modificar, agregar o de quitar porciones de estos términos y condiciones de uso en cualquier momento. <br>
+                    Es responsabilidad del usuario revisar si hay cambios. Los cambios son efectivos inmediatamente después que hayan sido puestos en el sitio. <br>
+                    <b>General:</b> Kafekali no será responsable por cualquier daño resultante del uso de este sitio, incluyendo, de forma no limitativa: daños directos, indirectos, 
+                    incidentales, comerciales, punitivos y daños consecuentes de cualquier clase. <br>
+                    Kafekali se reserva el derecho a cancelar la cuenta y el servicio a clientes que hagan mal uso o intenten efectuar un acto ilícito.</p>
                 </div>
                 <div class="divider"></div>
                 <div class="modal-footer">

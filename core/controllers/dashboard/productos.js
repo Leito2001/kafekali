@@ -1,6 +1,5 @@
 // Constantes para establecer las rutas y parámetros de comunicación con la API.
 const API_PRODUCTOS = '../../core/api/dashboard/productos.php?action=';
-const API_CATEGORIAS = '../../core/api/dashboard/categorias.php?action=readAll';
 
 // Método que se ejecuta cuando el documento está listo.
 $( document ).ready(function() {
@@ -11,32 +10,68 @@ $( document ).ready(function() {
 // Función para llenar la tabla con los datos de los registros.
 function fillTable( dataset )
 {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    dataset.forEach(function( row ) {
-        // Se establece un icono para el estado del producto.
-        ( row.estado_producto ) ? icon = 'visibility' : icon = 'visibility_off';
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
-            <tr>
-                <td><img src="../../resources/img/productos/${row.imagen_producto}" class="materialboxed" height="100"></td>
-                <td>${row.nombre_producto}</td>
-                <td>${row.precio_producto}</td>
-                <td>${row.nombre_categoria}</td>
-                <td><i class="material-icons">${icon}</i></td>
-                <td>
-                    <a href="#" onclick="openUpdateModal(${row.id_producto})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_producto})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
-                </td>
-            </tr>
-        `;
-    });
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    $( '#tbody-rows' ).html( content );
-    // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
-    $( '.materialboxed' ).materialbox();
-    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
-    $( '.tooltipped' ).tooltip();
+    var table = $('#tabla');
+    if($.fn.dataTable.isDataTable(table)){
+        table = $('#tabla').DataTable();
+        table.clear();
+        table.rows.add(dataset);
+        table.draw();
+
+    }
+    else{
+        table.DataTable( {
+            responsive: true,
+            bLengthChange: false,
+            dom:
+            "<'row'<'col-sm-12 col-md-12'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            data: dataset,
+            language: {
+                url: '../../resources/es_ES.json'
+            },
+            columns: [
+                { data: null,
+                ordereable: false,
+                render: function(data, type, meta) 
+                {
+                    return `<img src="../../resources/img/productos/${data.imagen_producto}" class="materialboxed" height="100">`;
+                },
+                targets: -1
+                },
+                //Se mandan a llamar los campos con el nombre que poseen en la base
+                { data: 'nombre_producto' },
+                { data: 'descripcion' },
+                { data: 'precio' },
+                { data: 'tipo_producto' },
+                { data: 'nombre_prov' },
+                { data: null,
+                ordereable: false,
+                render: function (data, type, meta) 
+                    {
+                        if (data.estado_producto){
+                            return `<i class="material-icons">visibility</i>`;
+                        } else {
+                            return `<i class="material-icons">visibility_off</i>`;
+                        }
+                    },
+                targets: -1
+                },
+                { data: null,
+                orderable: false,
+                render:function(data, type, row)
+                {
+                  return `
+                        <td>
+                            <a href="#" onclick="openUpdateModal(${data.id_producto})" class="btn waves-effect teal tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                            <a href="#" onclick="openDeleteDialog(${data.id_producto})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                        </td>`;
+                },
+                targets: -1
+                },
+            ]
+        } );
+    }
 }
 
 // Evento para mostrar los resultados de una búsqueda.
@@ -46,6 +81,72 @@ $( '#search-form' ).submit(function( event ) {
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
     searchRows( API_PRODUCTOS, this );
 });
+
+//Funciones para rellenar combobox
+function getCategorias(selectedId = 0){
+    $.ajax({
+        url: API_PRODUCTOS + 'getCategorias',
+        type: 'post',
+        dataType: 'json',
+        success: function (response) {
+            let jsonResponse = response.dataset;
+            let dropDown = selectedId == 0 ? `<option value="" disabled selected>Selecciona la categoría</option>` : '';
+
+            jsonResponse.forEach(tyype => {
+                //verificamos si el id que esta pasando ahorita es el mismo que el recibido, para aplicarle el estado de seleccionado
+                let estado = ((tyype.id_tipo_producto == selectedId) ? ' selected' : '');
+                dropDown += `
+                    <option value="${tyype.id_tipo_producto}"${estado}>${tyype.tipo_producto}</option>
+                `;
+            });
+
+            $('#tipo_producto').html(dropDown);
+            $('#tipo_producto').formSelect();
+        },
+        error: function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        }
+    });
+}
+
+//Funcion para traer a los proveedores, selectedId tiene el valor de 0 para evitar errores de null
+function getProveedor(selectedId = 0){
+    $.ajax({
+        url: API_PRODUCTOS + 'getProveedor',
+        type: 'post',
+        dataType: 'json',
+        success: function (response) {
+            let jsonResponse = response.dataset;
+            //Si no se le ha ingresado un valor a selectedId, se ingresa la opcion deshabilitada para seleccionar al proveedor;
+            //si no, se deja vacío (para el Create)
+            let dropDown = selectedId == 0 ? `<option value="" disabled selected>Selecciona el proveedor</option>` : '';
+            jsonResponse.forEach(proovider => {
+                //verificamos si el id que esta pasando ahorita es el mismo que el recibido, para aplicarle el estado de seleccionado
+                let estado = ((proovider.id_proveedor == selectedId) ? ' selected' : '');
+                dropDown += `
+                    <option value="${proovider.id_proveedor}"${estado}>${proovider.nombre_prov}</option>
+                `;
+            });
+            //ingresamos las opciones al select
+            $('#nombre_prov').html(dropDown);
+            //inicializamos el select con materializecss
+            $('#nombre_prov').formSelect();
+        },
+        error: function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        }
+    });
+}
 
 // Función que prepara formulario para insertar un registro.
 function openCreateModal()
@@ -57,9 +158,9 @@ function openCreateModal()
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Crear producto' );
     // Se establece el campo de tipo archivo como obligatorio.
-    $( '#archivo_producto' ).prop( 'required', true );
-    // Se llama a la función que llena el select del formulario. Se encuentra en el archivo components.js
-    fillSelect( API_CATEGORIAS, 'categoria_producto', null );
+    $( '#imagen_producto' ).prop( 'required', true );
+    getCategorias();
+    getProveedor();
 }
 
 // Función que prepara formulario para modificar un registro.
@@ -72,8 +173,10 @@ function openUpdateModal( id )
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar producto' );
     // Se establece el campo de tipo archivo como opcional.
-    $( '#archivo_producto' ).prop( 'required', false );
-
+    $( '#imagen_producto' ).prop( 'required', false );
+    //Se bloquean los cb
+    $('select').prop("disabled", false);
+    $('select').formSelect();
     $.ajax({
         dataType: 'json',
         url: API_PRODUCTOS + 'readOne',
@@ -83,13 +186,15 @@ function openUpdateModal( id )
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
+            jsonResponse = response.dataset;
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_producto' ).val( response.dataset.id_producto );
-            $( '#nombre_producto' ).val( response.dataset.nombre_producto );
-            $( '#precio_producto' ).val( response.dataset.precio_producto );
-            $( '#descripcion_producto' ).val( response.dataset.descripcion_producto );
-            fillSelect( API_CATEGORIAS, 'categoria_producto', response.dataset.id_categoria );
-            ( response.dataset.estado_producto ) ? $( '#estado_producto' ).prop( 'checked', true ) : $( '#estado_producto' ).prop( 'checked', false );
+            getProveedor(jsonResponse.id_proveedor);
+            getCategorias(jsonResponse.id_tipo_producto);
+            $( '#id_producto' ).val( jsonResponse.id_producto );
+            $( '#nombre_producto' ).val( jsonResponse.nombre_producto );
+            $( '#descripcion' ).val( jsonResponse.descripcion );
+            $( '#precio' ).val( jsonResponse.precio );
+            (jsonResponse.estado_producto ) ? $( '#estado_producto' ).prop( 'checked', true ) : $( '#estado_producto' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();
         } else {
@@ -108,15 +213,17 @@ function openUpdateModal( id )
 
 // Evento para crear o modificar un registro.
 $( '#save-form' ).submit(function( event ) {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario se crea un registro.
+    // Se llama a la función que crea o actualiza un registro. Se encuentra en el archivo components.js
+    // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
     if ( $( '#id_producto' ).val() ) {
         saveRow( API_PRODUCTOS, 'update', this, 'save-modal' );
     } else {
         saveRow( API_PRODUCTOS, 'create', this, 'save-modal' );
     }
+    $( '#save-form' )[0].reset();
 });
+
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo para confirmar.
 function openDeleteDialog( id )

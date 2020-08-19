@@ -1,17 +1,17 @@
 <?php
-require('../../helpers/report.php');
+require('../../helpers/pdf.php');
 require('../../models/categorias.php');
 require('../../models/productos.php');
 
 // Se instancia la clase para crear el reporte.
-$pdf = new Report;
+$pdf = new PDF;
 // Se inicia el reporte con el encabezado del documento.
-$pdf->startReport('Productos por categoría');
+$pdf->startDocument('Productos por categoría');
 
 // Se instancia el módelo Categorías para obtener los datos.
 $categoria = new Categorias;
 // Se verifica si existen registros (categorías) para mostrar, de lo contrario se imprime un mensaje.
-if ($dataCategorias = $categoria->readAll()) {
+if ($dataCategorias = $categoria->readAllCategorias()) {
     // Se recorren los registros ($dataCategorias) fila por fila ($rowCategoria).
     foreach ($dataCategorias as $rowCategoria) {
         // Se establece un color de relleno para mostrar el nombre de la categoría.
@@ -28,7 +28,7 @@ if ($dataCategorias = $categoria->readAll()) {
             if ($dataProductos = $producto->readProductosCategoria()) {
                 // Se establece un color de relleno para los encabezados.
                 $pdf->SetFillColor(225);
-                // Se establece la fuente para los encabezados.
+                // Se establece la fuente para los encabezados de la tabla.
                 $pdf->SetFont('Times', 'B', 11);
                 // Se imprimen las celdas con los encabezados.
                 $pdf->Cell(140, 10, utf8_decode('Nombre'), 1, 0, 'C', 1);
@@ -52,6 +52,6 @@ if ($dataCategorias = $categoria->readAll()) {
     $pdf->Cell(0, 10, utf8_decode('No hay categorías para mostrar'), 1, 1);
 }
 
-// Se envía el documento al navegador y se llama al método Footer()
+// Se envía el documento al navegador y se llama al método Footer() automáticamente.
 $pdf->Output();
 ?>

@@ -15,3 +15,40 @@ main {
 .actions-column {
     width: 125px;
 }
+
+.page-footer {
+    padding-top: 20px;
+    color: #fff;
+    background-color: rgb(75, 36, 1);
+}
+
+h5.center.white-text{
+    background-color: rgb(97, 46, 2);
+}
+
+.slider .indicators .indicator-item.active {
+    background-color:  #EB5B20;
+}
+
+.brand-logo {
+    margin-top: 1.5px;
+}
+
+@media only screen and (max-width: 400px) {
+    html {
+     font-size:12px
+    }
+    img{
+        width: 200px;
+    }
+    img#logo{
+        width: 40px;
+    }
+
+    h5.center.white-text{
+        font-size: 18px;
+    }
+    span.card-title.activator.grey-text.text-darken-4.center{
+        font-size: 18px;
+    }
+}

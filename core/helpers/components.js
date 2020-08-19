@@ -296,9 +296,7 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors,
-                borderColor: '#000000',
-                borderWidth: 1
+                backgroundColor: colors
             }]
         },
         options: {

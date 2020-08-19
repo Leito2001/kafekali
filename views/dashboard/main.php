@@ -5,7 +5,7 @@ Dashboard::headerTemplate('Bienvenido');
 
 <!-- Se muestra un saludo de acuerdo con la hora del cliente -->
 <div class="row">
-    <h4 class="center-align blue-text" id="greeting"></h4>
+    <h4 class="center-align" id="greeting"></h4>
 </div>
 
 <!-- Se muestra una gráfica de acuerdo con los datos existentes -->

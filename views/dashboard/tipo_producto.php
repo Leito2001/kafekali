@@ -59,5 +59,5 @@ Dashboard::headerTemplate('Administrar categorías');
 </div>
 
 <?php
-Dashboard::footerTemplate('tipo_producto.js');
+Dashboard::footerTemplate('categorias.js');
 ?>

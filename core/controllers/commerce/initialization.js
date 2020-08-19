@@ -5,7 +5,7 @@
 
 // Método que se ejecuta cuando el documento está listo.
 $( document ).ready(function() {
-    // Se declara e inicializa un arreglo con los nombres de las imagenes que se pueden utilizar en el efecto parallax.
+     // Se declara e inicializa un arreglo con los nombres de las imagenes que se pueden utilizar en el efecto parallax.
     let images = ['img01.jpg', 'img02.jpg', 'img03.jpg', 'img04.jpg', 'img05.jpg'];
     // Se declara e inicializa una variable para obtener un elemento del arreglo de forma aleatoria.
     let element = Math.floor( Math.random() * images.length );

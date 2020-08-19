@@ -18,9 +18,10 @@ Dashboard::headerTemplate('Administrar productos');
             <th>IMAGEN</th>
             <th>NOMBRE</th>
             <th>DESCRIPCIÓN</th>
-            <th>PRECIO USD</th>
+            <th>PRECIO $</th>
             <th>CATEGORÍA</th>
             <th>PROVEEDOR</th>
+            <th>ESTADO</th>
             <th class="actions-column">ACCIÓN</th>
         </tr>
     </thead>
@@ -59,15 +60,17 @@ Dashboard::headerTemplate('Administrar productos');
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <select id="tipo_producto" name="tipo_producto">
+                <i class="material-icons prefix">category</i>
+                    <select id="tipo_producto" name="tipo_producto" required>
                     </select>
-                    <label>Categoría del producto</label>
+                    <label for="tipo_producto">Categoría del producto</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <select id="proveedor" name="proveedor">
+                <i class="material-icons prefix">swap_horizontal_circle</i>
+                    <select id="nombre_prov" name="nombre_prov" required>
                     </select>
-                    <label>Nombre del proveedor</label>
+                    <label for="nombre_prov">Proveedor del producto</label>
                 </div>
 
                 <div class="file-field input-field col s12 m6">
@@ -78,6 +81,20 @@ Dashboard::headerTemplate('Administrar productos');
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text" placeholder="Formatos aceptados: gif, jpg y png"/>
                     </div>
+                </div>
+
+                <div class="col s12 m12">
+                    <p>
+                        <div class="switch center">
+                            <span>Estado:‎‎  ‏‏</span>
+                            <label>
+                                <i class="material-icons">visibility_off</i>
+                                <input id="estado_producto" type="checkbox" name="estado_producto" checked/>
+                                <span class="lever"></span>
+                                <i class="material-icons">visibility</i>
+                            </label>
+                        </div>
+                    </p>
                 </div>
 
             </div>
