@@ -8,7 +8,7 @@ Dashboard::headerTemplate('Iniciar sesión');
         <!-- Formulario para iniciar sesión -->
         <form method="post" id="session-form"> 
 
-            <div class="input-field col s12 m6 offset-m3">
+        <div class="input-field col s12 m6 offset-m3">
                 <i class="material-icons prefix">person_pin</i>
                 <input id="usuario_u" type="text" name="usuario_u" class="validate" required/>
                 <label for="usuario_u">Nombre de usuario</label>
@@ -19,6 +19,7 @@ Dashboard::headerTemplate('Iniciar sesión');
                 <input id="clave" type="password" name="clave" class="validate" required/>
                 <label for="clave">Clave</label>
             </div>
+            <p>Hola, soy un texto que no debe estar aqui</p>
 
             <div class="col s12 center-align">
                 <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>

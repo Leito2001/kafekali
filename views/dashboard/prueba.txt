@@ -1,0 +1,36 @@
+Soy un txt de prueba
+<div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">person_pin</i>
+                <input id="usuario_u" type="text" name="usuario_u" class="validate" required/>
+                <label for="usuario_u">Nombre de usuario</label>
+            </div>
+
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">security</i>
+                <input id="clave" type="password" name="clave" class="validate" required/>
+                <label for="clave">Clave</label>
+            </div>
+
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">person_pin</i>
+                <input id="usuario_u" type="text" name="usuario_u" class="validate" required/>
+                <label for="usuario_u">Nombre de usuario</label>
+            </div>
+
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">security</i>
+                <input id="clave" type="password" name="clave" class="validate" required/>
+                <label for="clave">Clave</label>
+            </div>
+
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">person_pin</i>
+                <input id="usuario_u" type="text" name="usuario_u" class="validate" required/>
+                <label for="usuario_u">Nombre de usuario</label>
+            </div>
+
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">security</i>
+                <input id="clave" type="password" name="clave" class="validate" required/>
+                <label for="clave">Clave</label>
+            </div>
