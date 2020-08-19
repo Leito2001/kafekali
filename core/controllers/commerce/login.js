@@ -12,6 +12,7 @@ $( '#session-form' ).submit(function( event ) {
         dataType: 'json'
     })
     .done(function( response ) {
+        
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             sweetAlert( 1, response.message, 'index.php' );

@@ -61,64 +61,88 @@ if (isset($_GET['action'])) {
                     $captcha = json_decode($response, true);
 
                     if ($captcha['success']) {
-                        if ($cliente->setNombres($_POST['nombres_cliente'])) {
-                            if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
-                                if ($cliente->setCorreo($_POST['correo_cliente'])) {
-                                    if ($cliente->setDireccion($_POST['direccion_cliente'])) {
-                                        if ($cliente->setDUI($_POST['dui_cliente'])) {
-                                            if ($cliente->setNacimiento($_POST['nacimiento_cliente'])) {
-                                                if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+
+                        if ($cliente->setNombre($_POST['nombre'])) {
+
+                            if ($cliente->setApellido($_POST['apellido'])) {
+                                
+                                if($cliente->setCelular($_POST['celular'])){
+
+                                    if($cliente->setCorreo($_POST['correo'])){
+
+                                        if($cliente->setNacimiento($_POST['fecha_nacimiento'])){
+
+                                            if($cliente->setDui($_POST['dui'])){
+
+                                                if($cliente->setUsuarioC($_POST['usuario_c'])){
+
                                                     if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
-                                                        if ($cliente->setClave($_POST['clave_cliente'])) {
-                                                            if ($cliente->createRow()) {
+
+                                                        if ($cliente->setPasswordC($_POST['clave_cliente'])) {
+
+                                                            if ($cliente->createCliente()) {
                                                                 $result['status'] = 1;
                                                                 $result['message'] = 'Cliente registrado correctamente';
+
                                                             } else {
                                                                 $result['exception'] = 'Ocurrió un problema al registrar el cliente';
                                                             }
+
                                                         } else {
                                                             $result['exception'] = 'Clave menor a 6 caracteres';
                                                         }
+
                                                     } else {
                                                         $result['exception'] = 'Claves diferentes';
                                                     }
+
                                                 } else {
-                                                    $result['exception'] = 'Teléfono incorrecto';
+                                                    $result['exception'] = 'Verifique el nombre de usuario';
                                                 }
+
                                             } else {
-                                                $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                                $result['exception'] = 'Verifique el formato de DUI';
                                             }
+
                                         } else {
-                                            $result['exception'] = 'DUI incorrecto';
+                                            $result['exception'] = 'Verifique la fecha de nacimiento';
                                         }
+
                                     } else {
-                                        $result['exception'] = 'Dirección incorrecta';
+                                        $result['exception'] = 'Verifique el formato del correo';
                                     }
+
                                 } else {
-                                    $result['exception'] = 'Correo incorrecto';
+                                    $result['exception'] = 'Verifique el formato del celular';
                                 }
+
                             } else {
                                 $result['exception'] = 'Apellidos incorrectos';
                             }
+
                         } else {
                             $result['exception'] = 'Nombres incorrectos';
                         }
+
                     } else {
                         $result['exception'] = 'No eres un humano';
                     }
+
                 } else {
                     $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
                 }
+
                 break;
+
             case 'login':
                 $_POST = $cliente->validateForm($_POST);
-                if ($cliente->checkUser($_POST['usuario'])) {
+                if ($cliente->checkCliente($_POST['usuario_c'])) {
                     if ($cliente->getEstado()) {
-                        if ($cliente->checkPassword($_POST['clave'])) {
+                        if ($cliente->checkPassword($_POST['clave_cliente'])) {
                             $_SESSION['id_cliente'] = $cliente->getId();
-                            $_SESSION['correo_usuario'] = $cliente->getCorreo();
+                            $_SESSION['usuario_c'] = $cliente->getUsuarioC();
                             $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
+                            $result['message'] = 'Bienvenido';
                         } else {
                             $result['exception'] = 'Clave incorrecta';
                         }
@@ -126,11 +150,12 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'Su cuenta ha sido desactivada';
                     }
                 } else {
-                    $result['exception'] = 'Alias incorrecto';
+                    $result['exception'] = 'Nombre de usuario incorrecto';
                 }
                 break;
+
             default:
-                exit('Acción no disponible fuera de la sesión');
+            exit('Acción no disponible fuera de la sesión');
         }
     }
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.

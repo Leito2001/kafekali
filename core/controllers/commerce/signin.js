@@ -26,7 +26,7 @@ $( document ).ready(function() {
     // Se declara e inicializa una variable para establecer el formato de la fecha.
     let date = (`${year}-${month}-${day}`);
     // Se asigna la fecha como valor máximo en el campo del formulario.
-    $( '#nacimiento_cliente' ).prop( 'max', date );
+    $( '#fecha_nacimiento' ).prop( 'max', date );
 });
 
 // Evento para realizar el registro de un cliente.
