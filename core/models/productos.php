@@ -234,7 +234,7 @@ class Productos extends Validator
                 productos.descripcion, productos.precio
                 FROM productos INNER JOIN tipo_producto USING(id_tipo_producto)
                 WHERE id_tipo_producto = ? AND estado_producto = true
-                ORDER BY nombre_producto';
+                ORDER BY tipo_producto';
         $params = array($this->categoria);
         return Database::getRows($sql, $params);
     }

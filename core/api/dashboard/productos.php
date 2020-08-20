@@ -123,61 +123,6 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-            case 'update2':
-                $_POST = $producto->validateForm($_POST);
-                if ($producto->setId($_POST['id_producto'])) {
-                    if ($data = $producto->readOneProducto()) {
-                        if ($producto->setNombre($_POST['nombre_producto'])) {
-                            if ($producto->setDescripcion($_POST['descripcion_producto'])) {
-                                if ($producto->setPrecio($_POST['precio_producto'])) {
-                                    if ($producto->setCategoria($_POST['categoria_producto'])) {
-                                        if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
-                                            if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
-                                                if ($producto->setImagen($_FILES['archivo_producto'])) {
-                                                    if ($producto->updateProducto()) {
-                                                        $result['status'] = 1;
-                                                        if ($producto->deleteFile($producto->getRuta(), $data['imagen_producto'])) {
-                                                            $result['message'] = 'Producto modificado correctamente';
-                                                        } else {
-                                                            $result['message'] = 'Producto modificada pero no se borro la imagen anterior';
-                                                        }
-                                                    } else {
-                                                        $result['exception'] = Database::getException();
-                                                    }
-                                                } else {
-                                                    $result['exception'] = $producto->getImageError();
-                                                }
-                                            } else {
-                                                if ($producto->updateProducto()) {
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Producto modificado correctamente';
-                                                } else {
-                                                    $result['exception'] = Database::getException();
-                                                } 
-                                            }
-                                        } else {
-                                            $result['exception'] = 'Estado incorrecto';
-                                        }
-                                    } else {
-                                        $result['exception'] = 'Seleccione una categoría';
-                                    }
-                                } else {
-                                    $result['exception'] = 'Precio incorrecto';
-                                }
-                            } else {
-                                $result['exception'] = 'Descripción incorrecta';
-                            }
-                        } else {
-                            $result['exception'] = 'Nombre incorrecto';
-                        }
-                    } else {
-                        $result['exception'] = 'Producto inexistente';
-                    }
-                } else {
-                    $result['exception'] = 'Producto incorrecto';
-                }
-            break;
-
             case 'update':
                 $_POST = $producto->validateForm($_POST);
                     if ($producto->setId($_POST['id_producto'])) {
