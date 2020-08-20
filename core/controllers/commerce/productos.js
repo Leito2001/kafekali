@@ -18,7 +18,7 @@ function readProductosCategoria( id, categoria )
     $.ajax({
         dataType: 'json',
         url: API_CATALOGO + 'readProductosCategoria',
-        data: { id_categoria: id },
+        data: { id_tipo_producto: id },
         type: 'post'
     })
     .done(function( response ) {
@@ -39,7 +39,7 @@ function readProductosCategoria( id, categoria )
                             </div>
                             <div class="card-content">
                                 <span class="card-title">${row.nombre_producto}</span>
-                                <p>Precio(US$) ${row.precio_producto}</p>
+                                <p>Precio(US$) ${row.precio}</p>
                             </div>
                         </div>
                     </div>

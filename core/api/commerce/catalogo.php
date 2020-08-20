@@ -20,8 +20,9 @@ if (isset($_GET['action'])) {
                 $result['exception'] = 'Contenido no disponible';
             }
             break;
+
         case 'readProductosCategoria':
-            if ($producto->setCategoria($_POST['id_categoria'])) {
+            if ($producto->setCategoria($_POST['id_tipo_producto'])) {
                 if ($result['dataset'] = $producto->readProductosCategoria()) {
                     $result['status'] = 1;
                 } else {
@@ -31,6 +32,7 @@ if (isset($_GET['action'])) {
                 $result['exception'] = 'Categoría incorrecta';
             }
             break;
+            
         case 'readOne':
             if ($producto->setId($_POST['id_producto'])) {
                 if ($result['dataset'] = $producto->readOneProducto()) {

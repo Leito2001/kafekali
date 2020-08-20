@@ -6,7 +6,7 @@ Commerce::headerTemplate('Detalles del producto');
 <!-- Contenedor para mostrar el detalle del producto seleccionado previamente -->
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center indigo-text" id="title">Detalles del producto</h4>
+    <h4 class="center brown-text" id="title">Detalles del producto</h4>
     <div class="row" id="detalle">
         <!-- Componente Horizontal Card -->
         <div class="card horizontal">
