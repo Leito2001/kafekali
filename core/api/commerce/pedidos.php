@@ -16,6 +16,15 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+
+            case 'getPventa':
+                if ($result['dataset'] = $producto->getPventaCb()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'No hay datos disponibles';
+                }
+            break; 
+
             case 'createDetail':
                     if ($pedido->setCliente($_SESSION['id_cliente'])) {
                         if ($pedido->readOrder()) {
@@ -45,6 +54,7 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'Cliente incorrecto';
                     }
                 break;
+
             case 'readCart':
                 if ($pedido->setCliente($_SESSION['id_cliente'])) {
                     if ($pedido->readOrder()) {
@@ -61,10 +71,11 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
+
             case 'updateDetail':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     $_POST = $pedido->validateForm($_POST);
-                    if ($pedido->setIdDetalle($_POST['id_detalle'])) {
+                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
                         if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                             if ($pedido->updateDetail()) {
                                 $result['status'] = 1;
@@ -82,9 +93,10 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Pedido incorrecto';
                 }
                 break;
+
             case 'deleteDetail':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
-                    if ($pedido->setIdDetalle($_POST['id_detalle'])) {
+                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
                         if ($pedido->deleteDetail()) {
                             $result['status'] = 1;
                             $result['message'] = 'Producto removido correctamente';
@@ -98,9 +110,10 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Pedido incorrecto';
                 }
                 break;
+                
             case 'finishOrder':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
-                    if ($pedido->setEstado(1)) {
+                    if ($pedido->setEstado(2)) {
                         if ($pedido->updateOrderStatus()) {
                             $result['status'] = 1;
                             $result['message'] = 'Pedido finalizado correctamente';

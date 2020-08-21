@@ -11,6 +11,7 @@ Commerce::headerTemplate('Carrito de compras');
         <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
         <thead>
             <tr>
+                <th>IMAGEN</th>
                 <th>PRODUCTO</th>
                 <th>PRECIO (US$)</th>
                 <th>CANTIDAD</th>
@@ -44,7 +45,7 @@ Commerce::headerTemplate('Carrito de compras');
         <!-- Formulario para crear o actualizar un registro -->
         <form method="post" id="item-form">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-            <input type="number" id="id_detalle" name="id_detalle" class="hide"/>
+            <input type="number" id="id_detalle_pedido" name="id_detalle_pedido" class="hide"/>
             <div class="row">
                 <div class="input-field col s12 m4 offset-m4">
                     <i class="material-icons prefix">list</i>

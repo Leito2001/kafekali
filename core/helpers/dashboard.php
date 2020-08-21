@@ -51,8 +51,7 @@ class Dashboard
                                         <li><a href="usuarios.php"><i class="material-icons left">group</i>Usuarios</a></li>
                                         <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
                                         <li><a href="tipo_producto.php"><i class="material-icons left">dashboard</i>Categorías</a></li>
-                                        <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>
-                                        <li><a href="pventa.php"><i class="material-icons left">place</i>Puntos de venta</a></li>
+                                        <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>                                     
                                         <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">account_circle</i>Cuenta: <b>'.$_SESSION['usuario_u'].'</b></a></li>
                                     </ul>
                                     <ul id="dropdown" class="dropdown-content">
@@ -68,7 +67,6 @@ class Dashboard
                             <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
                             <li><a href="tipo_producto.php"><i class="material-icons left">category</i>Categorías</a></li>
                             <li><a href="productos.php"><i class="material-icons left">dashboard</i>Productos</a></li>
-                            <li><a href="pventa.php"><i class="material-icons left">place</i>Puntos de venta</a></li>
                             <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">account_circle</i>Cuenta: <b>'.$_SESSION['usuario_u'].'</b></a></li>
                         </ul>
                         <ul id="dropdown-mobile" class="dropdown-content">

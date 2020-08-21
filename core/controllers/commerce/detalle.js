@@ -31,7 +31,7 @@ function readOneProducto( id )
             $( '#precio' ).text( response.dataset.precio );
             // Se asignan los valores a los campos ocultos del formulario.
             $( '#id_producto' ).val( response.dataset.id_producto );
-            $( '#precio' ).val( response.dataset.precio );
+            $( '#precio_producto' ).val( response.dataset.precio );
         } else {
             // Se presenta un mensaje de error cuando no existen datos para mostrar.
             $( '#title' ).html( `<i class="material-icons small">cloud_off</i><span class="red-text">${response.exception}</span>` );
