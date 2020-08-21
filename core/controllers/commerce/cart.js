@@ -106,6 +106,7 @@ $( '#item-form' ).submit(function( event ) {
     });
 });
 
+
 // Función que abre una caja de dialogo para confirmar la finalización del pedido.
 function finishOrder()
 {

@@ -1,14 +1,15 @@
+
 <?php
 require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
-require_once('../../models/pedidos.php');
+require_once('../../models/clientes.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $pedido = new Pedidos;
+    $cliente = new Clientes;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -17,55 +18,53 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
            
             case 'readAll':
-                    if ($result['dataset'] = $pedido->readAllPedidos()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'No hay pedidos registrados';
-                    }
-                break;
-
-            case 'getEstados':
-                if ($result['dataset'] = $pedido->getEstadosCb()) {
+                if ($result['dataset'] = $cliente->readAllClientes()) {
                     $result['status'] = 1;
                 } else {
-                    $result['exception'] = 'No hay datos disponibles';
+                    $result['exception'] = 'No hay clientes registrados';
                 }
-            break;  
+            break;
 
             case 'readOne':
-                if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
-                    if ($result['dataset'] = $pedido->readOnePedido()) {
+                if ($cliente->setId($_POST['id_cliente'])) {
+                    if ($result['dataset'] = $cliente->readOneCliente()) {
                         $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'Pedido inexistente';
+                        $result['exception'] = 'Cliente inexistente';
                     }
                 } else {
-                    $result['exception'] = 'Pedido incorrecto';
+                    $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
 
-                case 'updateEstado':
-                    if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
-                        $_POST = $pedido->validateForm($_POST);
-                        if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                            if ($pedido->setEstado($_POST['estado_pedido']) === 1  ) {
-                                if ($pedido->updateOrderStatus()) {
+                case 'update':
+                    $_POST = $cliente->validateForm($_POST);
+
+                    if ($cliente->setId($_POST['id_cliente'])) {
+
+                        if ($cliente->readOneCliente()) {
+
+                            if ($cliente->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)) {
+
+                                if ($cliente->updateStatus()) {
                                     $result['status'] = 1;
                                     $result['message'] = 'Estado modificado correctamente';
                                 } else {
-                                    $result['exception'] = 'Ocurrió un problema al modificar el estado';
+                                    $result['exception'] = Database::getException();
                                 }
+
                             } else {
-                                $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
+                                $result['exception'] = 'Estado incorrecto';
                             }
+
                         } else {
-                            $result['exception'] = 'Detalle incorrecto';
+                            $result['exception'] = 'Usuario inexistente';
                         }
                     } else {
-                        $result['exception'] = 'Pedido incorrecto';
+                        $result['exception'] = 'Usuario incorrecto';
                     }
-                    break;
-    
+                break;
+
             default:
             exit('Acción no disponible dentro de la sesión');
         }
@@ -80,3 +79,4 @@ if (isset($_GET['action'])) {
 	exit('Recurso denegado');
 }
 ?>
+

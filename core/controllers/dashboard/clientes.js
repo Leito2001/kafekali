@@ -1,10 +1,10 @@
 // Constantes para establecer las rutas y parámetros de comunicación con la API.
-const API_PEDIDOS = '../../core/api/dashboard/pedidos.php?action=';
+const API_CLIENTES = '../../core/api/dashboard/clientes.php?action=';
 
 // Método que se ejecuta cuando el documento está listo.
 $( document ).ready(function() {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows( API_PEDIDOS );
+    readRows( API_CLIENTES );
 });
 
 // Función para llenar la tabla con los datos de los registros.
@@ -16,6 +16,7 @@ function fillTable( dataset )
         table.clear();
         table.rows.add(dataset);
         table.draw();
+
     }
     else{
         table.DataTable( {
@@ -30,29 +31,34 @@ function fillTable( dataset )
                 url: '../../resources/es_ES.json'
             },
             columns: [
+                //Se mandan a llamar los campos con el nombre que poseen en la base
+                { data: 'apellido' },
+                { data: 'nombre' },
+                { data: 'correo' },
+                { data: 'celular' },
+                { data: 'direccion' },
+                { data: 'fecha_nacimiento' },
+                { data: 'dui' },
+                { data: 'usuario_c' },
                 { data: null,
                     ordereable: false,
-                    render: function(data, type, meta) 
-                    {
-                        return `<img src="../../resources/img/productos/${data.imagen_producto}" class="materialboxed" height="100">`;
-                    },
+                    render: function (data, type, meta) 
+                        {
+                            if (data.estado_usuario){
+                                return `<i class="material-icons">visibility</i>`;
+                            } else {
+                                return `<i class="material-icons">visibility_off</i>`;
+                            }
+                        },
                     targets: -1
                     },
-                { data: 'usuario_c' },
-                { data: 'nombre_producto' },
-                { data: 'precio' },
-                { data: 'cantidad_producto' },
-                { data: 'total' },
-                { data: 'fecha' },
-                { data: 'estado_pedido' },
                 { data: null,
                 orderable: false,
-                    
                 render:function(data, type, row)
                 {
                   return `
                         <td>
-                            <a href="#" onclick="openUpdateModal(${data.id_detalle_pedido})" class="btn waves-effect teal tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                            <a href="#" onclick="openUpdateModal(${data.id_cliente})" class="btn waves-effect teal tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                         </td>`;
                 },
                 targets: -1
@@ -60,38 +66,6 @@ function fillTable( dataset )
             ]
         } );
     }
-}
-
-//Función para llenar el combobox de estado_pedido
-function getEstados(selectedId = 0){
-    $.ajax({
-        url: API_PEDIDOS + 'getEstados',
-        type: 'post',
-        dataType: 'json',
-        success: function (response) {
-            let jsonResponse = response.dataset;
-            let dropDown = selectedId == 0 ? `<option value="" disabled selected>Seleccione el estado</option>` : '';
-
-            jsonResponse.forEach(sstatus => {
-                //verificamos si el id que esta pasando ahorita es el mismo que el recibido, para aplicarle el estado de seleccionado
-                let estado = ((sstatus.id_estado_pedido == selectedId) ? ' selected' : '');
-                dropDown += `
-                    <option value="${sstatus.id_estado_pedido}"${estado}>${sstatus.estado_pedido}</option>
-                `;
-            });
-
-            $('#estado_pedido').html(dropDown);
-            $('#estado_pedido').formSelect();
-        },
-        error: function (jqXHR) {
-            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
-            if (jqXHR.status == 200) {
-                console.log(jqXHR.responseText);
-            } else {
-                console.log(jqXHR.status + ' ' + jqXHR.statusText);
-            }
-        }
-    });
 }
 
 // Función que prepara formulario para modificar un registro.
@@ -102,31 +76,38 @@ function openUpdateModal( id )
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
-    $( '#modal-title' ).text( 'Modificar pedido' );
-    // Se deshabilitan los campos
+    $( '#modal-title' ).text( 'Modificar estado del cliente' );
+    // Se deshabilitan los campos de usuario, fecha de nacimiento, DUI y contraseña.
+    $( '#nombre' ).prop( 'disabled', true );
+    $( '#apellido' ).prop( 'disabled', true );
+    $( '#celular' ).prop( 'disabled', true );
+    $( '#correo' ).prop( 'disabled', true );
+    $( '#direccion' ).prop( 'disabled', true );
+    $( '#dui' ).prop( 'disabled', true );
+    $( '#fecha_nacimiento' ).prop( 'disabled', true );
     $( '#usuario_c' ).prop( 'disabled', true );
-    $( '#nombre_producto' ).prop( 'disabled', true );
-    $( '#cantidad_producto' ).prop( 'disabled', true );
-    $( '#fecha' ).prop( 'disabled', true );
 
     $.ajax({
         dataType: 'json',
-        url: API_PEDIDOS + 'readOne',
-        data: { id_detalle_pedido: id },
+        url: API_CLIENTES + 'readOne',
+        data: { id_cliente: id },
         type: 'post'
     })
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
-            jsonResponse = response.dataset['0'];
-            console.log(response);
+            jsonResponse = response.dataset;
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_detalle_pedido' ).val( jsonResponse.id_detalle_pedido );
+            $( '#id_cliente' ).val( jsonResponse.id_cliente );
+            $( '#nombre' ).val( jsonResponse.nombre );
+            $( '#apellido' ).val( jsonResponse.apellido );
+            $( '#celular' ).val( jsonResponse.celular );
+            $( '#correo' ).val( jsonResponse.correo );
+            $( '#direccion' ).val( jsonResponse.direccion );
+            $( '#dui' ).val( jsonResponse.dui );
+            $( '#fecha_nacimiento' ).val( jsonResponse.fecha_nacimiento );
             $( '#usuario_c' ).val( jsonResponse.usuario_c );
-            $( '#nombre_producto' ).val( jsonResponse.nombre_producto );
-            $( '#cantidad_producto' ).val( jsonResponse.cantidad_producto );
-            $( '#fecha' ).val( jsonResponse.fecha );
-            getEstados(jsonResponse.id_estado_pedido);
+            (jsonResponse.estado_usuario ) ? $( '#estado_usuario' ).prop( 'checked', true ) : $( '#estado_usuario' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();
         } else {
@@ -148,10 +129,10 @@ $( '#save-form' ).submit(function( event ) {
     event.preventDefault();
     // Se llama a la función que crea o actualiza un registro. Se encuentra en el archivo components.js
     // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
-    if ( $( '#id_detalle_pedido' ).val() ) {
-        saveRow( API_PEDIDOS, 'updateEstado', this, 'save-modal' ); 
+    if ( $( '#id_cliente' ).val() ) {
+        saveRow( API_CLIENTES, 'update', this, 'save-modal' );
     } else {
-        saveRow( API_PEDIDOS, 'create', this, 'save-modal' );
+        saveRow( API_CLIENTES, 'create', this, 'save-modal' );
     }
     $( '#save-form' )[0].reset();
 });

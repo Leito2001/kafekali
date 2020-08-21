@@ -190,9 +190,8 @@ class Pedidos extends Validator
     // Método utilizado en dashboard para leer un solo pedido
     public function readOnePedido()
     {
-        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+        $sql = 'SELECT detalle_pedido.id_detalle_pedido, cliente.usuario_c, productos.nombre_producto, 
                 detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.id_estado_pedido
-                /*detalle_pedido.cantidad_producto * detalle_pedido.precio AS total*/
                 FROM pedido 
                 INNER JOIN cliente USING (id_cliente) 
                 INNER JOIN detalle_pedido USING(id_pedido) 

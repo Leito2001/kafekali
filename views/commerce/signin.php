@@ -36,9 +36,15 @@ Commerce::headerTemplate('Registrarse');
                 <input type="email" id="correo" name="correo" maxlength="60" class="validate" required/>
                 <label for="correo">Correo electrónico</label>
             </div>
+            
+            <div class="input-field col s12 m6">
+                <i class="material-icons prefix">place</i>
+                <input type="text" id="direccion" name="direccion" class="validate" required/>
+                <label for="direccion">Direccion del cliente</label>
+            </div>
 
             <div class="input-field col s12 m6">
-                <i class="material-icons prefix">cake</i>
+                <i class="material-icons prefix">today</i>
                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="validate" required/>
                 <label for="fecha_nacimiento">Fecha de nacimiento</label>
             </div>
@@ -50,19 +56,19 @@ Commerce::headerTemplate('Registrarse');
             </div>
 
             <div class="input-field col s12 m6">
-                <i class="material-icons prefix">cake</i>
+                <i class="material-icons prefix">account_circle</i>
                 <input type="text" id="usuario_c" name="usuario_c" class="validate" required/>
                 <label for="usuario_c">Nombre de usuario</label>
             </div>
 
             <div class="input-field col s12 m6">
-                <i class="material-icons prefix">security</i>
+                <i class="material-icons prefix">lock</i>
                 <input type="password" id="clave_cliente" name="clave_cliente" class="validate" required/>
                 <label for="clave_cliente">Clave</label>
             </div>
 
             <div class="input-field col s12 m6">
-                <i class="material-icons prefix">security</i>
+                <i class="material-icons prefix">lock</i>
                 <input type="password" id="confirmar_clave" name="confirmar_clave" class="validate" required/>
                 <label for="confirmar_clave">Confirmar clave</label>
             </div>
