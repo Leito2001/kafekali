@@ -171,6 +171,47 @@ class Pedidos extends Validator
         return Database::getRows($sql, $params);
     }
 
+    // Método utilizado en dashboard para leer todos los pedidos
+    public function readAllPedidos()
+    {
+        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido,
+                detalle_pedido.cantidad_producto * detalle_pedido.precio AS total
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente)
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                ORDER BY id_estado_pedido';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Método utilizado en dashboard para leer un solo pedido
+    public function readOnePedido()
+    {
+        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.id_estado_pedido
+                /*detalle_pedido.cantidad_producto * detalle_pedido.precio AS total*/
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente) 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_detalle_pedido = ?';
+        $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
+
+    //Método utilizado en el dashboard para leer los posibles estados del pedido
+
+    public function getEstadosCb()
+    {
+        $sql  = 'SELECT id_estado_pedido, estado_pedido FROM estado_pedido';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
     // Método para cambiar el estado de un pedido.
     public function updateOrderStatus()
     {

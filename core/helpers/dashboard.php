@@ -49,6 +49,7 @@ class Dashboard
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
                                         <li><a href="usuarios.php"><i class="material-icons left">group</i>Usuarios</a></li>
+                                        <li><a href="pedidos.php"><i class="material-icons left">view_module</i>Pedidos</a></li>
                                         <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
                                         <li><a href="tipo_producto.php"><i class="material-icons left">dashboard</i>Categorías</a></li>
                                         <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>                                     
@@ -64,6 +65,7 @@ class Dashboard
                         </div>
                         <ul class="sidenav" id="mobile">
                             <li><a href="usuarios.php"><i class="material-icons left">group</i>Usuarios</a></li>
+                            <li><a href="pedidos.php"><i class="material-icons left">view_module</i>Pedidos</a></li>
                             <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
                             <li><a href="tipo_producto.php"><i class="material-icons left">category</i>Categorías</a></li>
                             <li><a href="productos.php"><i class="material-icons left">dashboard</i>Productos</a></li>

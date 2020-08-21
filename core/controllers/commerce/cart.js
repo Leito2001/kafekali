@@ -36,7 +36,7 @@ function readCart()
                         <td>${row.cantidad_producto}</td>
                         <td>${subtotal.toFixed(2)}</td>
                         <td>
-                            <a href="#" onclick="openUpdateDialog(${row.id_detalle_pedido}, ${row.cantidad_producto})" class="btn waves-effect blue tooltipped" data-tooltip="Cambiar"><i class="material-icons">exposure</i></a>
+                            <a href="#" onclick="openUpdateDialog(${row.id_detalle_pedido}, ${row.cantidad_producto})" class="btn waves-effect teal tooltipped" data-tooltip="Cambiar"><i class="material-icons">create</i></a>
                             <a href="#" onclick="openDeleteDialog(${row.id_detalle_pedido})" class="btn waves-effect red tooltipped" data-tooltip="Remover"><i class="material-icons">remove_shopping_cart</i></a>
                         </td>
                     </tr>

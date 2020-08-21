@@ -40,7 +40,7 @@ function readAllCategorias()
                                 </div>
                                 <div class="col s2 right-align">
                                     <a href="${url}" class="tooltipped" data-tooltip="Ver productos">
-                                        <i class="material-icons small">add_circle</i>
+                                        <i class="material-icons small teal-text">add_circle</i>
                                     </a>
                                 </div>
                                 

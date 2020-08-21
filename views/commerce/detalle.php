@@ -32,7 +32,7 @@ Commerce::headerTemplate('Detalles del producto');
                                 <label for="cantidad_producto">Cantidad</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <button type="submit" class="btn waves-effect waves-light blue tooltipped" data-tooltip="Agregar al carrito"><i class="material-icons">add_shopping_cart</i></button>
+                                <button type="submit" class="btn waves-effect waves-light teal tooltipped" data-tooltip="Agregar al carrito"><i class="material-icons">add_shopping_cart</i></button>
                             </div>
                         </div>
                     </form>

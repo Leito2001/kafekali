@@ -27,13 +27,15 @@ Commerce::headerTemplate('Carrito de compras');
     <div class="row right-align">
         <p>TOTAL A PAGAR (US$) <b id="pago"></b></p>
     </div>
-    <!-- Fila para mostrar un botón que finaliza el pedido -->
-    <div class="row right-align">
-        <button type="button" onclick="finishOrder()" class="btn waves-effect blue tooltipped" data-tooltip="Finalizar pedido"><i class="material-icons">payment</i></button>
+    <!-- Enlace para generar reporte de productos por categoría -->
+    <div class="row center-align">
+        <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber darken-2 tooltipped"><i class="material-icons left">assignment</i>Generar factura</a>
+        <a href="index.php" class="waves-effect waves-light btn"><i class="material-icons left">store</i>Seguir comprando</a>
+        <button type="button" onclick="finishOrder()" class="btn waves-effect green tooltipped"><i class="material-icons left">check_circle</i>Finalizar pedido</button>
     </div>
     <!-- Fila para mostrar un enlace que dirección a la página principal para seguir comprando -->
     <div class="row right-align">
-        <a href="index.php" class="btn waves-effect indigo tooltipped" data-tooltip="Seguir comprando"><i class="material-icons">store</i></a>
+        
     </div>
 </div>
 

@@ -17,13 +17,6 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
 
-            case 'getPventa':
-                if ($result['dataset'] = $producto->getPventaCb()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-            break; 
 
             case 'createDetail':
                     if ($pedido->setCliente($_SESSION['id_cliente'])) {
