@@ -45,10 +45,10 @@ if (isset($_GET['action'])) {
                 break;
 
                 case 'updateEstado':
-                    if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) { //eso? xd si xd
+                    if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
                         $_POST = $pedido->validateForm($_POST);
                         if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                            if ($pedido->setEstado($_POST['estado_pedido'])) {
+                            if ($pedido->setEstado($_POST['estado_pedido']) === 1  ) {
                                 if ($pedido->updateOrderStatus()) {
                                     $result['status'] = 1;
                                     $result['message'] = 'Estado modificado correctamente';
@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
                                     $result['exception'] = 'Ocurrió un problema al modificar el estado';
                                 }
                             } else {
-                                $result['exception'] = 'Estado incorrecto';
+                                $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
                             }
                         } else {
                             $result['exception'] = 'Detalle incorrecto';
