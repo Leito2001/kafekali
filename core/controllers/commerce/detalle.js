@@ -27,11 +27,11 @@ function readOneProducto( id )
             // Se colocan los datos en la tarjeta de acuerdo al producto seleccionado previamente.
             $( '#imagen' ).prop( 'src', '../../resources/img/productos/' + response.dataset.imagen_producto );
             $( '#nombre' ).text( response.dataset.nombre_producto );
-            $( '#descripcion' ).text( response.dataset.descripcion_producto );
-            $( '#precio' ).text( response.dataset.precio_producto );
+            $( '#descripcion' ).text( response.dataset.descripcion );
+            $( '#precio' ).text( response.dataset.precio );
             // Se asignan los valores a los campos ocultos del formulario.
             $( '#id_producto' ).val( response.dataset.id_producto );
-            $( '#precio_producto' ).val( response.dataset.precio_producto );
+            $( '#precio_producto' ).val( response.dataset.precio );
         } else {
             // Se presenta un mensaje de error cuando no existen datos para mostrar.
             $( '#title' ).html( `<i class="material-icons small">cloud_off</i><span class="red-text">${response.exception}</span>` );

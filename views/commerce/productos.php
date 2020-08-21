@@ -1,6 +1,6 @@
 <?php
 require_once('../../core/helpers/commerce.php');
-Commerce::headerTemplate('Productos por categría');
+Commerce::headerTemplate('Productos por categoría');
 ?>
 
 <div class="container">

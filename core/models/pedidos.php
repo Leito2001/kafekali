@@ -11,13 +11,13 @@ class Pedidos extends Validator
     private $producto = null;
     private $cantidad = null;
     private $precio = null;
-    private $estado = null; // Valor por defecto en la base de datos: 0
+    private $estado = null; // Valor por defecto en la base de datos: 1
     /*
     *   POSIBLES ESTADOS PARA UN PEDIDO
-    *   0: Pendiente. Es cuando el pedido esta en proceso por parte del cliente y se puede modificar el detalle.
-    *   1: Finalizado. Es cuando el cliente finaliza el pedido y ya no es posible modificar el detalle.
-    *   2: Entregado. Es cuando la tienda ha entregado el pedido al cliente.
-    *   3: Anulado. Es cuando el cliente se arrepiente de haber realizado el pedido.
+    *   1: Pendiente. Es cuando el pedido esta en proceso por parte del cliente y se puede modificar el detalle.
+    *   2: Finalizado. Es cuando el cliente finaliza el pedido y ya no es posible modificar el detalle.
+    *   3: Cancelado. Es cuando el cliente se arrepiente de haber realizado el pedido.
+    *   4: Enviado. Es cuando la tienda ha entregado el pedido al cliente.
     */
 
     /*
@@ -37,6 +37,16 @@ class Pedidos extends Validator
     {
         if ($this->validateNaturalNumber($value)) {
             $this->id_detalle = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setFechaPedido($value)
+    {
+        if ($this->validateDate($value)) {
+            $this->fecha_pedido = $value;
             return true;
         } else {
             return false;
@@ -83,6 +93,16 @@ class Pedidos extends Validator
         }
     }
 
+    public function setPventa($value)
+    {
+        if($this->validateNaturalNumber($value)) {
+            $this->pventa = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setEstado($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -108,18 +128,18 @@ class Pedidos extends Validator
     public function readOrder()
     {
         $sql = 'SELECT id_pedido
-                FROM pedidos
-                WHERE estado_pedido = 0 AND id_cliente = ?';
+                FROM pedido
+                WHERE id_estado_pedido = 1 AND id_cliente = ?';
         $params = array($this->cliente);
         if ($data = Database::getRow($sql, $params)) {
             $this->id_pedido = $data['id_pedido'];
             return true;
         } else {
-            $sql = 'INSERT INTO pedidos(id_cliente)
-                    VALUES(?)';
+            $sql = 'INSERT INTO pedido (id_cliente, id_estado_pedido)
+                    VALUES(?, 1)';
             $params = array($this->cliente);
             if (Database::executeRow($sql, $params)) {
-                // Se obtiene el ultimo valor insertado en la llave primaria de la tabla pedidos.
+                // Se obtiene el último valor insertado en la llave primaria de la tabla pedidos.
                 $this->id_pedido = Database::getLastRowId();
                 return true;
             } else {
@@ -131,27 +151,72 @@ class Pedidos extends Validator
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        $sql = 'INSERT INTO detalle_pedido(id_producto, precio_producto, cantidad_producto, id_pedido)
-                VALUES(?, ?, ?, ?)';
-        $params = array($this->producto, $this->precio, $this->cantidad, $this->id_pedido);
+        $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha)
+                VALUES (?, ?, ?, ?, getdate())';
+        $params = array($this->cantidad, $this->id_pedido, $this->producto, $this->precio);
         return Database::executeRow($sql, $params);
     }
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readCart()
     {
-        $sql = 'SELECT id_detalle, nombre_producto, detalle_pedido.precio_producto, detalle_pedido.cantidad_producto
-                FROM pedidos INNER JOIN detalle_pedido USING(id_pedido) INNER JOIN productos USING(id_producto)
+        $sql = 'SELECT productos.imagen_producto, detalle_pedido.id_detalle_pedido, productos.nombre_producto, detalle_pedido.precio, 
+                detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido
+                FROM pedido 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
                 WHERE id_pedido = ?';
         $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
+
+    // Método utilizado en dashboard para leer todos los pedidos
+    public function readAllPedidos()
+    {
+        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido,
+                detalle_pedido.cantidad_producto * detalle_pedido.precio AS total
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente)
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                ORDER BY id_estado_pedido';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Método utilizado en dashboard para leer un solo pedido
+    public function readOnePedido()
+    {
+        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.id_estado_pedido
+                /*detalle_pedido.cantidad_producto * detalle_pedido.precio AS total*/
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente) 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_detalle_pedido = ?';
+        $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
+
+    //Método utilizado en el dashboard para leer los posibles estados del pedido
+
+    public function getEstadosCb()
+    {
+        $sql  = 'SELECT id_estado_pedido, estado_pedido FROM estado_pedido';
+        $params = null;
         return Database::getRows($sql, $params);
     }
 
     // Método para cambiar el estado de un pedido.
     public function updateOrderStatus()
     {
-        $sql = 'UPDATE pedidos
-                SET estado_pedido = ?
+        $sql = 'UPDATE pedido
+                SET id_estado_pedido = ?
                 WHERE id_pedido = ?';
         $params = array($this->estado, $this->id_pedido);
         return Database::executeRow($sql, $params);
@@ -162,7 +227,7 @@ class Pedidos extends Validator
     {
         $sql = 'UPDATE detalle_pedido
                 SET cantidad_producto = ?
-                WHERE id_pedido = ? AND id_detalle = ?';
+                WHERE id_pedido = ? AND id_detalle_pedido = ?';
         $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
@@ -171,9 +236,10 @@ class Pedidos extends Validator
     public function deleteDetail()
     {
         $sql = 'DELETE FROM detalle_pedido
-                WHERE id_pedido = ? AND id_detalle = ?';
+                WHERE id_pedido = ? AND id_detalle_pedido = ?';
         $params = array($this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
+
 }
 ?>

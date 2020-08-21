@@ -123,56 +123,76 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'update':
-                    $_POST = $producto->validateForm($_POST);
+            case 'update':
+                $_POST = $producto->validateForm($_POST);
                     if ($producto->setId($_POST['id_producto'])) {
-                        if ($data = $producto->readOne()) {
-                            if ($producto->setNombre($_POST['nombre_producto'])) {
-                                if ($producto->setDescripcion($_POST['descripcion_producto'])) {
-                                    if ($producto->setPrecio($_POST['precio_producto'])) {
-                                        if ($producto->setCategoria($_POST['categoria_producto'])) {
-                                            if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
-                                                if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
-                                                    if ($producto->setImagen($_FILES['archivo_producto'])) {
-                                                        if ($producto->updateRow()) {
-                                                            $result['status'] = 1;
-                                                            if ($producto->deleteFile($producto->getRuta(), $data['imagen_producto'])) {
-                                                                $result['message'] = 'Producto modificado correctamente';
+
+                        if ($data = $producto->readOneProducto()) {
+
+                            if ($producto->setProducto($_POST['nombre_producto'])) {
+
+                                if ($producto->setDescripcion($_POST['descripcion'])) {
+
+                                    if ($producto->setPrecio($_POST['precio'])) {
+
+                                        if($producto->setCategoria($_POST['tipo_producto'])){
+
+                                            if($producto->setProveedor($_POST['nombre_prov'])){
+
+                                                if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
+
+                                                    if (is_uploaded_file($_FILES['imagen_producto']['tmp_name'])) {
+                                                        if ($producto->setImagen($_FILES['imagen_producto'])) {
+                                                            if ($producto->updateProducto()) {
+                                                                $result['status'] = 1;
+                                                                if ($producto->deleteFile($producto->getRuta(), $data['imagen_producto'])) {
+                                                                    $result['message'] = 'Producto modificado correctamente';
+                                                                } else {
+                                                                    $result['message'] = 'Producto modificada pero no se borro la imagen anterior';
+                                                                }
                                                             } else {
-                                                                $result['message'] = 'Producto modificada pero no se borro la imagen anterior';
+                                                                $result['exception'] = Database::getException();
                                                             }
                                                         } else {
-                                                            $result['exception'] = Database::getException();
+                                                            $result['exception'] = $producto->getImageError();
                                                         }
                                                     } else {
-                                                        $result['exception'] = $producto->getImageError();
+                                                        if ($producto->updateProducto()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Producto modificado correctamente';
+                                                        } else {
+                                                            $result['exception'] = Database::getException();
+                                                        } 
                                                     }
+
                                                 } else {
-                                                    if ($producto->updateRow()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Producto modificado correctamente';
-                                                    } else {
-                                                        $result['exception'] = Database::getException();
-                                                    } 
+                                                    $result['exception'] = 'Estado invalido';
                                                 }
+
                                             } else {
-                                                $result['exception'] = 'Estado incorrecto';
+                                                $result['exception'] = 'Proveedor invalido';
                                             }
+
                                         } else {
-                                            $result['exception'] = 'Seleccione una categoría';
+                                            $result['exception'] = 'Categoria invalida';
                                         }
+
                                     } else {
                                         $result['exception'] = 'Precio incorrecto';
                                     }
+
                                 } else {
                                     $result['exception'] = 'Descripción incorrecta';
                                 }
+
                             } else {
                                 $result['exception'] = 'Nombre incorrecto';
                             }
+                            
                         } else {
                             $result['exception'] = 'Producto inexistente';
                         }
+
                     } else {
                         $result['exception'] = 'Producto incorrecto';
                     }

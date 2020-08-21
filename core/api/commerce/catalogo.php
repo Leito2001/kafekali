@@ -14,14 +14,15 @@ if (isset($_GET['action'])) {
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
         case 'readAll':
-            if ($result['dataset'] = $categoria->readAll()) {
+            if ($result['dataset'] = $categoria->readAllCategorias()) {
                 $result['status'] = 1;
             } else {
                 $result['exception'] = 'Contenido no disponible';
             }
             break;
+
         case 'readProductosCategoria':
-            if ($producto->setCategoria($_POST['id_categoria'])) {
+            if ($producto->setCategoria($_POST['id_tipo_producto'])) {
                 if ($result['dataset'] = $producto->readProductosCategoria()) {
                     $result['status'] = 1;
                 } else {
@@ -31,9 +32,10 @@ if (isset($_GET['action'])) {
                 $result['exception'] = 'Categoría incorrecta';
             }
             break;
+            
         case 'readOne':
             if ($producto->setId($_POST['id_producto'])) {
-                if ($result['dataset'] = $producto->readOne()) {
+                if ($result['dataset'] = $producto->readOneProducto()) {
                     $result['status'] = 1;
                 } else {
                     $result['exception'] = 'Contenido no disponible';

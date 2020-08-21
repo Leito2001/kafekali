@@ -126,3 +126,4 @@ class Categorias extends Validator
         return Database::executeRow($sql, $params);
     }
 }
+?>

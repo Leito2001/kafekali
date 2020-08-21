@@ -1,6 +1,6 @@
 <?php
 require_once('../../core/helpers/commerce.php');
-Commerce::headerTemplate('Tu tienda de café');
+Commerce::headerTemplate('Kafekali · El arte del café');
 ?>
     <!--Slider con indicadores, altura de 400px y una duración entre transiciones de 6 segundos-->
     <div class="slider">
@@ -56,15 +56,16 @@ Commerce::headerTemplate('Tu tienda de café');
             </div>
 
             <div class="col s12 m8">       
-                <p><b>Kafekali, el arte del café.</b> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                <p><b>Kafekali, el arte del café.</b>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                     Quibusdam inventore illo voluptatem ex ea reiciendis, vitae sed praesentium reprehenderit,
                     Natus, consequatur nostrum cupiditate repellendus recusandae hic perspiciatis velit, 
-                    pariatur ipsa, nulla quasi eum aliquam eaque ea in autem sunt veniam odio. <br>
+                    pariatur ipsa, nulla quasi eum aliquam eaque ea in autem sunt veniam odio.
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                     Natus, consequatur nostrum cupiditate repellendus recusandae hic perspiciatis velit, 
-                    pariatur ipsa, nulla quasi eum aliquam eaque ea in autem sunt veniam odio. <br>
+                    pariatur ipsa, nulla quasi eum aliquam eaque ea in autem sunt veniam odio.
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Natus, consequatur nostrum cupiditate repellendus recusandae hic perspiciatis velit. <br>
+                    Natus, consequatur nostrum cupiditate repellendus recusandae hic perspiciatis velit.</p>
                     <b>Contáctanos: +503 78613311, kafekali@gmail.com</b>.</p>
                 </div>
             </div>

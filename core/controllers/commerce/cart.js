@@ -25,18 +25,19 @@ function readCart()
             let total = 0;
             // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
             response.dataset.forEach(function( row ) {
-                subtotal = row.precio_producto * row.cantidad_producto;
+                subtotal = row.precio * row.cantidad_producto;
                 total += subtotal;
                 // Se crean y concatenan las filas de la tabla con los datos de cada registro.
                 content += `
                     <tr>
+                        <td><img src="../../resources/img/productos/${row.imagen_producto}" class="materialboxed" height="100"></td>
                         <td>${row.nombre_producto}</td>
-                        <td>${row.precio_producto}</td>
+                        <td>${row.precio}</td>
                         <td>${row.cantidad_producto}</td>
                         <td>${subtotal.toFixed(2)}</td>
                         <td>
-                            <a href="#" onclick="openUpdateDialog(${row.id_detalle}, ${row.cantidad_producto})" class="btn waves-effect blue tooltipped" data-tooltip="Cambiar"><i class="material-icons">exposure</i></a>
-                            <a href="#" onclick="openDeleteDialog(${row.id_detalle})" class="btn waves-effect red tooltipped" data-tooltip="Remover"><i class="material-icons">remove_shopping_cart</i></a>
+                            <a href="#" onclick="openUpdateDialog(${row.id_detalle_pedido}, ${row.cantidad_producto})" class="btn waves-effect teal tooltipped" data-tooltip="Cambiar"><i class="material-icons">create</i></a>
+                            <a href="#" onclick="openDeleteDialog(${row.id_detalle_pedido})" class="btn waves-effect red tooltipped" data-tooltip="Remover"><i class="material-icons">remove_shopping_cart</i></a>
                         </td>
                     </tr>
                 `;
@@ -67,7 +68,7 @@ function openUpdateDialog( id, quantity )
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $( '#item-modal' ).modal( 'open' );
     // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-    $( '#id_detalle' ).val( id );
+    $( '#id_detalle_pedido' ).val( id );
     $( '#cantidad_producto' ).val( quantity );
     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
     M.updateTextFields();
@@ -161,7 +162,7 @@ function openDeleteDialog( id )
             $.ajax({
                 type: 'post',
                 url: API_PEDIDOS + 'deleteDetail',
-                data: { id_detalle: id },
+                data: { id_detalle_pedido: id },
                 dataType: 'json'
             })
             .done(function( response ) {

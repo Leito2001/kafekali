@@ -6,7 +6,7 @@ Commerce::headerTemplate('Detalles del producto');
 <!-- Contenedor para mostrar el detalle del producto seleccionado previamente -->
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center indigo-text" id="title">Detalles del producto</h4>
+    <h4 class="center brown-text" id="title">Detalles del producto</h4>
     <div class="row" id="detalle">
         <!-- Componente Horizontal Card -->
         <div class="card horizontal">
@@ -32,7 +32,7 @@ Commerce::headerTemplate('Detalles del producto');
                                 <label for="cantidad_producto">Cantidad</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <button type="submit" class="btn waves-effect waves-light blue tooltipped" data-tooltip="Agregar al carrito"><i class="material-icons">add_shopping_cart</i></button>
+                                <button type="submit" class="btn waves-effect waves-light teal tooltipped" data-tooltip="Agregar al carrito"><i class="material-icons">add_shopping_cart</i></button>
                             </div>
                         </div>
                     </form>
