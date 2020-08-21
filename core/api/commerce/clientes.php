@@ -15,10 +15,11 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_cliente'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+
             case 'logout':
                 if (session_destroy()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
+                    $result['message'] = 'Sesión cerrada correctamente';
                 } else {
                     $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
                 }
@@ -26,11 +27,13 @@ if (isset($_GET['action'])) {
             default:
                 exit('Acción no disponible dentro de la sesión');
         }
+        
     } else {
         // Se compara la acción a realizar cuando el cliente no ha iniciado sesión.
         switch ($_GET['action']) {
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
+                print_r($_POST);
                 // Se sanea el valor del token para evitar datos maliciosos.
                 $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
                 if ($token) {
@@ -80,12 +83,18 @@ if (isset($_GET['action'])) {
 
                                                         if ($cliente->setPasswordC($_POST['clave_cliente'])) {
 
-                                                            if ($cliente->createCliente()) {
-                                                                $result['status'] = 1;
-                                                                $result['message'] = 'Cliente registrado correctamente';
+                                                            if ($cliente->setDireccion($_POST['direccion'])){
+
+                                                                if ($cliente->createCliente()) {
+                                                                    $result['status'] = 1;
+                                                                    $result['message'] = 'Cliente registrado correctamente';
+    
+                                                                } else {
+                                                                    $result['exception'] = 'Ocurrió un problema al registrar el cliente';
+                                                                }
 
                                                             } else {
-                                                                $result['exception'] = 'Ocurrió un problema al registrar el cliente';
+                                                                $result['exception'] = 'Verifique la dirección';
                                                             }
 
                                                         } else {
