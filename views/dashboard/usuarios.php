@@ -22,7 +22,6 @@ Dashboard::headerTemplate('Administrar usuarios');
             <th>NACIMIENTO</th>
             <th>DUI</th>
             <th>USUARIO</th>
-            <th>ESTADO</th>
             <th class="actions-column">ACCIÓN</th>
         </tr>
     </thead>
