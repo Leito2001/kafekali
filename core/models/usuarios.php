@@ -14,7 +14,6 @@ class Usuarios extends Validator
     private $nacimiento = null;
     private $usuario_u = null;
     private $password_u = null;
-    private $estado = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -204,18 +203,8 @@ class Usuarios extends Validator
     }
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+    *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
     */
-    public function searchUsuarios($value)
-    {
-        $sql = 'SELECT usuario.nombres, usuario.apellidos, usuario.celular, usuario.correo, usuario.dui, usuario.fecha_nacimiento, 
-                usuario.usuario_u
-                FROM usuario
-                WHERE apellidos ILIKE ? OR nombres ILIKE ?
-                ORDER BY apellidos';
-        $params = array("%$value%", "%$value%");
-        return Database::getRows($sql, $params);
-    }
 
     public function createUsuario()
     {
