@@ -20,7 +20,7 @@ if (isset($_GET['action'])) {
                     if ($result['dataset'] = $pedido->readAllPedidos()) {
                         $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'No tiene productos en su pedido carepija';
+                        $result['exception'] = 'No hay pedidos registrados';
                     }
                 break;
 

@@ -94,14 +94,6 @@ function getEstados(selectedId = 0){
     });
 }
 
-// Evento para mostrar los resultados de una búsqueda.
-$( '#search-form' ).submit(function( event ) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows( API_PRODUCTOS, this );
-});
-
 // Función que prepara formulario para modificar un registro.
 function openUpdateModal( id )
 {
