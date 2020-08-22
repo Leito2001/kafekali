@@ -3,13 +3,6 @@ require_once('../../core/helpers/dashboard.php');
 Dashboard::headerTemplate('Administrar clientes');
 ?>
 
-<div class="row">
-    <div class="col s12 m4">
-        <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
-        <a href="#" onclick="openCreateModal()" class="btn waves-effect teal tooltipped" data-tooltip="Agregar nuevo usuario"><i class="material-icons">add_circle</i></a>
-    </div>       
-</div>
-
 <!-- Tabla para mostrar los registros existentes -->
 <table class="striped" id="tabla">
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
@@ -89,7 +82,6 @@ Dashboard::headerTemplate('Administrar clientes');
                     <input id="usuario_c" type="text" name="usuario_c" class="validate" required/>
                     <label for="usuario_c">Nombre de usuario</label>
                 </div>
-
 
                 <div class="col s12 m12">
                     <p>
