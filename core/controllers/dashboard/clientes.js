@@ -37,7 +37,6 @@ function fillTable( dataset )
                 { data: 'correo' },
                 { data: 'celular' },
                 { data: 'direccion' },
-                { data: 'fecha_nacimiento' },
                 { data: 'dui' },
                 { data: 'usuario_c' },
                 { data: null,

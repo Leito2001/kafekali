@@ -13,7 +13,6 @@ Dashboard::headerTemplate('Administrar clientes');
             <th>CORREO</th>
             <th>CELULAR</th>
             <th>DIRECCIÓN</th>
-            <th>NACIMIENTO</th>
             <th>DUI</th>
             <th>USUARIO</th>
             <th>ESTADO</th>
