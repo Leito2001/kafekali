@@ -65,6 +65,14 @@ if (isset($_GET['action'])) {
                     }
                 break;
 
+                case '7DiasClientes':
+                    if ($result['dataset'] = $cliente->clientes7Dias()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                break;
+
             default:
             exit('Acción no disponible dentro de la sesión');
         }
