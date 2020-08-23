@@ -280,12 +280,22 @@ function fillSelect( api, selectId, selected )
 */
 function barGraph( canvas, xAxis, yAxis, legend, title )
 {
-    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
-    let colors = [];
-    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar en el eje X y se van agregando al arreglo.
-    for ( i = 0; i < xAxis.length; i++ ) {
-        colors.push( '#' + ( Math.random().toString( 16 )).substring( 2, 8 ) );
-    }
+    //Arreglo para definir colores de las barras
+    let color = ['rgba(136, 49, 32, 0.7)',
+                'rgba(207, 1, 1, 0.7)',
+                'rgba(99, 1, 2, 0.7)',
+                'rgba(208, 64, 1, 0.7)',
+                'rgba(209, 30, 0, 0.7)',
+                'rgba(208, 98, 1, 0.7)'];
+
+    //Arreglo para definir colores del borde
+    let border = ['rgb(136, 49, 32)',
+                'rgb(207, 1, 1)',
+                'rgb(99, 1, 2)',
+                'rgb(208, 64, 1)',
+                'rgb(209, 30, 0)',
+                'rgb(208, 98, 1)'];
+
     // Se establece el contexto donde se mostrará el gráfico, es decir, se define la etiqueta canvas a utilizar.
     const context = $( '#' + canvas );
     // Se crea una instancia para generar la gráfica con los datos recibidos.
@@ -296,7 +306,9 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors
+                backgroundColor: color,
+                borderColor: border,
+                borderWidth: 0.5
             }]
         },
         options: {
@@ -305,7 +317,8 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
             },
             title: {
                 display: true,
-                text: title
+                text: title,
+                fontSize: 14
             },
             scales: {
                 yAxes: [{

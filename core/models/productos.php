@@ -242,6 +242,9 @@ class Productos extends Validator
     /*
     *   Métodos para generar gráficas.
     */
+
+    //Cantidad de productos por categoría
+
     public function cantidadProductosCategoria()
     {
         $sql = 'SELECT tipo_producto, COUNT(id_producto) cantidad
@@ -250,5 +253,22 @@ class Productos extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    // 5 productos más vendidos
+
+    public function fiveBestSellers()
+    {
+        $sql = 'SELECT pr.nombre_producto, COUNT(dp.id_producto) AS pedidos
+                FROM productos pr 
+                INNER JOIN detalle_pedido dp USING (id_producto) 
+                INNER JOIN pedido pe USING (id_pedido)
+                INNER JOIN estado_pedido ep USING (id_estado_pedido)
+                WHERE id_estado_pedido != 1
+                GROUP BY id_producto, nombre_producto
+                LIMIT 5';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
 }
 ?>
