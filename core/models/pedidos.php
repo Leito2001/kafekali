@@ -239,5 +239,37 @@ class Pedidos extends Validator
         $params = array($this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
+
+    // 5 clientes con más pedidos
+
+    public function fiveClients()
+    {
+        $sql = 'SELECT COUNT (id_cliente) AS pedidoscliente, usuario_c 
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente) 
+                GROUP BY usuario_c 
+                ORDER BY pedidoscliente DESC
+                LIMIT 5';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Ventas 7 días posteriores al actual con pedidos finalizados o entregados
+
+    public function ventas7Dias()
+    {
+        $sql = 'SELECT COUNT (id_pedido) AS pedidos, detalle_pedido.fecha
+                FROM detalle_pedido 
+                INNER JOIN pedido USING (id_pedido)
+                INNER JOIN estado_pedido USING (id_estado_pedido)
+                WHERE id_estado_pedido != 1 AND id_estado_pedido != 3
+                AND fecha 
+                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'7 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
+                GROUP BY fecha ORDER BY fecha ASC';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+
 }
 ?>
