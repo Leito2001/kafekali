@@ -2,6 +2,7 @@
 require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
 require_once('../../models/pedidos.php');
+require_once('../../models/clientes.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -65,6 +66,22 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'Pedido incorrecto';
                     }
                     break;
+
+                case 'fiveClients':
+                    if ($result['dataset'] = $pedido->fiveClients()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
+
+                    case '7Dias':
+                        if ($result['dataset'] = $pedido->ventas7Dias()) {
+                            $result['status'] = 1;
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                        break;
     
             default:
             exit('Acción no disponible dentro de la sesión');

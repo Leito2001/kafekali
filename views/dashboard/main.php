@@ -11,11 +11,25 @@ Dashboard::headerTemplate('Bienvenido');
 <!-- Se muestra una gráfica de acuerdo con los datos existentes -->
 <div class="row">
     <div class="col s12 m12">
-        <canvas id="chart" width="100" height="30"></canvas>
-    </div>
 
-    <div class="col s12 m12">
-        <canvas id="chart2" width="100" height="30"></canvas>
+        <div class="row">
+            <div class="col s6 m6">
+                <canvas class="center-align" id="chart" width="100" height="60"></canvas>
+            </div>
+            <div class="col s6 m6">
+                <canvas class="center-align" id="chart4" width="100" height="60"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s6 m6">
+                <canvas class="center-align" id="chart2" width="100" height="60"></canvas>
+            </div>
+            <div class="col s6 m6">
+                <canvas class="center-align" id="chart3" width="100" height="60"></canvas>
+            </div>
+        </div>
+        
     </div>
 </div>
 

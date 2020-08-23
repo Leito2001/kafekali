@@ -1,5 +1,6 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_PRODUCTOS = '../../core/api/dashboard/productos.php?action=';
+const API_PEDIDOS = '../../core/api/dashboard/pedidos.php?action=';
 
 // Método que se ejecuta cuando el documento está listo.
 $( document ).ready(function() {
@@ -22,6 +23,8 @@ $( document ).ready(function() {
     // Se llama a la función que muestra una gráfica en la página web.
     graficaCategorias();
     graficaFiveBestSellers();
+    graficaFiveClients();
+    grafica7Dias();
 });
 
 // Función para graficar la cantidad de productos por categoría.
@@ -60,6 +63,42 @@ function graficaCategorias()
     });
 }
 
+// Función para graficar la cantidad pedidos 7 días anteriores al actual.
+function grafica7Dias()
+{
+    $.ajax({
+        dataType: 'json',
+        url: API_PEDIDOS + '7Dias',
+        data: null
+    })
+    .done(function( response ) {
+        // Se comprueba si la API ha retornado datos, de lo contrario se remueve la etiqueta canvas asignada para la gráfica.
+        if ( response.status ) {
+            // Se declaran los arreglos para guardar los datos por gráficar.
+            let fecha = [];
+            let pedidos = [];
+            // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+            response.dataset.forEach(function( row ) {
+                // Se asignan los datos a los arreglos.
+                fecha.push( row.fecha );
+                pedidos.push( row.pedidos );
+            });
+            // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+            barGraph( 'chart4', fecha, pedidos, 'Cantidad de pedidos', 'Cantidad de pedidos de los últimos 7 días' );
+        } else {
+            $( '#chart4' ).remove();
+        }
+    })
+    .fail(function( jqXHR ) {
+        // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+        if ( jqXHR.status == 200 ) {
+            console.log( jqXHR.responseText );
+        } else {
+            console.log( jqXHR.status + ' ' + jqXHR.statusText );
+        }
+    });
+}
+
 // Función para graficar 5 productos más vendidos
 function graficaFiveBestSellers()
 {
@@ -81,9 +120,45 @@ function graficaFiveBestSellers()
                 pedidos.push( row.pedidos );
             });
             // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
-            barGraph( 'chart2', producto, pedidos, 'Cantidad de pedidos', 'Top 5 productos más vendidos' );
+            pastelGraph( 'chart2', producto, pedidos, 'Top 5 productos más vendidos' );
         } else {
             $( '#chart2' ).remove();
+        }
+    })
+    .fail(function( jqXHR ) {
+        // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+        if ( jqXHR.status == 200 ) {
+            console.log( jqXHR.responseText );
+        } else {
+            console.log( jqXHR.status + ' ' + jqXHR.statusText );
+        }
+    });
+}
+
+// Función para graficar 5 clientes con más pedidos
+function graficaFiveClients()
+{
+    $.ajax({
+        dataType: 'json',
+        url: API_PEDIDOS + 'fiveClients',
+        data: null
+    })
+    .done(function( response ) {
+        // Se comprueba si la API ha retornado datos, de lo contrario se remueve la etiqueta canvas asignada para la gráfica.
+        if ( response.status ) {
+            // Se declaran los arreglos para guardar los datos por gráficar.
+            let cliente = [];
+            let pedidos = [];
+            // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+            response.dataset.forEach(function( row ) {
+                // Se asignan los datos a los arreglos.
+                cliente.push( row.usuario_c );
+                pedidos.push( row.pedidoscliente );
+            });
+            // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+            pastelGraph( 'chart3', cliente, pedidos, 'Top 5 clientes con más pedidos' );
+        } else {
+            $( '#chart3' ).remove();
         }
     })
     .fail(function( jqXHR ) {

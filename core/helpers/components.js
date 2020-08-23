@@ -285,16 +285,18 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
                 'rgba(207, 1, 1, 0.7)',
                 'rgba(99, 1, 2, 0.7)',
                 'rgba(208, 64, 1, 0.7)',
+                'rgba(120, 60, 33, 0.8)',
                 'rgba(209, 30, 0, 0.7)',
                 'rgba(208, 98, 1, 0.7)'];
 
     //Arreglo para definir colores del borde
-    let border = ['rgb(136, 49, 32)',
-                'rgb(207, 1, 1)',
-                'rgb(99, 1, 2)',
-                'rgb(208, 64, 1)',
-                'rgb(209, 30, 0)',
-                'rgb(208, 98, 1)'];
+    let border = ['rgba(136, 49, 32, 0.7)',
+                'rgba(207, 1, 1, 0.7)',
+                'rgba(99, 1, 2, 0.7)',
+                'rgba(208, 64, 1, 0.7)',
+                'rgba(120, 60, 33, 0.8)',
+                'rgba(209, 30, 0, 0.7)',
+                'rgba(208, 98, 1, 0.7)'];
 
     // Se establece el contexto donde se mostrará el gráfico, es decir, se define la etiqueta canvas a utilizar.
     const context = $( '#' + canvas );
@@ -324,10 +326,56 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 1
+                        stepSize: 2
                     }
                 }]
             }
         }
     });
+}
+
+/*
+*   Función para generar una gráfica de doughnut. Requiere el archivo chart.js para funcionar.
+*
+*   Parámetros: canvas (identificador de la etiqueta canvas), legend (etiqueta para los datos), daata (datos para generar el gráfico) y title (título del gráfico).
+*
+*   Retorno: ninguno.
+*/
+
+function pastelGraph( canvas, legend, daata, title )
+{
+    //Arreglo para definir colores de las barras
+    let color = ['rgba(136, 49, 32, 0.7)',
+                'rgba(207, 1, 1, 0.7)',
+                'rgba(99, 1, 2, 0.7)',
+                'rgba(208, 64, 1, 0.7)',
+                'rgba(120, 60, 33, 0.8)',
+                'rgba(209, 30, 0, 0.7)',
+                'rgba(208, 98, 1, 0.7)'];
+
+    // Se establece el contexto donde se mostrará el gráfico, es decir, se define la etiqueta canvas a utilizar.
+    const context = $( '#' + canvas );
+    // Se crea una instancia para generar la gráfica con los datos recibidos.
+
+    const chart = new Chart( context, {
+        type: 'doughnut',
+        data: {
+            labels: legend,
+            datasets: [
+            {
+                label: legend,
+                backgroundColor: color,
+                data: daata
+            }
+            ]
+        },
+        options: {
+            title: {
+            display: true,
+            text: title,
+            fontSize: 14
+            }
+        }
+    });
+
 }
