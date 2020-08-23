@@ -244,8 +244,8 @@ class Clientes extends Validator
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->password_c, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO cliente (nombre, apellido, celular, correo, fecha_nacimiento, dui, password_c, usuario_c, estado_usuario, direccion)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, true, ?)';
+        $sql = 'INSERT INTO cliente (nombre, apellido, celular, correo, fecha_nacimiento, dui, password_c, usuario_c, estado_usuario, direccion, fecha_registro)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, true, ?, getdate())';
         $params = array($this->nombre, $this->apellido, $this->celular, $this->correo, $this->nacimiento, $this->dui, $hash, $this->usuario_c, $this->direccion);
         return Database::executeRow($sql, $params);
     }
@@ -284,5 +284,19 @@ class Clientes extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    // Cantidad de clientes registrados en los últimos 7 días
+
+    public function clientes7Dias()
+    {
+        $sql = 'SELECT COUNT (id_cliente) AS clientes, fecha_registro
+                FROM cliente 
+                WHERE fecha_registro 
+                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'7 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
+                GROUP BY fecha_registro ORDER BY fecha_registro ASC';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
 }
 ?>

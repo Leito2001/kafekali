@@ -342,7 +342,7 @@ function barGraph( canvas, xAxis, yAxis, legend, title )
 *   Retorno: ninguno.
 */
 
-function pastelGraph( canvas, legend, daata, title )
+function doughnutGraph( canvas, legend, daata, title )
 {
     //Arreglo para definir colores de las barras
     let color = ['rgba(136, 49, 32, 0.7)',

@@ -13,20 +13,23 @@ Dashboard::headerTemplate('Bienvenido');
     <div class="col s12 m12">
 
         <div class="row">
-            <div class="col s6 m6">
-                <canvas class="center-align" id="chart" width="100" height="60"></canvas>
+            <div class="col s12 m4">
+                <canvas class="center-align" id="productosporcategoria" width="100" height="80"></canvas>
             </div>
-            <div class="col s6 m6">
-                <canvas class="center-align" id="chart4" width="100" height="60"></canvas>
+            <div class="col s12 m4">
+                <canvas class="center-align" id="7dias" width="100" height="80"></canvas>
+            </div>
+            <div class="col s12 m4">
+                <canvas class="center-align" id="clientes7dias" width="100" height="80"></canvas>
             </div>
         </div>
 
         <div class="row">
             <div class="col s6 m6">
-                <canvas class="center-align" id="chart2" width="100" height="60"></canvas>
+                <canvas class="center-align" id="5productos" width="100" height="60"></canvas>
             </div>
             <div class="col s6 m6">
-                <canvas class="center-align" id="chart3" width="100" height="60"></canvas>
+                <canvas class="center-align" id="5clientes" width="100" height="60"></canvas>
             </div>
         </div>
         
