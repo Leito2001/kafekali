@@ -38,7 +38,6 @@ function fillTable( dataset )
                 { data: 'fecha_nacimiento' },
                 { data: 'dui' },
                 { data: 'usuario_u' },
-                { data: 'estado_usu' },
                 { data: null,
                 orderable: false,
                 render:function(data, type, row)

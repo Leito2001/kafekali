@@ -121,6 +121,7 @@ function openUpdateModal( id )
             jsonResponse = response.dataset['0'];
             console.log(response);
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
+            $( '#id_pedido' ).val( jsonResponse.id_pedido );
             $( '#id_detalle_pedido' ).val( jsonResponse.id_detalle_pedido );
             $( '#usuario_c' ).val( jsonResponse.usuario_c );
             $( '#nombre_producto' ).val( jsonResponse.nombre_producto );

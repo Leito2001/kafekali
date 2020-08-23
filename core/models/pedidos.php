@@ -151,8 +151,8 @@ class Pedidos extends Validator
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha)
-                VALUES (?, ?, ?, ?, getdate())';
+        $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha, semana)
+                values (?, ?, ?, ?, getdate(), getweek())';
         $params = array($this->cantidad, $this->id_pedido, $this->producto, $this->precio);
         return Database::executeRow($sql, $params);
     }
@@ -174,7 +174,7 @@ class Pedidos extends Validator
     // Método utilizado en dashboard para leer todos los pedidos
     public function readAllPedidos()
     {
-        $sql = 'SELECT detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
+        $sql = 'SELECT pedido.id_pedido, detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
                 detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido,
                 detalle_pedido.cantidad_producto * detalle_pedido.precio AS total
                 FROM pedido 
@@ -190,7 +190,7 @@ class Pedidos extends Validator
     // Método utilizado en dashboard para leer un solo pedido
     public function readOnePedido()
     {
-        $sql = 'SELECT detalle_pedido.id_detalle_pedido, cliente.usuario_c, productos.nombre_producto, 
+        $sql = 'SELECT pedido.id_pedido, detalle_pedido.id_detalle_pedido, cliente.usuario_c, productos.nombre_producto, 
                 detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.id_estado_pedido
                 FROM pedido 
                 INNER JOIN cliente USING (id_cliente) 
@@ -206,7 +206,7 @@ class Pedidos extends Validator
 
     public function getEstadosCb()
     {
-        $sql  = 'SELECT id_estado_pedido, estado_pedido FROM estado_pedido';
+        $sql  = 'SELECT id_estado_pedido, estado_pedido FROM estado_pedido WHERE id_estado_pedido != 1';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -239,6 +239,5 @@ class Pedidos extends Validator
         $params = array($this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
-
 }
 ?>

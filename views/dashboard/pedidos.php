@@ -32,6 +32,7 @@ Dashboard::headerTemplate('Administrar pedidos');
         <form method="post" id="save-form" enctype="multipart/form-data">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input class="hide" type="number" id="id_detalle_pedido" name="id_detalle_pedido"/>
+            <input class="hide" type="number" id="id_pedido" name="id_pedido"/>
             <div class="row">
 
                 <div class="input-field col s12 m6">
