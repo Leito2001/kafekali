@@ -197,8 +197,8 @@ class Productos extends Validator
         $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, 
                 tipo_producto.id_tipo_producto, proveedor.id_proveedor, productos.imagen_producto, productos.estado_producto
                 FROM productos 
-                INNER JOIN tipo_producto ON productos.id_tipo_producto = tipo_producto.id_tipo_producto
-                INNER JOIN proveedor ON productos.id_proveedor = proveedor.id_proveedor
+                INNER JOIN tipo_producto USING (id_tipo_producto)
+                INNER JOIN proveedor USING (id_proveedor)
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);

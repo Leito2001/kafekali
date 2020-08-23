@@ -151,8 +151,8 @@ class Pedidos extends Validator
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha)
-                VALUES (?, ?, ?, ?, getdate())';
+        $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha, semana)
+                values (?, ?, ?, ?, getdate(), getweek())';
         $params = array($this->cantidad, $this->id_pedido, $this->producto, $this->precio);
         return Database::executeRow($sql, $params);
     }

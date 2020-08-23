@@ -16,6 +16,6 @@ Paso 2. Modificar las credenciales necesarias para la conexión con la base de d
 
 Paso 3. Ingresar al sitio web que se desea visualizar.
     Inicio del sitio privado (al ingresar por primera vez se pedirá crear un usuario):
-        localhost/kafekali2/views/dashboard/
+        localhost/kafekali/views/dashboard/
     Inicio del sitio público:
-        localhost/kafekali2/views/commerce/
+        localhost/kafekali/views/commerce/
