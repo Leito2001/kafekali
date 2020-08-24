@@ -13,16 +13,16 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-	if (isset($_SESSION['id_usuario'])) {
+    if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-           
+
             case 'readAll':
-                    if ($result['dataset'] = $pedido->readAllPedidos()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'No hay pedidos registrados';
-                    }
+                if ($result['dataset'] = $pedido->readAllPedidos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'No hay pedidos registrados';
+                }
                 break;
 
             case 'getEstados':
@@ -31,7 +31,7 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'No hay datos disponibles';
                 }
-            break;  
+                break;
 
             case 'readOne':
                 if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
@@ -45,46 +45,46 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'updateEstado':
-                    if ($pedido->setIdPedido($_POST['id_pedido'])) {
-                        $_POST = $pedido->validateForm($_POST);
-                        if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                            if ($pedido->setEstado($_POST['estado_pedido'])) {
-                                if ($pedido->updateOrderStatus()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Estado modificado correctamente';
-                                } else {
-                                    $result['exception'] = 'Ocurrió un problema al modificar el estado';
-                                }
+            case 'updateEstado':
+                if ($pedido->setIdPedido($_POST['id_pedido'])) {
+                    $_POST = $pedido->validateForm($_POST);
+                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
+                        if ($pedido->setEstado($_POST['estado_pedido'])) {
+                            if ($pedido->updateOrderStatus()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Estado modificado correctamente';
                             } else {
-                                $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
+                                $result['exception'] = 'Ocurrió un problema al modificar el estado';
                             }
                         } else {
-                            $result['exception'] = 'Detalle incorrecto';
+                            $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
                         }
                     } else {
-                        $result['exception'] = 'Pedido incorrecto';
+                        $result['exception'] = 'Detalle incorrecto';
                     }
-                    break;
+                } else {
+                    $result['exception'] = 'Pedido incorrecto';
+                }
+                break;
 
-                case 'fiveClients':
-                    if ($result['dataset'] = $pedido->fiveClients()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'No hay datos disponibles';
-                    }
-                    break;
+            case 'fiveClients':
+                if ($result['dataset'] = $pedido->fiveClients()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'No hay datos disponibles';
+                }
+                break;
 
-                    case '7Dias':
-                        if ($result['dataset'] = $pedido->ventas7Dias()) {
-                            $result['status'] = 1;
-                        } else {
-                            $result['exception'] = 'No hay datos disponibles';
-                        }
-                        break;
-    
+            case '7Dias':
+                if ($result['dataset'] = $pedido->ventas7Dias()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'No hay datos disponibles';
+                }
+                break;
+
             default:
-            exit('Acción no disponible dentro de la sesión');
+                exit('Acción no disponible dentro de la sesión');
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');
@@ -94,6 +94,5 @@ if (isset($_GET['action'])) {
         exit('Acceso no disponible');
     }
 } else {
-	exit('Recurso denegado');
+    exit('Recurso denegado');
 }
-?>
