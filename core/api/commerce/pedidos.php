@@ -17,12 +17,14 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
 
-
             case 'createDetail':
-                    if ($pedido->setCliente($_SESSION['id_cliente'])) {
-                        if ($pedido->readOrder()) {
-                            $_POST = $pedido->validateForm($_POST);
-                            if ($pedido->setProducto($_POST['id_producto'])) {
+                if ($pedido->setCliente($_SESSION['id_cliente'])) {
+                    if ($pedido->readOrder()) {
+                        $_POST = $pedido->validateForm($_POST);
+                        if ($pedido->setProducto($_POST['id_producto'])) {
+                            // Si no existe un detalle pedido con ese producto en esta orden, vamos a crearlo, sino, vamos a actualizar
+                            // la cantidad de dicho detalle pedido.
+                            if (!boolval($dorden = $pedido->getIdDetalleOrden())){ //Si NO retorna nada, se agregará el producto al carrito.
                                 if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                                     if ($pedido->setPrecio($_POST['precio_producto'])) {
                                         if ($pedido->createDetail()) {
@@ -38,14 +40,28 @@ if (isset($_GET['action'])) {
                                     $result['exception'] = 'Cantidad incorrecta';
                                 }
                             } else {
-                                $result['exception'] = 'Producto incorrecto';
+                                //Si existe el detalle pedido, traemos su id, y la cantidad
+                                //Procedemos a asignar los valores en el modelo
+                                $pedido->setIdDetalle($dorden['0']['id_detalle_pedido']);
+                                //Y a sumar la cantidad almacenada y la nueva cantidad.
+                                $pedido->setCantidad($_POST['cantidad_producto']+$dorden['0']['cantidad_producto']);
+                                //Luego, simplemente se actualiza la cantidad.
+                                if ($pedido->updateDetail()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Cantidad modificada correctamente';
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al modificar la cantidad';
+                                }
                             }
                         } else {
-                            $result['exception'] = 'Ocurrió un problema al obtener el pedido';
+                            $result['exception'] = 'Producto incorrecto';
                         }
                     } else {
-                        $result['exception'] = 'Cliente incorrecto';
+                        $result['exception'] = 'Ocurrió un problema al obtener el pedido';
                     }
+                } else {
+                    $result['exception'] = 'Cliente incorrecto';
+                }
                 break;
 
             case 'readCart':
@@ -103,7 +119,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Pedido incorrecto';
                 }
                 break;
-                
+
             case 'finishOrder':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     if ($pedido->setEstado(2)) {
@@ -138,6 +154,5 @@ if (isset($_GET['action'])) {
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
 } else {
-	exit('Recurso denegado');
+    exit('Recurso denegado');
 }
-?>

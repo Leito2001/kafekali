@@ -152,9 +152,25 @@ class Pedidos extends Validator
     public function createDetail()
     {
         $sql = 'INSERT INTO detalle_pedido (cantidad_producto, id_pedido, id_producto, precio, fecha, semana)
-                values (?, ?, ?, ?, getdate(), getweek())';
+                VALUES (?, ?, ?, ?, getdate(), getweek())';
         $params = array($this->cantidad, $this->id_pedido, $this->producto, $this->precio);
         return Database::executeRow($sql, $params);
+    }
+
+    // Método para actualizar la cantidad de un producto agregado al carrito de compras.
+    public function updateDetail()
+    {
+        $sql = 'UPDATE detalle_pedido
+                SET cantidad_producto = ?
+                WHERE id_pedido = ? AND id_detalle_pedido = ?';
+        $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function getIdDetalleOrden(){
+        $sql = 'SELECT id_detalle_pedido, cantidad_producto FROM detalle_pedido WHERE id_pedido = ? AND id_producto = ?';
+        $params = array($this->id_pedido, $this->producto);
+        return Database::getRows($sql, $params);
     }
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
@@ -168,7 +184,7 @@ class Pedidos extends Validator
                 INNER JOIN estado_pedido USING(id_estado_pedido)
                 WHERE id_pedido = ?';
         $params = array($this->id_pedido);
-        return Database::getRows($sql, $params);
+        return Database::getRows($sql, $params); 
     }
 
     // Método utilizado en dashboard para leer todos los pedidos
@@ -218,16 +234,6 @@ class Pedidos extends Validator
                 SET id_estado_pedido = ?
                 WHERE id_pedido = ?';
         $params = array($this->estado, $this->id_pedido);
-        return Database::executeRow($sql, $params);
-    }
-
-    // Método para actualizar la cantidad de un producto agregado al carrito de compras.
-    public function updateDetail()
-    {
-        $sql = 'UPDATE detalle_pedido
-                SET cantidad_producto = ?
-                WHERE id_pedido = ? AND id_detalle_pedido = ?';
-        $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
 
