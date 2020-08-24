@@ -292,7 +292,7 @@ class Clientes extends Validator
         $sql = 'SELECT COUNT (id_cliente) AS clientes, fecha_registro
                 FROM cliente 
                 WHERE fecha_registro 
-                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'7 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
+                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'6 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
                 GROUP BY fecha_registro ORDER BY fecha_registro ASC';
         $params = null;
         return Database::getRows($sql, $params);
