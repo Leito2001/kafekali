@@ -17,18 +17,18 @@ Dashboard::headerTemplate('Bienvenido');
                 <canvas class="center-align" id="productosporcategoria" width="100" height="80"></canvas>
             </div>
             <div class="col s12 m4">
-                <canvas class="center-align" id="7dias" width="100" height="80"></canvas>
+                <canvas class="center-align" id="7dias" width="100" height="95"></canvas>
             </div>
             <div class="col s12 m4">
-                <canvas class="center-align" id="clientes7dias" width="100" height="80"></canvas>
+                <canvas class="center-align" id="clientes7dias" width="100" height="95"></canvas>
             </div>
         </div>
 
         <div class="row">
-            <div class="col s6 m6">
+            <div class="col s12 m6">
                 <canvas class="center-align" id="5productos" width="100" height="60"></canvas>
             </div>
-            <div class="col s6 m6">
+            <div class="col s12 m6">
                 <canvas class="center-align" id="5clientes" width="100" height="60"></canvas>
             </div>
         </div>
