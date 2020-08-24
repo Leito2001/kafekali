@@ -6,28 +6,19 @@ require('../../../libraries/fpdf181/fpdf.php');
 /**
 *   Clase para definir las plantillas de los reportes del sitio privado.
 */
-class PDF extends FPDF
+class Factura extends FPDF
 {
-    // Propiedad para guardar el título del documento.
-    private $title = null;
 
-    /*
-    *   Método para iniciar el documento.
-    *
-    *   Parámetros: $title (título del reporte).
-    *
-    *   Retorno: ninguno.
-    */
     public function startDocument($title)
     {
         // Se establece la zona horaria a utilizar.
         ini_set('date.timezone', 'America/El_Salvador');
         // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el documento.
         session_start();
-        // Se verifica si un administrador ha iniciado sesión para generar el documento, de lo contrario se direcciona a main.php
-        if (isset($_SESSION['id_usuario'])) {
+        // Se verifica si hay un cliente dentro de la sesión para generar la factura, de lo contrario se direcciona a main.php
+        if (isset($_SESSION['id_cliente'])) {
             // Se asigna el título del documento a la propiedad de la clase.
-            $this->title = $title;
+            $this->title = 'Factura';
             // Se establece el título del documento para que se muestre en la pestaña del navegador (true = utf-8).
             $this->SetTitle($this->title, true);
             // Se establecen los margenes del documento (izquierdo, superior y derecho).
@@ -37,7 +28,7 @@ class PDF extends FPDF
             // Se define el alias para el número total de páginas que se muestra en el pie del documento.
             $this->AliasNbPages();
         } else {
-            header('location: ../../views/dashboard/main.php');
+            header('location: ../../views/commerce/index.php');
         }
     }
 
@@ -64,9 +55,9 @@ class PDF extends FPDF
             // Se ubica el usuario que ha iniciado sesión.
             $this->Cell(95);
             $this->SetTextColor(87, 50, 0);
-            $this->Cell(40, 10, 'Reporte generado por:', 0, 0, 'L');
+            $this->Cell(40, 10, 'Factura para el cliente:', 0, 0, 'L');
             $this->SetTextColor(0, 0, 0);
-            $this->Cell(0, 10, $_SESSION['usuario_u'], 0, 1, 'L');
+            $this->Cell(0, 10, $_SESSION['usuario_c'], 0, 1, 'L');
             // Se ubica la fecha y hora actual.
             $this->Cell(95);
             $this->SetTextColor(87, 50, 0);

@@ -11,6 +11,7 @@ class Pedidos extends Validator
     private $producto = null;
     private $cantidad = null;
     private $precio = null;
+    private $semana = null;
     private $estado = null; // Valor por defecto en la base de datos: 1
     /*
     *   POSIBLES ESTADOS PARA UN PEDIDO
@@ -103,6 +104,16 @@ class Pedidos extends Validator
         }
     }
 
+    public function setSemana($value)
+    {
+        if($this->validateNaturalNumber($value)) {
+            $this->semana = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setEstado($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -119,6 +130,16 @@ class Pedidos extends Validator
     public function getIdPedido()
     {
         return $this->id_pedido;
+    }
+
+    public function getSemana()
+    {
+        return $this->semana;
+    }
+
+    public function getFechaPedido()
+    {
+        return $this->fecha_pedido;
     }
 
     /*
@@ -191,14 +212,14 @@ class Pedidos extends Validator
     public function readAllPedidos()
     {
         $sql = 'SELECT pedido.id_pedido, detalle_pedido.id_detalle_pedido, productos.imagen_producto, cliente.usuario_c, productos.nombre_producto, 
-                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido,
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido, detalle_pedido.semana,
                 detalle_pedido.cantidad_producto * detalle_pedido.precio AS total
                 FROM pedido 
                 INNER JOIN cliente USING (id_cliente)
                 INNER JOIN detalle_pedido USING(id_pedido) 
                 INNER JOIN productos USING(id_producto)
                 INNER JOIN estado_pedido USING(id_estado_pedido)
-                ORDER BY id_estado_pedido';
+                ORDER BY semana ASC';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -270,11 +291,44 @@ class Pedidos extends Validator
                 INNER JOIN estado_pedido USING (id_estado_pedido)
                 WHERE id_estado_pedido != 1 AND id_estado_pedido != 3
                 AND fecha 
-                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'7 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
+                /* Datos entre la fecha actual menos 7 días */
+                BETWEEN (SELECT CAST (CURRENT_DATE AS DATE) - CAST(\'6 DAYS\' AS INTERVAL) AS rango) AND CURRENT_DATE
                 GROUP BY fecha ORDER BY fecha ASC';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
+    //Consulta para reporte: ventas por semana con total de ingresos por día por pedidos finalizados o enviados
+    public function ventasSemana()
+    {
+        $sql = 'SELECT detalle_pedido.semana, COUNT (id_pedido) AS pedidos, detalle_pedido.fecha, SUM (detalle_pedido.precio) as ventatotaldia
+                FROM detalle_pedido 
+                INNER JOIN pedido USING (id_pedido)
+                INNER JOIN estado_pedido USING (id_estado_pedido)
+                WHERE detalle_pedido.semana = ?  AND id_estado_pedido != 1 AND id_estado_pedido != 3
+                GROUP BY semana, fecha ORDER BY semana ASC';
+        $params = array($this->semana);
+        return Database::getRows($sql, $params);
+    }
+
+
+    //Consulta para generar factura
+
+    public function createFactura()
+    {
+        $sql = 'SELECT productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto,
+                detalle_pedido.precio * detalle_pedido.cantidad_producto AS subtotal,
+                (SELECT SUM (detalle_pedido.precio * detalle_pedido.cantidad_producto) AS totalpagar FROM detalle_pedido WHERE id_pedido = ?)
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente) 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_pedido = ?
+                GROUP BY id_pedido, id_detalle_pedido, usuario_c, nombre_producto';
+        $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
 }
 ?>

@@ -29,7 +29,7 @@ Commerce::headerTemplate('Carrito de compras');
     </div>
     <!-- Enlace para generar reporte de productos por categoría -->
     <div class="row center-align">
-        <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber darken-2"><i class="material-icons left">assignment</i>Generar factura</a>
+        <a href="../../core/reports/commerce/factura.php" target="_blank" class="btn waves-effect amber darken-2"><i class="material-icons left">assignment</i>Generar factura</a>
         <a href="index.php" class="waves-effect waves-light btn"><i class="material-icons left">store</i>Seguir comprando</a>
         <button type="button" onclick="finishOrder()" class="btn waves-effect green"><i class="material-icons left">check_circle</i>Finalizar pedido</button>
     </div>

@@ -171,5 +171,17 @@ class Proveedores extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function productosProveedor()
+    {
+        $sql = 'SELECT proveedor.id_proveedor, nombre_empresa, nombre_prov, celular, nombre_producto, productos.id_producto
+                FROM proveedor
+                INNER JOIN productos USING (id_proveedor)
+                WHERE nombre_empresa = ?
+                ORDER BY proveedor.id_proveedor, proveedor.nombre_prov';
+        $params = array($this->nombreEmpresa);
+        return Database::getRows($sql, $params);
+    }
+
 }
 ?>
