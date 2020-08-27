@@ -94,16 +94,6 @@ class Pedidos extends Validator
         }
     }
 
-    public function setPventa($value)
-    {
-        if($this->validateNaturalNumber($value)) {
-            $this->pventa = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function setSemana($value)
     {
         if($this->validateNaturalNumber($value)) {
@@ -219,7 +209,7 @@ class Pedidos extends Validator
                 INNER JOIN detalle_pedido USING(id_pedido) 
                 INNER JOIN productos USING(id_producto)
                 INNER JOIN estado_pedido USING(id_estado_pedido)
-                ORDER BY semana ASC';
+                ORDER BY fecha, semana';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -301,16 +291,34 @@ class Pedidos extends Validator
     //Consulta para reporte: ventas por semana con total de ingresos por día por pedidos finalizados o enviados
     public function ventasSemana()
     {
-        $sql = 'SELECT detalle_pedido.semana, COUNT (id_pedido) AS pedidos, detalle_pedido.fecha, SUM (detalle_pedido.precio) as ventatotaldia
+        $sql = 'SELECT COUNT (id_pedido) AS pedidos, detalle_pedido.fecha, extract(week from detalle_pedido.fecha::date) AS semana, 
+                SUM (detalle_pedido.precio) as ventatotaldia
                 FROM detalle_pedido 
                 INNER JOIN pedido USING (id_pedido)
                 INNER JOIN estado_pedido USING (id_estado_pedido)
-                WHERE detalle_pedido.semana = ?  AND id_estado_pedido != 1 AND id_estado_pedido != 3
-                GROUP BY semana, fecha ORDER BY semana ASC';
-        $params = array($this->semana);
+                WHERE id_estado_pedido != 1 AND id_estado_pedido != 3
+                GROUP BY detalle_pedido.semana, detalle_pedido.fecha
+                ORDER BY semana';
+        $params = null;
         return Database::getRows($sql, $params);
     }
 
+    // Consulta para reporte: pedidos agrupados por estado
+    public function pedidosEstado()
+    {
+        $sql = 'SELECT cliente.usuario_c, productos.nombre_producto, 
+                detalle_pedido.precio, detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido,
+                detalle_pedido.cantidad_producto * detalle_pedido.precio AS total
+                FROM pedido 
+                INNER JOIN cliente USING (id_cliente)
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_estado_pedido != 1 AND id_estado_pedido = ?
+                GROUP BY estado_pedido, usuario_c, nombre_producto, detalle_pedido.precio, cantidad_producto, fecha';
+                $params = array($this->estado);
+        return Database::getRows($sql, $params);
+    }
 
     //Consulta para generar factura
 

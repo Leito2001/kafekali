@@ -55,7 +55,7 @@ class Factura extends FPDF
             // Se ubica el usuario que ha iniciado sesión.
             $this->Cell(95);
             $this->SetTextColor(87, 50, 0);
-            $this->Cell(40, 10, 'Factura para el cliente:', 0, 0, 'L');
+            $this->Cell(40, 10, 'Factura para:', 0, 0, 'L');
             $this->SetTextColor(0, 0, 0);
             $this->Cell(0, 10, $_SESSION['usuario_c'], 0, 1, 'L');
             // Se ubica la fecha y hora actual.

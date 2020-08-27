@@ -8,7 +8,7 @@ Dashboard::headerTemplate('Administrar proveedores');
         <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
         <a href="#" onclick="openCreateModal()" class="btn waves-effect teal tooltipped" data-tooltip="Agregar nuevo proveedor"><i class="material-icons">add_circle</i></a>
         <!--Enlace para abrir reporte de productos por proveedor-->
-        <a href="../../core/reports/dashboard/proveedor.php" target="_blank" class="btn waves-effect amber darken-2 tooltipped" data-tooltip="Reporte de productos por proveedor"><i class="material-icons">assignment</i></a>
+        <a href="../../core/reports/dashboard/proveedores.php" target="_blank" class="btn waves-effect amber darken-2 tooltipped" data-tooltip="Reporte de productos por proveedor"><i class="material-icons">assignment</i></a>
     </div>       
 </div>
 

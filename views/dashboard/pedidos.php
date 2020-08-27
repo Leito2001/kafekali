@@ -3,6 +3,13 @@ require_once('../../core/helpers/dashboard.php');
 Dashboard::headerTemplate('Administrar pedidos');
 ?>
 
+<div class="row">
+    <div class="col s12 m4">
+        <!-- Enlace para generar reporte de pedidos por semana -->
+        <a href="../../core/reports/dashboard/pedidos.php" target="_blank" class="btn waves-effect amber darken-2 tooltipped" data-tooltip="Reporte de pedidos por semana"><i class="material-icons">assignment</i></a>
+    </div>       
+</div>
+
 <!-- Tabla para mostrar los registros existentes -->
 <table class="striped" id="tabla">
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->

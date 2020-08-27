@@ -3,6 +3,7 @@ require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
 require_once('../../models/pedidos.php');
 require_once('../../models/clientes.php');
+require_once('../../models/productos.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -81,7 +82,15 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'No hay datos disponibles';
                 }
-                break;
+            break;
+
+            case 'ventasSemana':
+                if ($result['dataset'] = $pedido->ventasSemana()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'No hay datos disponibles jeje';
+                }
+            break;
 
             default:
                 exit('Acción no disponible dentro de la sesión');

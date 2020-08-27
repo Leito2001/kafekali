@@ -172,6 +172,8 @@ class Proveedores extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Reporte de productos por proveedor
+
     public function productosProveedor()
     {
         $sql = 'SELECT proveedor.id_proveedor, nombre_empresa, nombre_prov, celular, nombre_producto, productos.id_producto
