@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla usuarios de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla usuario de la base de datos. Es clase hija de Validator.
 */
 class Usuarios extends Validator
 {
@@ -18,6 +18,7 @@ class Usuarios extends Validator
     /*
     *   Métodos para asignar valores a los atributos.
     */
+
     public function setId($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -160,6 +161,8 @@ class Usuarios extends Validator
     /*
     *   Métodos para gestionar la cuenta del usuario.
     */
+
+    // Revisa que el usuario existe en la base de datos.
     public function checkUser($usuario_u)
     {
         $sql = 'SELECT id_usuario FROM usuario WHERE usuario_u = ?';
@@ -173,6 +176,7 @@ class Usuarios extends Validator
         }
     }
 
+    //Compara la contraseña ingresada con la encriptada en la base de datos
     public function checkPassword($password)
     {
         $sql = 'SELECT password_u FROM usuario WHERE id_usuario = ?';
@@ -185,6 +189,7 @@ class Usuarios extends Validator
         }
     }
 
+    //Método para cambiar la contraseña
     public function changePassword()
     {
         $hash = password_hash($this->password_u, PASSWORD_DEFAULT);
@@ -193,6 +198,7 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Método para editar el perfil del usuario de la sesión actual
     public function editProfile()
     {
         $sql = 'UPDATE usuario
@@ -206,9 +212,10 @@ class Usuarios extends Validator
     *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
     */
 
+    //Crear
     public function createUsuario()
     {
-        // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
+        // Se encripta la clave por medio del algoritmo bcrypt.
         $hash = password_hash($this->password_u, PASSWORD_DEFAULT);
         $sql = 'INSERT INTO usuario (nombres, apellidos, celular, correo, dui, fecha_nacimiento, usuario_u, password_u)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
@@ -216,6 +223,7 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Leer todos los usuarios
     public function readAllUsuarios()
     {
         $sql = 'SELECT usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.celular, usuario.correo, usuario.dui, usuario.fecha_nacimiento, 
@@ -226,6 +234,7 @@ class Usuarios extends Validator
         return Database::getRows($sql, $params);
     }
 
+    //leer un solo usuario
     public function readOneUsuario()
     {
         $sql = 'SELECT usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.celular, usuario.correo, usuario.dui, usuario.fecha_nacimiento, 
@@ -236,6 +245,7 @@ class Usuarios extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Actualizar
     public function updateUsuario()
     {
         $sql = 'UPDATE usuario
@@ -245,6 +255,7 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Eliminar
     public function deleteUsuario()
     {
         $sql = 'DELETE FROM usuario

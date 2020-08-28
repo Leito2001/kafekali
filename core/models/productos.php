@@ -19,6 +19,7 @@ class Productos extends Validator
     /*
     *   Métodos para asignar valores a los atributos.
     */
+
     public function setId($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -104,6 +105,7 @@ class Productos extends Validator
     /*
     *   Métodos para obtener valores de los atributos.
     */
+
     public function getId()
     {
         return $this->id;
@@ -151,9 +153,10 @@ class Productos extends Validator
     }
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+    *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
     */
 
+    // Crear
     public function createProducto()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
@@ -166,6 +169,7 @@ class Productos extends Validator
         }
     }
 
+    //Leer todos los productos
     public function readAllProductos()
     {
         $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, tipo_producto.tipo_producto, proveedor.nombre_prov, productos.imagen_producto, productos.estado_producto
@@ -176,22 +180,7 @@ class Productos extends Validator
         return Database::getRows($sql, $params);
     }
 
-    /*Funciones para rellenar combobox*/ 
-    
-    public function getCategoriasCb()
-    {
-        $sql  = 'SELECT id_tipo_producto, tipo_producto FROM tipo_producto ORDER BY tipo_producto';
-        $params = null;
-        return Database::getRows($sql, $params);
-    }
-
-    public function getProveedorCb()
-    {
-        $sql  = 'SELECT  id_proveedor, nombre_prov FROM proveedor ORDER BY nombre_prov';
-        $params = null;
-        return Database::getRows($sql, $params);
-    }
-
+    //Leer un solo producto
     public function readOneProducto()
     {
         $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, 
@@ -204,6 +193,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Actualizar
     public function updateProducto()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
@@ -220,6 +210,7 @@ class Productos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Eliminar
     public function deleteProducto()
     {
         $sql = 'DELETE FROM productos
@@ -228,6 +219,29 @@ class Productos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    /*
+    *   Funciones para rellenar combobox
+    */ 
+
+    public function getCategoriasCb()
+    {
+        $sql  = 'SELECT id_tipo_producto, tipo_producto FROM tipo_producto ORDER BY tipo_producto';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function getProveedorCb()
+    {
+        $sql  = 'SELECT  id_proveedor, nombre_prov FROM proveedor ORDER BY nombre_prov';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    /*
+    *   Métodos para generar reportes.
+    */
+
+    //Reporte de productos por categoría
     public function readProductosCategoria()
     {
         $sql = 'SELECT tipo_producto.tipo_producto, productos.id_producto, productos.imagen_producto, productos.nombre_producto, 
@@ -244,7 +258,6 @@ class Productos extends Validator
     */
 
     //Cantidad de productos por categoría
-
     public function cantidadProductosCategoria()
     {
         $sql = 'SELECT tipo_producto, COUNT(id_producto) cantidad
@@ -255,7 +268,6 @@ class Productos extends Validator
     }
 
     // 5 productos más vendidos
-
     public function fiveBestSellers()
     {
         $sql = 'SELECT pr.nombre_producto, COUNT(dp.id_producto) AS pedidos
@@ -269,6 +281,5 @@ class Productos extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
-
 }
 ?>

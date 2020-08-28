@@ -37,43 +37,43 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'editProfile':
-                    if ($usuario->setId($_SESSION['id_usuario'])) {
-                        if ($usuario->readOneUsuario()) {
-                            $_POST = $usuario->validateForm($_POST);
-                            if ($usuario->setNombres($_POST['nombres_perfil'])) {
-                                if ($usuario->setApellidos($_POST['apellidos_perfil'])) {
-                                    if ($usuario->setCorreo($_POST['correo_perfil'])) {
-                                        if($usuario->setCelular($_POST['celular_perfil'])){
-                                            if ($usuario->setUsuario($_POST['alias_perfil'])) {
-                                                if ($usuario->editProfile()) {
-                                                    $_SESSION['alias_usuario'] = $usuario->getUsuario();
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Perfil modificado correctamente';
-                                                } else {
-                                                    $result['exception'] = Database::getException();
-                                                }
+            case 'editProfile':
+                if ($usuario->setId($_SESSION['id_usuario'])) {
+                    if ($usuario->readOneUsuario()) {
+                        $_POST = $usuario->validateForm($_POST);
+                        if ($usuario->setNombres($_POST['nombres_perfil'])) {
+                            if ($usuario->setApellidos($_POST['apellidos_perfil'])) {
+                                if ($usuario->setCorreo($_POST['correo_perfil'])) {
+                                    if ($usuario->setCelular($_POST['celular_perfil'])) {
+                                        if ($usuario->setUsuario($_POST['alias_perfil'])) {
+                                            if ($usuario->editProfile()) {
+                                                $_SESSION['alias_usuario'] = $usuario->getUsuario();
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Perfil modificado correctamente';
                                             } else {
-                                                $result['exception'] = 'Alias incorrecto';
+                                                $result['exception'] = Database::getException();
                                             }
                                         } else {
-                                            $result['exception'] = 'Verifique el celular';
+                                            $result['exception'] = 'Alias incorrecto';
                                         }
                                     } else {
-                                        $result['exception'] = 'Correo incorrecto';
+                                        $result['exception'] = 'Verifique el celular';
                                     }
                                 } else {
-                                    $result['exception'] = 'Apellidos incorrectos';
+                                    $result['exception'] = 'Correo incorrecto';
                                 }
                             } else {
-                                $result['exception'] = 'Nombres incorrectos';
+                                $result['exception'] = 'Apellidos incorrectos';
                             }
                         } else {
-                            $result['exception'] = 'Usuario inexistente';
+                            $result['exception'] = 'Nombres incorrectos';
                         }
                     } else {
-                        $result['exception'] = 'Usuario incorrecto';
+                        $result['exception'] = 'Usuario inexistente';
                     }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
+                }
                 break;
 
             case 'password':
@@ -111,12 +111,12 @@ if (isset($_GET['action'])) {
                 break;
 
             case 'readAll':
-                if ($result['dataset'] = $usuario->readAllUsuarios()) {                        
+                if ($result['dataset'] = $usuario->readAllUsuarios()) {
                     $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'No hay usuarios registrados';
-                    }
-            break;
+                } else {
+                    $result['exception'] = 'No hay usuarios registrados';
+                }
+                break;
 
             case 'create':
                 $_POST = $usuario->validateForm($_POST);
@@ -125,16 +125,17 @@ if (isset($_GET['action'])) {
 
                     if ($usuario->setApellidos($_POST['apellidos'])) {
 
-                        if ($usuario->setCelular($_POST['celular'])){
+                        if ($usuario->setCelular($_POST['celular'])) {
 
-                            if ($usuario->setCorreo($_POST['correo'])){
+                            if ($usuario->setCorreo($_POST['correo'])) {
 
-                                if($usuario->setDui($_POST['dui'])){
+                                if ($usuario->setDui($_POST['dui'])) {
 
-                                    if($usuario->setNacimiento($_POST['fecha_nacimiento'])){
+                                    if ($usuario->setNacimiento($_POST['fecha_nacimiento'])) {
 
-                                        if($usuario->setUsuario($_POST['usuario_u'])){
+                                        if ($usuario->setUsuario($_POST['usuario_u'])) {
 
+                                            //Compara los datos en ambos textbox, si coinciden, se cambia la contraseña
                                             if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
 
                                                 if ($usuario->setPassword($_POST['clave_usuario'])) {
@@ -145,39 +146,30 @@ if (isset($_GET['action'])) {
                                                     } else {
                                                         $result['exception'] = Database::getException();
                                                     }
-
                                                 } else {
                                                     $result['exception'] = 'Clave menor a 6 caracteres';
                                                 }
-
                                             } else {
                                                 $result['exception'] = 'Claves diferentes';
                                             }
-
                                         } else {
                                             $result['exception'] = 'Por favor, verifique el nombre de usuario';
                                         }
-
                                     } else {
                                         $result['exception'] = 'Por favor, verifique la fecha de nacimiento';
                                     }
-
                                 } else {
                                     $result['exception'] = 'Por favor, verifique el formato de DUI';
                                 }
-
                             } else {
                                 $result['exception'] = 'Por favor, verifique el formato de correo';
                             }
-
                         } else {
                             $result['exception'] = 'Por favor, verifique el formato de celular';
                         }
-
                     } else {
                         $result['exception'] = 'Por favor, verifique los apellidos';
                     }
-                    
                 } else {
                     $result['exception'] = 'Por favor, verifique los nombres';
                 }
@@ -202,7 +194,7 @@ if (isset($_GET['action'])) {
                         if ($usuario->setNombres($_POST['nombres'])) {
                             if ($usuario->setApellidos($_POST['apellidos'])) {
                                 if ($usuario->setCorreo($_POST['correo'])) {
-                                    if($usuario->setCelular($_POST['celular'])){
+                                    if ($usuario->setCelular($_POST['celular'])) {
                                         if ($usuario->updateUsuario()) {
                                             $result['status'] = 1;
                                             $result['message'] = 'Usuario modificado correctamente';
@@ -212,7 +204,6 @@ if (isset($_GET['action'])) {
                                     } else {
                                         $result['exception'] = 'Celular incorrecto';
                                     }
-
                                 } else {
                                     $result['exception'] = 'Correo incorrecto';
                                 }
@@ -230,29 +221,29 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'delete':
-                    if ($_POST['id_usuario'] != $_SESSION['id_usuario']) {
-                        if ($usuario->setId($_POST['id_usuario'])) {
-                            if ($usuario->readOneUsuario()) {
-                                if ($usuario->deleteUsuario()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Usuario eliminado correctamente';
-                                } else {
-                                    $result['exception'] = Database::getException();
-                                }
+            case 'delete':
+                if ($_POST['id_usuario'] != $_SESSION['id_usuario']) {
+                    if ($usuario->setId($_POST['id_usuario'])) {
+                        if ($usuario->readOneUsuario()) {
+                            if ($usuario->deleteUsuario()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Usuario eliminado correctamente';
                             } else {
-                                $result['exception'] = 'Usuario inexistente';
+                                $result['exception'] = Database::getException();
                             }
                         } else {
-                            $result['exception'] = 'Usuario incorrecto';
+                            $result['exception'] = 'Usuario inexistente';
                         }
                     } else {
-                        $result['exception'] = 'No se puede eliminar a sí mismo';
+                        $result['exception'] = 'Usuario incorrecto';
                     }
-                    break;
+                } else {
+                    $result['exception'] = 'No se puede eliminar a sí mismo';
+                }
+                break;
 
             default:
-            exit('Acción no disponible log');
+                exit('Acción no disponible log');
         }
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
@@ -264,25 +255,26 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'No existen usuarios registrados';
                 }
-            break;
+                break;
 
             case 'register':
-            $_POST = $usuario->validateForm($_POST);
+                $_POST = $usuario->validateForm($_POST);
 
                 if ($usuario->setNombres($_POST['nombres'])) {
 
-                    if($usuario->setApellidos($_POST['apellidos'])){
+                    if ($usuario->setApellidos($_POST['apellidos'])) {
 
-                        if ($usuario->setCelular($_POST['celular'])){
+                        if ($usuario->setCelular($_POST['celular'])) {
 
-                            if($usuario->setCorreo($_POST['correo'])){
+                            if ($usuario->setCorreo($_POST['correo'])) {
 
-                                if($usuario->setDui($_POST['dui'])){
+                                if ($usuario->setDui($_POST['dui'])) {
 
-                                    if ($usuario->setNacimiento($_POST['fecha_nacimiento'])){
+                                    if ($usuario->setNacimiento($_POST['fecha_nacimiento'])) {
 
-                                        if($usuario->setUsuario($_POST['usuario_u'])){
+                                        if ($usuario->setUsuario($_POST['usuario_u'])) {
 
+                                            //Compara los datos en ambos textbox, si coinciden, se inserta la contraseña
                                             if ($_POST['clave1'] == $_POST['clave2']) {
 
                                                 if ($usuario->setPassword($_POST['clave1'])) {
@@ -296,64 +288,59 @@ if (isset($_GET['action'])) {
                                                 } else {
                                                     $result['exception'] = 'Clave menor a 6 caracteres';
                                                 }
-
                                             } else {
                                                 $result['exception'] = 'Claves diferentes';
                                             }
-
                                         } else {
                                             $result['exception'] = 'Por favor, verifique el usuario';
                                         }
-
                                     } else {
                                         $result['exception'] = 'Por favor, verificar fecha de nacimiento';
                                     }
-
                                 } else {
                                     $result['exception'] = 'Por favor, verificar DUI';
                                 }
-
                             } else {
                                 $result['exception'] = 'Correo incorrecto';
                             }
-
                         } else {
                             $result['exception'] = 'Celular incorrecto';
                         }
-
                     } else {
                         $result['exception'] = 'Apellidos incorrectos';
                     }
-
                 } else {
                     $result['exception'] = 'Nombres incorrectos';
                 }
                 break;
 
-                case 'login':
-                    $data = $usuario->validateForm($_POST);
-                        if ($usuario->checkUser($data['usuario_u'])) {
-                            if ($usuario->checkPassword($data['clave'])) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Autenticación correcta';
-                                $_SESSION['id_usuario'] = $usuario->getId();
-                                $_SESSION['usuario_u'] = $usuario->getUsuario();
-                            } else {
-                                $result['exception'] = 'Clave incorrecta';
-                            }
-                        } else {
-                            $result['exception'] = 'Usuario incorrecto';
-                        }
-                    break;
-                default:
-                    exit('Acción no disponible fuera de la sesión');
-            }
+            case 'login':
+                $data = $usuario->validateForm($_POST);
+                //Verifica si el usuario existe
+                if ($usuario->checkUser($data['usuario_u'])) {
+                    //Verifica que la contraseña coincida con la que está en la base
+                    if ($usuario->checkPassword($data['clave'])) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
+                        $_SESSION['id_usuario'] = $usuario->getId();
+                        $_SESSION['usuario_u'] = $usuario->getUsuario();
+                    } else {
+                        $result['exception'] = 'Clave incorrecta';
+                    }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
+                }
+                break;
+            default:
+                exit('Acción no disponible fuera de la sesión');
         }
-        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
-        header('content-type: application/json; charset=utf-8');
-        // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
-    } else {
-        exit('Recurso denegado');
     }
-    ?>
+    // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
+    header('content-type: application/json; charset=utf-8');
+    // Se imprime el resultado en formato JSON y se retorna al controlador.
+    print(json_encode($result));
+    //Devuelve un error si no hay un usuario con la sesión iniciada
+} else {
+    exit('Recurso denegado');
+}
+?>

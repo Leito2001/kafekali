@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar las tablas pedidos y detalle_pedido de la base de datos. Es clase hija de Validator.
+*	Clase para manejar las tablas pedido y detalle_pedido de la base de datos. Es clase hija de Validator.
 */
 class Pedidos extends Validator
 {
@@ -13,6 +13,7 @@ class Pedidos extends Validator
     private $precio = null;
     private $semana = null;
     private $estado = null; // Valor por defecto en la base de datos: 1
+
     /*
     *   POSIBLES ESTADOS PARA UN PEDIDO
     *   1: Pendiente. Es cuando el pedido esta en proceso por parte del cliente y se puede modificar el detalle.
@@ -24,6 +25,7 @@ class Pedidos extends Validator
     /*
     *   Métodos para asignar valores a los atributos.
     */
+
     public function setIdPedido($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -117,6 +119,7 @@ class Pedidos extends Validator
     /*
     *   Métodos para obtener valores de los atributos.
     */
+
     public function getIdPedido()
     {
         return $this->id_pedido;
@@ -133,8 +136,9 @@ class Pedidos extends Validator
     }
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+    *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
     */
+
     // Método para verificar si existe un pedido pendiente del cliente para seguir comprando, de lo contrario crea uno.
     
     public function readOrder()
@@ -179,6 +183,7 @@ class Pedidos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    // Método para obtener el id del detalle
     public function getIdDetalleOrden(){
         $sql = 'SELECT id_detalle_pedido, cantidad_producto FROM detalle_pedido WHERE id_pedido = ? AND id_producto = ?';
         $params = array($this->id_pedido, $this->producto);
@@ -230,8 +235,7 @@ class Pedidos extends Validator
         return Database::getRows($sql, $params);
     }
 
-    //Método utilizado en el dashboard para leer los posibles estados del pedido
-
+    //Método utilizado en el dashboard para leer los posibles estados del pedido en un combobox
     public function getEstadosCb()
     {
         $sql  = 'SELECT id_estado_pedido, estado_pedido FROM estado_pedido WHERE id_estado_pedido != 1';
@@ -258,8 +262,11 @@ class Pedidos extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    // 5 clientes con más pedidos
+    /*
+    *      Métodos para generar gráficas
+    */
 
+    // 5 clientes con más pedidos
     public function fiveClients()
     {
         $sql = 'SELECT COUNT (id_cliente) AS pedidoscliente, usuario_c 
@@ -273,7 +280,6 @@ class Pedidos extends Validator
     }
 
     // Ventas 7 días posteriores al actual con pedidos finalizados o entregados
-
     public function ventas7Dias()
     {
         $sql = 'SELECT COUNT (id_pedido) AS pedidos, detalle_pedido.fecha
@@ -288,6 +294,10 @@ class Pedidos extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    /*
+    *     Métodos para generar reportes
+    */
 
     //Consulta para reporte: ventas por semana con total de ingresos por día por pedidos finalizados o enviados
     public function ventasSemana()
@@ -339,5 +349,6 @@ class Pedidos extends Validator
         $params = array($this->id_pedido);
         return Database::getRows($sql, $params);
     }
+    
 }
 ?>

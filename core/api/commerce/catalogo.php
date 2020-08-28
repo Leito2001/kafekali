@@ -21,6 +21,7 @@ if (isset($_GET['action'])) {
             }
             break;
 
+        //Case para leer los datos del método readProductosCategoria para generar una gráfica de barras
         case 'readProductosCategoria':
             if ($producto->setCategoria($_POST['id_tipo_producto'])) {
                 if ($result['dataset'] = $producto->readProductosCategoria()) {
@@ -51,6 +52,7 @@ if (isset($_GET['action'])) {
     header('content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
+    //Devuelve un error si no hay un usuario con la sesión iniciada
 } else {
     exit('Recurso denegado');
 }

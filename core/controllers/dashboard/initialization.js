@@ -13,5 +13,4 @@ $( document ).ready(function() {
     $( '.tooltipped' ).tooltip();
     // Se inicializa el componente Modal para que funcionen las cajas de dialogo.
     $( '.modal' ).modal();
-    
 });

@@ -19,9 +19,11 @@ $( document ).ready(function() {
     } else if ( hour <= 23 ) {
         greeting = 'Buenas noches, ';
     }
+
     // Se muestra el saludo en la página web.
     $( '#greeting' ).text( greeting + USER_NAME);
-    // Se llama a la función que muestra una gráfica en la página web.
+
+    // Se inicializan las gráficas a mostrar.
     graficaCategorias();
     graficaFiveBestSellers();
     graficaFiveClients();
@@ -29,7 +31,7 @@ $( document ).ready(function() {
     grafica7DiasClientes();
 });
 
-// Función para graficar la cantidad de productos por categoría.
+// Función para graficar la cantidad de productos por categoría (barGraph)
 function graficaCategorias()
 {
     $.ajax({
@@ -65,7 +67,7 @@ function graficaCategorias()
     });
 }
 
-// Función para graficar la cantidad pedidos 7 días anteriores al actual.
+// Función para graficar la cantidad pedidos 7 días anteriores al actual (barGraph)
 function grafica7Dias()
 {
     $.ajax({
@@ -101,7 +103,7 @@ function grafica7Dias()
     });
 }
 
-// Función para graficar la cantidad clientes registrados 7 días anteriores al actual.
+// Función para graficar la cantidad clientes registrados 7 días anteriores al actual (barGraph)
 function grafica7DiasClientes()
 {
     $.ajax({
@@ -137,7 +139,7 @@ function grafica7DiasClientes()
     });
 }
 
-// Función para graficar 5 productos más vendidos
+// Función para graficar 5 productos más vendidos (doughnutGraph)
 function graficaFiveBestSellers()
 {
     $.ajax({
@@ -157,7 +159,7 @@ function graficaFiveBestSellers()
                 producto.push( row.nombre_producto );
                 pedidos.push( row.pedidos );
             });
-            // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+            // Se llama a la función que genera y muestra una gráfica de dona. Se encuentra en el archivo components.js
             doughnutGraph( '5productos', producto, pedidos, 'Top 5 productos más vendidos' );
         } else {
             $( '#5productos' ).remove();
@@ -173,7 +175,7 @@ function graficaFiveBestSellers()
     });
 }
 
-// Función para graficar 5 clientes con más pedidos
+// Función para graficar 5 clientes con más pedidos (doughnutGraph)
 function graficaFiveClients()
 {
     $.ajax({
@@ -193,7 +195,7 @@ function graficaFiveClients()
                 cliente.push( row.usuario_c );
                 pedidos.push( row.pedidoscliente );
             });
-            // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+            // Se llama a la función que genera y muestra una gráfica de dona. Se encuentra en el archivo components.js
             doughnutGraph( '5clientes', cliente, pedidos, 'Top 5 clientes con más pedidos' );
         } else {
             $( '#5clientes' ).remove();

@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla clientes de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla cliente de la base de datos. Es clase hija de Validator.
 */
 class Clientes extends Validator
 {
@@ -20,6 +20,7 @@ class Clientes extends Validator
     /*
     *   Métodos para asignar valores a los atributos.
     */
+
     public function setId($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -134,6 +135,7 @@ class Clientes extends Validator
     /*
     *   Métodos para obtener valores de los atributos.
     */
+
     public function getId()
     {
         return $this->id;
@@ -192,6 +194,8 @@ class Clientes extends Validator
     /*
     *   Métodos para gestionar la cuenta del cliente.
     */
+
+    //Verifica el estado del cliente para saber si está de alta/baja
     public function checkCliente($usuario_c)
     {
         $sql = 'SELECT id_cliente, estado_usuario FROM cliente WHERE usuario_c = ?';
@@ -206,6 +210,7 @@ class Clientes extends Validator
         }
     }
 
+    //Verifica que la contraseña ingresada
     public function checkPassword($password)
     {
         $sql = 'SELECT password_c FROM cliente WHERE id_cliente = ?';
@@ -219,6 +224,7 @@ class Clientes extends Validator
         }
     }
 
+    //Método para cambiar contraseña
     public function changePassword()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
@@ -227,6 +233,7 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Permite editar los datos del cliente
     public function editProfile()
     {
         $sql = 'UPDATE cliente 
@@ -237,9 +244,10 @@ class Clientes extends Validator
     }
 
     /*
-    *   Métodos para realizar las operaciones CRUD (Create, read, update, delete).
+    *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
     */
 
+    // Crear
     public function createCliente()
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
@@ -250,6 +258,7 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    // Lear todos los clientes
     public function readAllClientes()
     {
         $sql = 'SELECT id_cliente, nombre, apellido, celular, correo, fecha_nacimiento, dui, usuario_c, estado_usuario, direccion
@@ -259,6 +268,7 @@ class Clientes extends Validator
         return Database::getRows($sql, $params);
     }
 
+    //Leer un solo cliente
     public function readOneCliente()
     {
         $sql = 'SELECT id_cliente, nombre, apellido, celular, correo, fecha_nacimiento, dui, usuario_c, estado_usuario, direccion
@@ -268,6 +278,7 @@ class Clientes extends Validator
         return Database::getRow($sql, $params);
     }
 
+    // Cambiar el estado del cliente
     public function updateStatus()
     {
         $sql = 'UPDATE cliente
@@ -277,6 +288,8 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
+
+    //Eliminar
     public function deleteCliente()
     {
         $sql = 'DELETE FROM cliente
@@ -285,8 +298,12 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    // Cantidad de clientes registrados en los últimos 7 días
+    
+    /*
+     *     Métodos para generar gráficas 
+     */
 
+    // Cantidad de clientes registrados en los últimos 7 días
     public function clientes7Dias()
     {
         $sql = 'SELECT COUNT (id_cliente) AS clientes, fecha_registro

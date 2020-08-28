@@ -11,9 +11,11 @@ $( document ).ready(function() {
 function fillTable( dataset )
 {
     var table = $('#tabla');
+
     if($.fn.dataTable.isDataTable(table)){
         table = $('#tabla').DataTable();
         table.clear();
+        //Se llena la tabla según los datos obtenidos
         table.rows.add(dataset);
         table.draw();
     }
@@ -26,10 +28,12 @@ function fillTable( dataset )
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             data: dataset,
+            //Se indica el lenguaje de la tabla en general
             language: {
                 url: '../../resources/es_ES.json'
             },
             columns: [
+                //Se mandan a llamar los campos con el nombre que poseen en la base
                 { data: null,
                     ordereable: false,
                     render: function(data, type, meta) 
@@ -62,7 +66,7 @@ function fillTable( dataset )
     }
 }
 
-//Función para llenar el combobox de estado_pedido
+//Funcion para traer los posibles estados del pedido, selectedId tiene el valor de 0 para evitar errores de null
 function getEstados(selectedId = 0){
     $.ajax({
         url: API_PEDIDOS + 'getEstados',
@@ -70,17 +74,20 @@ function getEstados(selectedId = 0){
         dataType: 'json',
         success: function (response) {
             let jsonResponse = response.dataset;
+            //Si no se le ha ingresado un valor a selectedId, se ingresa la opcion deshabilitada para seleccionar el estado;
+            //si no, se deja vacío (para el Create)
             let dropDown = selectedId == 0 ? `<option value="" disabled selected>Seleccione el estado</option>` : '';
 
             jsonResponse.forEach(sstatus => {
-                //verificamos si el id que esta pasando ahorita es el mismo que el recibido, para aplicarle el estado de seleccionado
+                //verificamos si el id que esta pasando ahorita es el mismo que el recibido, para aplicarle el estado seleccionado
                 let estado = ((sstatus.id_estado_pedido == selectedId) ? ' selected' : '');
                 dropDown += `
                     <option value="${sstatus.id_estado_pedido}"${estado}>${sstatus.estado_pedido}</option>
                 `;
             });
-
+            //ingresamos las opciones al select
             $('#estado_pedido').html(dropDown);
+            //inicializamos el select con materializecss
             $('#estado_pedido').formSelect();
         },
         error: function (jqXHR) {
@@ -103,7 +110,7 @@ function openUpdateModal( id )
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar pedido' );
-    // Se deshabilitan los campos
+    // Se deshabilitan los campos para el nombre de usuario, nombre de producto, la cantidad y la fecha
     $( '#usuario_c' ).prop( 'disabled', true );
     $( '#nombre_producto' ).prop( 'disabled', true );
     $( '#cantidad_producto' ).prop( 'disabled', true );
@@ -127,6 +134,7 @@ function openUpdateModal( id )
             $( '#nombre_producto' ).val( jsonResponse.nombre_producto );
             $( '#cantidad_producto' ).val( jsonResponse.cantidad_producto );
             $( '#fecha' ).val( jsonResponse.fecha );
+            //Llena el combobox con el estado previamente seleccionado
             getEstados(jsonResponse.id_estado_pedido);
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();

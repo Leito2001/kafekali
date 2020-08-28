@@ -15,6 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+
             case 'readAll':
                 if ($result['dataset'] = $categoria->readAllCategorias()) {
                     $result['status'] = 1;
@@ -66,6 +67,7 @@ if (isset($_GET['action'])) {
                                 if ($categoria->setImagen($_FILES['imagen'])) {
                                     if ($categoria->updateCategoria()) {
                                         $result['status'] = 1;
+                                        //if para guardar en el caso se haya modificado la imagen
                                         if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
                                             $result['message'] = 'Categoría modificada correctamente';
                                         } else {
@@ -77,6 +79,7 @@ if (isset($_GET['action'])) {
                                 } else {
                                     $result['exception'] = $categoria->getImageError();
                                 }
+                                //updateCategoria en en el caso no se haya modificado la imagen
                             } else {
                                 if ($categoria->updateCategoria()) {
                                     $result['status'] = 1;
@@ -100,6 +103,7 @@ if (isset($_GET['action'])) {
                     if ($data = $categoria->readOneCategoria()) {
                         if ($categoria->deleteCategoria()) {
                             $result['status'] = 1;
+                            //if para verificar si se eliminó o no la imagen de la categoría
                             if ($categoria->deleteFile($categoria->getRuta(), $data['imagen'])) {
                                 $result['message'] = 'Categoría eliminada correctamente';
                             } else {
@@ -122,9 +126,11 @@ if (isset($_GET['action'])) {
         header('content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
+        //Devuelve un error si no hay un case al cual llamar
     } else {
         exit('Acceso no disponible');
     }
+    //Devuelve un error si no hay un usuario con la sesión iniciada
 } else {
     exit('Recurso denegado');
 }

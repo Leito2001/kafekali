@@ -27,6 +27,7 @@ function fillTable( dataset )
     if($.fn.dataTable.isDataTable(table)){
         table = $('#tabla').DataTable();
         table.clear();
+        //Se llena la tabla según los datos obtenidos
         table.rows.add(dataset);
         table.draw();
     }
@@ -39,10 +40,12 @@ function fillTable( dataset )
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             data: dataset,
+            //Se indica el lenguaje de la tabla en general
             language: {
                 url: '../../resources/es_ES.json'
             },
             columns: [
+                //Se mandan a llamar los campos con el nombre que poseen en la base
                 { data: 'apellidos' },
                 { data: 'nombres' },
                 { data: 'correo' },
@@ -84,7 +87,7 @@ function openCreateModal()
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Crear usuario' );
-    // Se habilitan los campos de usuario, fecha de nacimiento, DUI y contraseña.
+    // Se habilitan los campos de clave, confirmar clave, nombre de usuario, fecha de nacimiento y DUI.
     $( '#clave_usuario' ).prop( 'disabled', false );
     $( '#confirmar_clave' ).prop( 'disabled', false );
     $( '#usuario_u' ).prop( 'disabled', false );
@@ -101,7 +104,7 @@ function openUpdateModal( id )
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar usuario' );
-    // Se deshabilitan los campos de DUI, fecha de nacimiento, nombre de usuario y contraseña.
+    // Se deshabilitan los campos de clave, confirmar clave, nombre de usuario, fecha de nacimiento y DUI.
     $( '#clave_usuario' ).prop( 'disabled', true );
     $( '#dui' ).prop( 'disabled', true );
     $( '#fecha_nacimiento' ).prop( 'disabled', true );

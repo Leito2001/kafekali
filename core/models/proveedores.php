@@ -90,6 +90,7 @@ class Proveedores extends Validator
     /*
     *   Métodos para obtener valores de los atributos.
     */
+
     public function getId()
     {
         return $this->id;
@@ -129,6 +130,7 @@ class Proveedores extends Validator
     *   Métodos para gestionar los datos del proveedor.
     */
 
+    //Crear
     public function createProveedor()
     {
         $sql = 'INSERT INTO proveedor (nombre_empresa, nombre_prov, celular, dui, numero_empresa, rubro) 
@@ -137,6 +139,7 @@ class Proveedores extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Leer todos los proveedores
     public function readAllProveedores()
     {
         $sql = 'SELECT id_proveedor, nombre_empresa, nombre_prov, celular, dui, numero_empresa, rubro
@@ -146,6 +149,7 @@ class Proveedores extends Validator
         return Database::getRows($sql, $params);
     }
 
+    //Leer un solo proveedor
     public function readOneProveedor()
     {
         $sql = 'SELECT id_proveedor, nombre_empresa, nombre_prov, celular, dui, numero_empresa, rubro
@@ -155,6 +159,7 @@ class Proveedores extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Actualizar proveedor
     public function updateProveedor()
     {
         $sql = 'UPDATE proveedor 
@@ -164,6 +169,7 @@ class Proveedores extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Eliminar
     public function deleteProveedor()
     {
         $sql = 'DELETE FROM proveedor
@@ -172,8 +178,11 @@ class Proveedores extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    //Reporte de productos por proveedor
+    /*
+    *   Métodos para generar reportes.
+    */
 
+    //Reporte de productos por proveedor
     public function productosProveedor()
     {
         $sql = 'SELECT proveedor.id_proveedor, nombre_empresa, nombre_prov, celular, nombre_producto, productos.id_producto

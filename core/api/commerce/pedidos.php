@@ -24,7 +24,7 @@ if (isset($_GET['action'])) {
                         if ($pedido->setProducto($_POST['id_producto'])) {
                             // Si no existe un detalle pedido con ese producto en esta orden, vamos a crearlo, sino, vamos a actualizar
                             // la cantidad de dicho detalle pedido.
-                            if (!boolval($dorden = $pedido->getIdDetalleOrden())){ //Si NO retorna nada, se agregará el producto al carrito.
+                            if (!boolval($dorden = $pedido->getIdDetalleOrden())) { //Si NO retorna nada, se agregará el producto al carrito.
                                 if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                                     if ($pedido->setPrecio($_POST['precio_producto'])) {
                                         if ($pedido->createDetail()) {
@@ -44,7 +44,7 @@ if (isset($_GET['action'])) {
                                 //Procedemos a asignar los valores en el modelo
                                 $pedido->setIdDetalle($dorden['0']['id_detalle_pedido']);
                                 //Y a sumar la cantidad almacenada y la nueva cantidad.
-                                $pedido->setCantidad($_POST['cantidad_producto']+$dorden['0']['cantidad_producto']);
+                                $pedido->setCantidad($_POST['cantidad_producto'] + $dorden['0']['cantidad_producto']);
                                 //Luego, simplemente se actualiza la cantidad.
                                 if ($pedido->updateDetail()) {
                                     $result['status'] = 1;
@@ -153,6 +153,8 @@ if (isset($_GET['action'])) {
     header('content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
     print(json_encode($result));
+    //Devuelve un error si no hay un cliente con la sesión iniciada
 } else {
     exit('Recurso denegado');
 }
+?>

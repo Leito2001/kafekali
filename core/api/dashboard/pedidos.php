@@ -1,4 +1,5 @@
 <?php
+//Se llaman todos los modelos para obtener los datos necesarios
 require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
 require_once('../../models/pedidos.php');
@@ -26,6 +27,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+                //Case para obtener los estados y leerlos en un combobox
             case 'getEstados':
                 if ($result['dataset'] = $pedido->getEstadosCb()) {
                     $result['status'] = 1;
@@ -68,6 +70,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+                //Case para leer el método fiveClientes que genera una gráfica de dona
             case 'fiveClients':
                 if ($result['dataset'] = $pedido->fiveClients()) {
                     $result['status'] = 1;
@@ -76,21 +79,23 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+                //Case para leer el método ventas7Dias que genera una gráfica de barras
             case '7Dias':
                 if ($result['dataset'] = $pedido->ventas7Dias()) {
                     $result['status'] = 1;
                 } else {
                     $result['exception'] = 'No hay datos disponibles';
                 }
-            break;
+                break;
 
+                //Case para leer el método ventasSemana que genera una gráfica de barras
             case 'ventasSemana':
                 if ($result['dataset'] = $pedido->ventasSemana()) {
                     $result['status'] = 1;
                 } else {
-                    $result['exception'] = 'No hay datos disponibles jeje';
+                    $result['exception'] = 'No hay datos disponibles';
                 }
-            break;
+                break;
 
             default:
                 exit('Acción no disponible dentro de la sesión');
@@ -99,9 +104,12 @@ if (isset($_GET['action'])) {
         header('content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
         print(json_encode($result));
+        //Devuelve un error si no hay un case al cual llamar
     } else {
         exit('Acceso no disponible');
     }
+    //Devuelve un error si no hay un usuario con la sesión iniciada
 } else {
     exit('Recurso denegado');
 }
+?>

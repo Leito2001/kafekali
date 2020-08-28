@@ -27,7 +27,6 @@ if (isset($_GET['action'])) {
             default:
                 exit('Acción no disponible dentro de la sesión');
         }
-        
     } else {
         // Se compara la acción a realizar cuando el cliente no ha iniciado sesión.
         switch ($_GET['action']) {
@@ -67,75 +66,62 @@ if (isset($_GET['action'])) {
                         if ($cliente->setNombre($_POST['nombre'])) {
 
                             if ($cliente->setApellido($_POST['apellido'])) {
-                                
-                                if($cliente->setCelular($_POST['celular'])){
 
-                                    if($cliente->setCorreo($_POST['correo'])){
+                                if ($cliente->setCelular($_POST['celular'])) {
 
-                                        if($cliente->setNacimiento($_POST['fecha_nacimiento'])){
+                                    if ($cliente->setCorreo($_POST['correo'])) {
 
-                                            if($cliente->setDui($_POST['dui'])){
+                                        if ($cliente->setNacimiento($_POST['fecha_nacimiento'])) {
 
-                                                if($cliente->setUsuarioC($_POST['usuario_c'])){
+                                            if ($cliente->setDui($_POST['dui'])) {
 
+                                                if ($cliente->setUsuarioC($_POST['usuario_c'])) {
+                                                    //Compara los datos en ambos textbox, si coinciden, se inserta la contraseña
                                                     if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
 
                                                         if ($cliente->setPasswordC($_POST['clave_cliente'])) {
 
-                                                            if ($cliente->setDireccion($_POST['direccion'])){
+                                                            if ($cliente->setDireccion($_POST['direccion'])) {
 
                                                                 if ($cliente->createCliente()) {
                                                                     $result['status'] = 1;
                                                                     $result['message'] = 'Cliente registrado correctamente';
-    
                                                                 } else {
                                                                     $result['exception'] = 'Ocurrió un problema al registrar el cliente';
                                                                 }
-
                                                             } else {
                                                                 $result['exception'] = 'Verifique la dirección';
                                                             }
-
                                                         } else {
                                                             $result['exception'] = 'Clave menor a 6 caracteres';
                                                         }
-
                                                     } else {
                                                         $result['exception'] = 'Claves diferentes';
                                                     }
-
                                                 } else {
                                                     $result['exception'] = 'Verifique el nombre de usuario';
                                                 }
-
                                             } else {
                                                 $result['exception'] = 'Verifique el formato de DUI';
                                             }
-
                                         } else {
                                             $result['exception'] = 'Verifique la fecha de nacimiento';
                                         }
-
                                     } else {
                                         $result['exception'] = 'Verifique el formato del correo';
                                     }
-
                                 } else {
                                     $result['exception'] = 'Verifique el formato del celular';
                                 }
-
                             } else {
                                 $result['exception'] = 'Apellidos incorrectos';
                             }
-
                         } else {
                             $result['exception'] = 'Nombres incorrectos';
                         }
-
                     } else {
                         $result['exception'] = 'No eres un humano';
                     }
-
                 } else {
                     $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
                 }
@@ -144,7 +130,9 @@ if (isset($_GET['action'])) {
 
             case 'login':
                 $_POST = $cliente->validateForm($_POST);
+                //Verifica si existe el cliente
                 if ($cliente->checkCliente($_POST['usuario_c'])) {
+                    //Verifica el estado del cliente para saber si tiene acceso o no a la tienda
                     if ($cliente->getEstado()) {
                         if ($cliente->checkPassword($_POST['clave_cliente'])) {
                             $_SESSION['id_cliente'] = $cliente->getId();
@@ -163,14 +151,15 @@ if (isset($_GET['action'])) {
                 break;
 
             default:
-            exit('Acción no disponible fuera de la sesión');
+                exit('Acción no disponible fuera de la sesión');
         }
     }
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-	print(json_encode($result));
+    print(json_encode($result));
+    //Devuelve un error si no hay un cliente con la sesión iniciada
 } else {
-	exit('Recurso denegado');
+    exit('Recurso denegado');
 }
 ?>

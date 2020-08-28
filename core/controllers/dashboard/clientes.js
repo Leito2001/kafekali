@@ -23,12 +23,13 @@ $( document ).ready(function() {
 function fillTable( dataset )
 {
     var table = $('#tabla');
+
     if($.fn.dataTable.isDataTable(table)){
         table = $('#tabla').DataTable();
         table.clear();
+        //Se llena la tabla según los datos obtenidos
         table.rows.add(dataset);
         table.draw();
-
     }
     else{
         table.DataTable( {
@@ -39,6 +40,7 @@ function fillTable( dataset )
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             data: dataset,
+            //Se indica el lenguaje de la tabla en general
             language: {
                 url: '../../resources/es_ES.json'
             },
@@ -88,7 +90,7 @@ function openUpdateModal( id )
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar estado del cliente' );
-    // Se deshabilitan los campos de usuario, fecha de nacimiento, DUI y contraseña.
+    // Se deshabilitan los campos de nombre, apellido, celular, correo, dirección, dui, fecha de nacimiento y nombre de usuario.
     $( '#nombre' ).prop( 'disabled', true );
     $( '#apellido' ).prop( 'disabled', true );
     $( '#celular' ).prop( 'disabled', true );
@@ -118,6 +120,7 @@ function openUpdateModal( id )
             $( '#dui' ).val( jsonResponse.dui );
             $( '#fecha_nacimiento' ).val( jsonResponse.fecha_nacimiento );
             $( '#usuario_c' ).val( jsonResponse.usuario_c );
+            //Se acomoda el switch según el estado true o false
             (jsonResponse.estado_usuario ) ? $( '#estado_usuario' ).prop( 'checked', true ) : $( '#estado_usuario' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();

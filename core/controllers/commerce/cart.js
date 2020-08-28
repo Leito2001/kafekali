@@ -30,10 +30,12 @@ function readCart()
                 // Se crean y concatenan las filas de la tabla con los datos de cada registro.
                 content += `
                     <tr>
+                        <!-- Se concatena la imagen del producto -->
                         <td><img src="../../resources/img/productos/${row.imagen_producto}" class="materialboxed" height="100"></td>
                         <td>${row.nombre_producto}</td>
                         <td>${row.precio}</td>
                         <td>${row.cantidad_producto}</td>
+                        <!-- Se concatena el resultado de la funcion subtotal -->
                         <td>${subtotal.toFixed(2)}</td>
                         <td>
                             <a href="#" onclick="openUpdateDialog(${row.id_detalle_pedido}, ${row.cantidad_producto})" class="btn waves-effect teal tooltipped" data-tooltip="Cambiar"><i class="material-icons">create</i></a>

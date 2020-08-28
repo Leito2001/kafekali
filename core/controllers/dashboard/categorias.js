@@ -14,6 +14,7 @@ function fillTable( dataset )
     if($.fn.dataTable.isDataTable(table)){
         table = $('#tabla').DataTable();
         table.clear();
+        //Se llena la tabla según los datos obtenidos
         table.rows.add(dataset);
         table.draw();
     }
@@ -26,11 +27,12 @@ function fillTable( dataset )
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             data: dataset,
+            //Se indica el lenguaje de la tabla en general
             language: {
                 url: '../../resources/es_ES.json'
             },
             columns: [
-
+                //Se mandan a llamar los campos con el nombre que poseen en la base
                 { data: null,
                 ordereable: false,
                 render: function(data, type, meta) 

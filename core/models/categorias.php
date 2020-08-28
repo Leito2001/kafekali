@@ -1,6 +1,6 @@
 <?php
 /*
- *    Clase para manejar la tabla categorias de la base de datos. Es clase hija de Validator.
+ *    Clase para manejar la tabla tipo_producto de la base de datos. Es clase hija de Validator.
  */
 class Categorias extends Validator
 {
@@ -14,6 +14,7 @@ class Categorias extends Validator
     /*
      *   Métodos para asignar valores a los atributos.
      */
+
     public function setId($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -48,6 +49,7 @@ class Categorias extends Validator
     /*
      *   Métodos para obtener valores de los atributos.
      */
+
     public function getId()
     {
         return $this->id;
@@ -69,9 +71,10 @@ class Categorias extends Validator
     }
 
     /*
-     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+     *   Métodos para realizar las operaciones CRUD (create, read, update, delete).
      */
 
+    // Crear
     public function createCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
@@ -84,6 +87,7 @@ class Categorias extends Validator
         }
     }
 
+    // Leer todas las categorías
     public function readAllCategorias()
     {
         $sql = 'SELECT id_tipo_producto, tipo_producto, imagen
@@ -93,6 +97,7 @@ class Categorias extends Validator
         return Database::getRows($sql, $params);
     }
 
+    //Leer una sola categoría
     public function readOneCategoria()
     {
         $sql = 'SELECT id_tipo_producto, tipo_producto, imagen
@@ -102,6 +107,7 @@ class Categorias extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Actualizar categoría
     public function updateCategoria()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
@@ -118,6 +124,7 @@ class Categorias extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Eliminar categoría
     public function deleteCategoria()
     {
         $sql = 'DELETE FROM tipo_producto
@@ -125,5 +132,6 @@ class Categorias extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
 }
 ?>
