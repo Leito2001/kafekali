@@ -27,10 +27,15 @@ Commerce::headerTemplate('Carrito de compras');
     <div class="row right-align">
         <p>TOTAL A PAGAR (US$) <b id="pago"></b></p>
     </div>
-    <!-- Enlace para generar reporte de productos por categoría -->
+    <!-- Fila de botones -->
     <div class="row center-align">
+        <!-- Botón: generar factura -->
         <a href="../../core/reports/commerce/factura.php" target="_blank" class="btn waves-effect amber darken-2"><i class="material-icons left">assignment</i>Generar factura</a>
+        
+        <!-- Botón: seguir comprando -->
         <a href="index.php" class="waves-effect waves-light btn"><i class="material-icons left">store</i>Seguir comprando</a>
+        
+        <!-- Botón: finalizar pedido -->
         <button type="button" onclick="finishOrder()" class="btn waves-effect green"><i class="material-icons left">check_circle</i>Finalizar pedido</button>
     </div>
     <!-- Fila para mostrar un enlace que dirección a la página principal para seguir comprando -->
@@ -49,12 +54,17 @@ Commerce::headerTemplate('Carrito de compras');
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input type="number" id="id_detalle_pedido" name="id_detalle_pedido" class="hide"/>
             <div class="row">
-                <div class="input-field col s12 m4 offset-m4">
+
+                <!-- Input con validación: solo números entre 1 y 10 -->
+                <div class="input-field col s12 m6 offset-m3">
                     <i class="material-icons prefix">list</i>
-                    <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" class="validate" required/>
-                    <label for="cantidad_producto">Cantidad</label>
+                    <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" max="10" class="validate" required/>
+                    <label for="cantidad_producto">Unidades a comprar (máximo 10)</label>
                 </div>
+                
             </div>
+
+            <!-- Opciones de guardar y cancelar -->
             <div class="row center-align">
                 <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
                 <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>

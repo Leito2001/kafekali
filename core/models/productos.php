@@ -41,7 +41,7 @@ class Productos extends Validator
 
     public function setDescripcion($value)
     {
-        if ($this->validateString($value, 1, 120)) {
+        if ($this->validateString($value, 1, 400)) {
             $this->descripcion = $value;
             return true;
         } else {

@@ -36,31 +36,35 @@ Dashboard::headerTemplate('Administrar productos');
 <div id="save-modal" class="modal">
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
-        <!-- Formulario para crear o actualizar un registro -->
+        <!-- Formulario para crear o actualizar un producto -->
         <form method="post" id="save-form" enctype="multipart/form-data">
-            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+            <!-- Campo oculto para asignar el id del producto al momento de modificar -->
             <input class="hide" type="number" id="id_producto" name="id_producto"/>
             
             <div class="row">
 
+                <!-- Input con validación: una cadena de texto de 60 carácteres máximo con letras, números y espacios -->
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">note_add</i>
-                    <input id="nombre_producto" type="text" name="nombre_producto" class="validate" required/>
+                    <input id="nombre_producto" type="text" name="nombre_producto" pattern="[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]{1,60}" maxlength="60" class="validate" required/>
                     <label for="nombre_producto">Nombre del producto</label>
                 </div>
 
+                <!-- Input con validación: una cadena de texto de 120 carácteres máximo con letras, números y espacios -->
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">note_add</i>
-                    <input id="descripcion" type="text" name="descripcion" class="validate" required/>
+                    <input id="descripcion" type="text" name="descripcion" pattern="[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s\,\.]{1,400}" maxlength="400" class="validate" required/>
                     <label for="descripcion">Descripción del producto</label>
                 </div>
 
+                <!-- Input con validación: solo números -->
                 <div class="input-field col s12 m6">
                   	<i class="material-icons prefix">attach_money</i>
                   	<input id="precio" type="number" name="precio" class="validate" max="999.99" min="0.01" step="any" required/>
                   	<label for="precio">Precio (US$)</label>
                 </div>
 
+                <!-- Combobox para categoría -->
                 <div class="input-field col s12 m6">
                 <i class="material-icons prefix">category</i>
                     <select id="tipo_producto" name="tipo_producto" required>
@@ -68,6 +72,7 @@ Dashboard::headerTemplate('Administrar productos');
                     <label for="tipo_producto">Categoría del producto</label>
                 </div>
 
+                <!-- Combobox para proveedor -->
                 <div class="input-field col s12 m6">
                 <i class="material-icons prefix">swap_horizontal_circle</i>
                     <select id="nombre_prov" name="nombre_prov" required>
@@ -75,6 +80,7 @@ Dashboard::headerTemplate('Administrar productos');
                     <label for="nombre_prov">Proveedor del producto</label>
                 </div>
 
+                <!-- Adjuntar imagen de 500x500 px -->
                 <div class="file-field input-field col s12 m6">
                     <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de 500x500">
                         <span><i class="material-icons">image</i></span>
@@ -85,6 +91,7 @@ Dashboard::headerTemplate('Administrar productos');
                     </div>
                 </div>
 
+                <!-- Switch estado -->
                 <div class="col s12 m12">
                     <p>
                         <div class="switch center">
@@ -100,6 +107,8 @@ Dashboard::headerTemplate('Administrar productos');
                 </div>
 
             </div>
+
+            <!-- Opciones para guardar y cancelar -->
             <div class="row center-align">
                 <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
                 <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>

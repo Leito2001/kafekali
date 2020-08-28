@@ -34,12 +34,15 @@ Dashboard::headerTemplate('Administrar categorías');
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input class="hide" type="number" id="id_tipo_producto" name="id_tipo_producto"/>
             <div class="row">
+
+                <!-- Input con validación: una cadena de texto de 35 carácteres máximo solo con letras y espacios -->
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">note_add</i>
-                    <input id="tipo_producto" type="text" name="tipo_producto" class="validate" required/>
+                    <input id="tipo_producto" type="text" name="tipo_producto" pattern="[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]{1,35}" maxlength="35" class="validate" required/>
                     <label for="tipo_producto">Nombre de la categoría</label>
                 </div>
 
+                <!-- Espacio para agregar imagen de 500x500 px -->
                 <div class="file-field input-field col s12 m6">
                     <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de 500x500">
                         <span><i class="material-icons">image</i></span>
@@ -49,7 +52,10 @@ Dashboard::headerTemplate('Administrar categorías');
                         <input class="file-path validate" type="text" placeholder="Formatos aceptados: gif, jpg y png"/>
                     </div>
                 </div>
+
             </div>
+
+            <!-- Botones para guardar o agregar -->
             <div class="row center-align">
                 <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
                 <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>

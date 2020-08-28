@@ -7,7 +7,7 @@ Commerce::headerTemplate('Kafekali · El arte del café');
         <ul class="slides">
 
             <li>
-                <img src="../../resources/img/1.jpeg"> <!-- random image -->
+                <img src="../../resources/img/1.jpeg"> 
                 <div class="caption center-align">
                     <h3>Exfoliante de café</h3>
                     <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
@@ -15,7 +15,7 @@ Commerce::headerTemplate('Kafekali · El arte del café');
             </li>
 
             <li>
-                <img src="../../resources/img/6.jpeg"> <!-- random image -->
+                <img src="../../resources/img/6.jpeg">
                 <div class="caption left-align">
                     <h3>Sérum de café</h3>
                     <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
@@ -23,7 +23,7 @@ Commerce::headerTemplate('Kafekali · El arte del café');
             </li>
 
             <li>
-                <img src="../../resources/img/18.jpeg"> <!-- random image -->
+                <img src="../../resources/img/18.jpeg">
                 <div class="caption right-align">
                     <h3>Jabón de café</h3>
                     <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
@@ -31,7 +31,7 @@ Commerce::headerTemplate('Kafekali · El arte del café');
             </li>
 
             <li>
-                <img src="../../resources/img/6.jpeg"> <!-- random image -->
+                <img src="../../resources/img/6.jpeg">
                 <div class="caption center-align">
                     <h3>Aceite de café</h3>
                     <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
@@ -43,6 +43,7 @@ Commerce::headerTemplate('Kafekali · El arte del café');
 
     <!--Contenido-->
     <div class="container">
+        
         <!--1. Sobre nosotros-->
         <div class="row" id="info">
             <h5 class="center white-text">Sobre nosotros</h5>

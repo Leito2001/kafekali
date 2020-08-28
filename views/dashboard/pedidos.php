@@ -31,15 +31,17 @@ Dashboard::headerTemplate('Administrar pedidos');
     </tbody>
 </table>
 
-<!-- Componente Modal para mostrar una caja de dialogo -->
+<!-- Componente Modal para mostrar una caja de diálogo -->
 <div id="save-modal" class="modal">
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
-        <!-- Formulario para crear o actualizar un registro -->
+        <!-- Formulario para actualizar el estado de un pedido -->
         <form method="post" id="save-form" enctype="multipart/form-data">
-            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+
+            <!-- Campo oculto para asignar el id del detalle y del pedido al momento de modificar -->
             <input class="hide" type="number" id="id_detalle_pedido" name="id_detalle_pedido"/>
             <input class="hide" type="number" id="id_pedido" name="id_pedido"/>
+            
             <div class="row">
 
                 <div class="input-field col s12 m6">
@@ -66,6 +68,7 @@ Dashboard::headerTemplate('Administrar pedidos');
                     <label for="fecha">Fecha del pedido</label>
                 </div>
 
+                <!-- Combobox estado_pedido -->
                 <div class="input-field col s12 m6">
                 <i class="material-icons prefix">category</i>
                     <select id="estado_pedido" name="estado_pedido" required>
@@ -74,10 +77,13 @@ Dashboard::headerTemplate('Administrar pedidos');
                 </div>
 
             </div>
+
+            <!-- Opciones de guardar y cancelar -->
             <div class="row center-align">
                 <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
                 <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
             </div>
+
         </form>
     </div>
 </div>

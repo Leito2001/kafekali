@@ -136,6 +136,7 @@ class Pedidos extends Validator
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
     // Método para verificar si existe un pedido pendiente del cliente para seguir comprando, de lo contrario crea uno.
+    
     public function readOrder()
     {
         $sql = 'SELECT id_pedido
