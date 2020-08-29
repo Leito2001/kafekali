@@ -34,6 +34,11 @@ h5.center.white-text{
     margin-top: 1.5px;
 }
 
+h4.center-align{
+    color: rgb(97, 46, 2);
+}
+   
+
 @media only screen and (max-width: 400px) {
     html {
      font-size:12px

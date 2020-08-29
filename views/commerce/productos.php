@@ -5,7 +5,7 @@ Commerce::headerTemplate('Productos por categoría');
 
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center indigo-text" id="title"></h4>
+    <h4 class="center-align" id="title"></h4>
     <!-- Fila para mostrar los productos disponibles por categoría -->
     <div class="row" id="productos"></div>
 </div>

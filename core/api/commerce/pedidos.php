@@ -81,6 +81,19 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+            //Case para leer los pedidos anteriores del cliente que tiene iniciada la sesión
+            case 'pastOrders':
+                if ($pedido->setCliente($_SESSION['id_cliente'])) {
+                    if ($result['dataset'] = $pedido->pastOrders()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay pedidos registrados';
+                    }
+                } else {
+                    $result['exception'] = 'Cliente incorrecto';
+                }
+                break;
+
             case 'updateDetail':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     $_POST = $pedido->validateForm($_POST);

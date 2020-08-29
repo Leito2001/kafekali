@@ -5,7 +5,7 @@ Commerce::headerTemplate('Iniciar sesión');
 
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center-align indigo-text">Iniciar sesión</h4>
+    <h4 class="center-align">Iniciar sesión</h4>
     <!-- Formulario para iniciar sesión -->
     <form method="post" id="session-form">
         <div class="row">

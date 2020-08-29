@@ -5,7 +5,7 @@ Commerce::headerTemplate('Registrarse');
 
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center-align indigo-text">Regístrate como cliente</h4>
+    <h4 class="center-align">Regístrate como cliente</h4>
     <!-- Formulario para crear cuenta -->
     <form method="post" id="register-form">
         <!-- Campo oculto para asignar el token del reCAPTCHA -->

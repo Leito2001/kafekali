@@ -204,6 +204,22 @@ class Pedidos extends Validator
         return Database::getRows($sql, $params); 
     }
 
+    // Método para obtener los pedidos pasados del cliente
+    public function pastOrders()
+    {
+        $sql = 'SELECT pedido.id_pedido, productos.imagen_producto, detalle_pedido.id_detalle_pedido, productos.nombre_producto, detalle_pedido.precio, 
+                detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido
+                FROM pedido 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_estado_pedido != 1 AND id_cliente = ?
+                GROUP BY id_pedido, imagen_producto, id_detalle_pedido, nombre_producto, estado_pedido
+                ORDER BY fecha';
+        $params = array($this->cliente);
+        return Database::getRows($sql, $params); 
+    }
+
     // Método utilizado en dashboard para leer todos los pedidos
     public function readAllPedidos()
     {

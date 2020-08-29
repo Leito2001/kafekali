@@ -24,6 +24,7 @@ class Commerce
                     <title>'.$title.'</title>
                     <link type="image/png" rel="icon" href="../../resources/img/logo.png"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
+                    <link type="text/css" rel="stylesheet" href="../../resources/css/datatables.min.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/commerce.css"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -46,6 +47,7 @@ class Commerce
                                     <ul class="right hide-on-med-and-down">
                                         <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                                         <li><a href="cart.php"><i class="material-icons left">shopping_cart</i>Carrito</a></li>
+                                        <li><a href="past_orders.php"><i class="material-icons left">archive</i>Pedidos pasados</a></li>
                                         <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
                                     </ul>
                                 </div>
@@ -54,6 +56,7 @@ class Commerce
                         <ul class="sidenav" id="mobile">
                             <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                             <li><a href="cart.php"><i class="material-icons left">shopping_cart</i>Carrito</a></li>
+                            <li><a href="past_orders.php"><i class="material-icons left">archive</i>Pedidos pasados</a></li>
                             <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
                         </ul>
                     </header>
@@ -148,6 +151,7 @@ class Commerce
                     </div>
                 </footer>
                 <script type="text/javascript" src="../../resources/js/jquery-3.4.1.min.js"></script>
+                <script type="text/javascript" src="../../resources/js/datatables.min.js"></script>
                 <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../core/helpers/components.js"></script>

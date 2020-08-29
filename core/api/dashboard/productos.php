@@ -24,7 +24,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                //Case para leer las categorías en un combobox
+            //Case para leer las categorías en un combobox
             case 'getCategorias':
                 if ($result['dataset'] = $producto->getCategoriasCb()) {
                     $result['status'] = 1;
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                //Case para leer los proveedores en un combobox
+            //Case para leer los proveedores en un combobox
             case 'getProveedor':
                 if ($result['dataset'] = $producto->getProveedorCb()) {
                     $result['status'] = 1;
@@ -211,7 +211,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                //Case para generar una gráfica de barras con los datos del método cantidadProductosCategoria
+            //Case para generar una gráfica de barras con los datos del método cantidadProductosCategoria
             case 'cantidadProductosCategoria':
                 if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
                     $result['status'] = 1;
@@ -220,7 +220,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                //Case para generar una gráfica de dona con los datos del método fiveBestSellers
+            //Case para generar una gráfica de dona con los datos del método fiveBestSellers
             case 'fiveBestSellers':
                 if ($result['dataset'] = $producto->fiveBestSellers()) {
                     $result['status'] = 1;

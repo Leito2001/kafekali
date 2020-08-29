@@ -5,7 +5,7 @@ Commerce::headerTemplate('Carrito de compras');
 
 <div class="container">
     <!-- Título para la página web -->
-    <h4 class="center-align indigo-text">Carrito de compras</h4>
+    <h4 class="center-align">Carrito de compras</h4>
     <!-- Tabla para mostrar el detalle de los productos agregados al carrito de compras -->
     <table class="striped">
         <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
@@ -23,6 +23,7 @@ Commerce::headerTemplate('Carrito de compras');
         <tbody id="tbody-rows">
         </tbody>
     </table>
+
     <!-- Fila para mostrar el monto total a pagar -->
     <div class="row right-align">
         <p>TOTAL A PAGAR (US$) <b id="pago"></b></p>
