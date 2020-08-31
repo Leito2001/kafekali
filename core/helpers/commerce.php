@@ -45,19 +45,21 @@ class Commerce
                                     <a href="index.php" class="brand-logo"><img src="../../resources/img/logo_texto_blanco.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
-                                        <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
+                                        <li><a href="index.php"><i class="material-icons left">home</i>Inicio</a></li>
+                                        <li><a href="catalogo.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                                         <li><a href="cart.php"><i class="material-icons left">shopping_cart</i>Carrito</a></li>
                                         <li><a href="past_orders.php"><i class="material-icons left">archive</i>Pedidos pasados</a></li>
-                                        <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
+                                        <li><a href="#" onclick="logOut()"><i class="material-icons left">cancel</i>Cerrar sesión</a></li>
                                     </ul>
                                 </div>
                             </nav>
                         </div>
                         <ul class="sidenav" id="mobile">
-                            <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
+                            <li><a href="index.php"><i class="material-icons left">home</i>Inicio</a></li>
+                            <li><a href="catalogo.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                             <li><a href="cart.php"><i class="material-icons left">shopping_cart</i>Carrito</a></li>
                             <li><a href="past_orders.php"><i class="material-icons left">archive</i>Pedidos pasados</a></li>
-                            <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
+                            <li><a href="#" onclick="logOut()"><i class="material-icons left">cancel</i>Cerrar sesión</a></li>
                         </ul>
                     </header>
                     <main>
@@ -66,8 +68,8 @@ class Commerce
                 header('location: index.php');
             }
         } else {
-            // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
-            if ($filename != 'cart.php') {
+            // Se verifica si la página web actual es diferente a cart.php (Carrito) y a past_orders.php (Órdenes pasadas) para direccionar a index.php, de lo contrario se muestra un menú vacío.
+            if ($filename != 'cart.php' && $filename != 'past_orders.php') {
                 print('
                     <header>
                         <div class="navbar-fixed">
@@ -76,17 +78,19 @@ class Commerce
                                     <a href="index.php" class="brand-logo"><img src="../../resources/img/logo_texto_blanco.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
-                                        <li><a href="#title"><i class="material-icons left">view_module</i>Catálogo</a></li>
+                                        <li><a href="index.php"><i class="material-icons left">home</i>Inicio</a></li>
+                                        <li><a href="catalogo.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                                         <li><a href="signin.php"><i class="material-icons left">person</i>Crear cuenta</a></li>
-                                        <li><a href="login.php"><i class="material-icons left">login</i>Iniciar sesión</a></li>
+                                        <li><a href="login.php"><i class="material-icons left">forward</i>Iniciar sesión</a></li>
                                     </ul>
                                 </div>
                             </nav>
                         </div>
                         <ul class="sidenav" id="mobile">
-                            <li><a href="index.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
+                            <li><a href="index.php"><i class="material-icons left">home</i>Inicio</a></li>
+                            <li><a href="catalogo.php"><i class="material-icons left">view_module</i>Catálogo</a></li>
                             <li><a href="signin.php"><i class="material-icons left">person</i>Crear cuenta</a></li>
-                            <li><a href="login.php"><i class="material-icons left">login</i>Iniciar sesión</a></li>
+                            <li><a href="login.php"><i class="material-icons left">forward</i>Iniciar sesión</a></li>
                         </ul>
                     </header>
                     <main>

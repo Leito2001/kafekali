@@ -21,7 +21,7 @@ Dashboard::headerTemplate('Administrar productos');
             <th>NOMBRE</th>
             <th>DESCRIPCIÓN</th>
             <th>PRECIO $</th>
-            <th>CATEGORÍA</th>
+            <th>STOCK</th>
             <th>PROVEEDOR</th>
             <th>ESTADO</th>
             <th class="actions-column">ACCIÓN</th>

@@ -7,11 +7,15 @@ class Pedidos extends Validator
     // Declaración de atributos (propiedades).
     private $id_pedido = null;
     private $id_detalle = null;
+    private $id_comentario = null;
     private $cliente = null;
     private $producto = null;
     private $cantidad = null;
     private $precio = null;
+    private $comentario = null;
+    private $calificacion = null;
     private $semana = null;
+    private $estado_comentario = null;
     private $estado = null; // Valor por defecto en la base de datos: 1
 
     /*
@@ -40,6 +44,16 @@ class Pedidos extends Validator
     {
         if ($this->validateNaturalNumber($value)) {
             $this->id_detalle = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setIdComentario($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->id_comentario = $value;
             return true;
         } else {
             return false;
@@ -96,10 +110,40 @@ class Pedidos extends Validator
         }
     }
 
+    public function setComentario($value)
+    {
+        if ($this->validateString($value, 1, 500)) {
+            $this->comentario = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setCalificacion($value)
+    {
+        if($this->validateNaturalNumber($value)) {
+            $this->calificacion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setSemana($value)
     {
         if($this->validateNaturalNumber($value)) {
             $this->semana = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setEstadoComentario($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->estado_comentario = $value;
             return true;
         } else {
             return false;
@@ -125,9 +169,24 @@ class Pedidos extends Validator
         return $this->id_pedido;
     }
 
+    public function getIdComentario()
+    {
+        return $this->id_comentario;
+    }
+
     public function getSemana()
     {
         return $this->semana;
+    }
+
+    public function getCalificacion()
+    {
+        return $this->calificacion;
+    }
+
+    public function getComentario()
+    {
+        return $this->comentario;
     }
 
     public function getFechaPedido()
@@ -173,6 +232,44 @@ class Pedidos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    // Método para agregar un review
+    public function createReview()
+    {
+        $sql = 'INSERT INTO comentarios (comentario, calificacion, estado_comentario, id_detalle_pedido) 
+                VALUES (?, ?, true, ?)';
+        $params = array($this->comentario, $this->calificacion, $this->id_detalle);
+        return Database::executeRow($sql, $params);
+    }
+
+    // Método para obtener las reviews de un solo producto
+    public function readProductoReviews()
+    {
+        $sql = 'SELECT comentarios.id_comentario, detalle_pedido.id_detalle_pedido, nombre_producto, comentario, calificacion, 
+                usuario_c, fecha_review, estado_comentario
+                FROM comentarios
+                INNER JOIN detalle_pedido USING (id_detalle_pedido)
+                INNER JOIN pedido USING (id_pedido)
+                INNER JOIN productos USING (id_producto)
+                INNER JOIN cliente USING (id_cliente)
+                WHERE id_comentario = ? AND id_detalle_pedido = ?' ;
+        $params = array($this->id_comentario, $this->id_detalle);
+        return Database::getRows($sql, $params); 
+    }
+
+    // Método utilizado en dashboard para leer todas las reseñas
+    public function readAllReviews()
+    {
+        $sql = 'SELECT comentarios.id_comentario, detalle_pedido.id_detalle_pedido, imagen_producto, nombre_producto, comentario, calificacion, 
+                usuario_c, fecha_review, estado_comentario
+                FROM comentarios
+                INNER JOIN detalle_pedido USING (id_detalle_pedido)
+                INNER JOIN pedido USING (id_pedido)
+                INNER JOIN productos USING (id_producto)
+                INNER JOIN cliente USING (id_cliente)';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
     {
@@ -180,6 +277,16 @@ class Pedidos extends Validator
                 SET cantidad_producto = ?
                 WHERE id_pedido = ? AND id_detalle_pedido = ?';
         $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
+        return Database::executeRow($sql, $params);
+    }
+
+    // Método para actualizar la cantidad de un producto agregado al carrito de compras.
+    public function updateReview()
+    {
+        $sql = 'UPDATE comentarios
+                SET estado_comentario = ?
+                WHERE id_comentario = ? AND id_detalle_pedido = ?';
+        $params = array($this->estado_comentario, $this->id_comentario, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
 
@@ -217,6 +324,22 @@ class Pedidos extends Validator
                 GROUP BY id_pedido, imagen_producto, id_detalle_pedido, nombre_producto, estado_pedido
                 ORDER BY fecha';
         $params = array($this->cliente);
+        return Database::getRows($sql, $params); 
+    }
+
+    // Método para obtener un pedido pasado del cliente
+    public function onePastOrder()
+    {
+        $sql = 'SELECT pedido.id_pedido, productos.imagen_producto, detalle_pedido.id_detalle_pedido, productos.nombre_producto, detalle_pedido.precio, 
+                detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido
+                FROM pedido 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_detalle_pedido = ?
+                GROUP BY id_pedido, imagen_producto, id_detalle_pedido, nombre_producto, estado_pedido
+                ORDER BY fecha';
+        $params = array($this->id_detalle);
         return Database::getRows($sql, $params); 
     }
 
@@ -259,14 +382,37 @@ class Pedidos extends Validator
         return Database::getRows($sql, $params);
     }
 
-    // Método para cambiar el estado de un pedido.
+    // Método para cambiar el estado de un pedido y descontar la cantidad de producto al stock
     public function updateOrderStatus()
     {
+        $sql = 'SELECT productos.imagen_producto, detalle_pedido.id_detalle_pedido, productos.nombre_producto, detalle_pedido.precio, 
+                detalle_pedido.cantidad_producto, detalle_pedido.fecha, estado_pedido.estado_pedido
+                FROM pedido 
+                INNER JOIN detalle_pedido USING(id_pedido) 
+                INNER JOIN productos USING(id_producto)
+                INNER JOIN estado_pedido USING(id_estado_pedido)
+                WHERE id_pedido = ?';
+        $params = array($this->id_pedido);
+
+        if ($data = Database::getRows($sql, $params)) {
+           
+            for ($i=0; $i < count($data); $i++) { 
+                $sql = 'UPDATE productos 
+                        SET stock = stock - ?
+                        WHERE nombre_producto = ?';
+                $params = array($data[$i]['cantidad_producto'], $data[$i]['nombre_producto']);
+                Database::executeRow($sql, $params);
+            }
+             
         $sql = 'UPDATE pedido
                 SET id_estado_pedido = ?
                 WHERE id_pedido = ?';
         $params = array($this->estado, $this->id_pedido);
-        return Database::executeRow($sql, $params);
+        return Database::executeRow($sql, $params); 
+
+        } else {
+            return false;
+        }
     }
 
     // Método para eliminar un producto que se encuentra en el carrito de compras.

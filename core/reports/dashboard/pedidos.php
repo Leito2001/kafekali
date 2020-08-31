@@ -18,7 +18,7 @@ if ($data = $pedido->ventasSemana()) {
     // Se establece la fuente para el nombre de la categoría.
     $pdf->SetFont('Arial', 'B', 12);
     // Se imprime una celda con el nombre de la categoría.
-    $pdf->Cell(0, 10, utf8_decode('Semana: '.$data[0]['semana']), 1, 1, 'C', 1);
+    $pdf->Cell(0, 10, utf8_decode('Semana '.$data[0]['semana']), 1, 1, 'C', 1);
     // Se establece un color de relleno para los encabezados.
     $pdf->SetFillColor(225);
     // Se establece la fuente para los encabezados de la tabla.
@@ -35,7 +35,7 @@ if ($data = $pedido->ventasSemana()) {
             // Se establece la fuente para el nombre de la categoría.
             $pdf->SetFont('Arial', 'B', 12);
             // Se imprime una celda con el nombre de la categoría.
-            $pdf->Cell(0, 10, utf8_decode('Semana: '.$row['semana']), 1, 1, 'C', 1);
+            $pdf->Cell(0, 10, utf8_decode('Semana '.$row['semana']), 1, 1, 'C', 1);
             // Se establece un color de relleno para los encabezados.
             $pdf->SetFillColor(225);
             // Se establece la fuente para los encabezados de la tabla.

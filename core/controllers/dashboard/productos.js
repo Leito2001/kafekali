@@ -43,7 +43,7 @@ function fillTable( dataset )
                 { data: 'nombre_producto' },
                 { data: 'descripcion' },
                 { data: 'precio' },
-                { data: 'tipo_producto' },
+                { data: 'stock' },
                 { data: 'nombre_prov' },
                 { data: null,
                 ordereable: false,
@@ -73,14 +73,6 @@ function fillTable( dataset )
         } );
     }
 }
-
-// Evento para mostrar los resultados de una búsqueda.
-$( '#search-form' ).submit(function( event ) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows( API_PRODUCTOS, this );
-});
 
 //Funcion para traer a las categorías, selectedId tiene el valor de 0 para evitar errores de null
 function getCategorias(selectedId = 0){

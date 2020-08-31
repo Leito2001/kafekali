@@ -81,6 +81,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+
             //Case para leer los pedidos anteriores del cliente que tiene iniciada la sesión
             case 'pastOrders':
                 if ($pedido->setCliente($_SESSION['id_cliente'])) {
@@ -107,6 +108,32 @@ if (isset($_GET['action'])) {
                             }
                         } else {
                             $result['exception'] = 'Cantidad incorrecta';
+                        }
+                    } else {
+                        $result['exception'] = 'Detalle incorrecto';
+                    }
+                } else {
+                    $result['exception'] = 'Pedido incorrecto';
+                }
+                break;
+
+            case 'createReview':
+                if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
+                    $_POST = $pedido->validateForm($_POST);
+                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
+                        if ($pedido->setComentario($_POST['comentario'])) {
+                            if ($pedido->setCalificacion($_POST['calificacion'])){
+                                if ($pedido->createReview()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Reseña agregada correctamente';
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al agregar la reseña';
+                                }
+                            } else {
+                                $result['exception'] = 'Calificación inválida, solamente números enteros del 1 al 10, por favor.';
+                            }
+                        } else {
+                            $result['exception'] = 'Verifique su comentario';
                         }
                     } else {
                         $result['exception'] = 'Detalle incorrecto';

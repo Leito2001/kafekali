@@ -84,10 +84,10 @@ Commerce::headerTemplate('Kafekali · El arte del café');
                             <img class="activator" src="../../resources/img/6.jpeg">
                         </div>
                         <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4 center">Jabón de capucchino</span>
+                            <span class="card-title activator grey-text text-darken-4 center">Jabón de capuchino</span>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4 center">Jabón de capucchino<i class="material-icons right">close</i></span>
+                            <span class="card-title grey-text text-darken-4 center">Jabón de capuchino<i class="material-icons right">close</i></span>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quos cumque nostrum veritatis adipisci 
                             maiores minus quasi autem ad. Quod quis omnis, excepturi accusamus quo dolor quam aperiam iusto quasi.</p>
                         </div>
@@ -101,10 +101,10 @@ Commerce::headerTemplate('Kafekali · El arte del café');
                             <img class="activator" src="../../resources/img/8.jpeg">
                         </div>
                         <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4 center">Jabón de capucchino</span>
+                            <span class="card-title activator grey-text text-darken-4 center">Jabón artesanal</span>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4 center">Jabón de capucchino<i class="material-icons right">close</i></span>
+                            <span class="card-title grey-text text-darken-4 center">Jabón artesanal<i class="material-icons right">close</i></span>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quos cumque nostrum veritatis adipisci 
                             maiores minus quasi autem ad. Quod quis omnis, excepturi accusamus quo dolor quam aperiam iusto quasi.</p>
                         </div>
@@ -118,10 +118,10 @@ Commerce::headerTemplate('Kafekali · El arte del café');
                             <img class="activator" src="../../resources/img/10.jpeg">
                         </div>
                         <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4 center">Jabón de capucchino</span>
+                            <span class="card-title activator grey-text text-darken-4 center">Granos de café</span>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4 center">Jabón de capucchino<i class="material-icons right">close</i></span>
+                            <span class="card-title grey-text text-darken-4 center">Granos de café<i class="material-icons right">close</i></span>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quos cumque nostrum veritatis adipisci 
                             maiores minus quasi autem ad. Quod quis omnis, excepturi accusamus quo dolor quam aperiam iusto quasi.</p>
                         </div>
@@ -135,21 +135,16 @@ Commerce::headerTemplate('Kafekali · El arte del café');
                             <img class="activator" src="../../resources/img/12.jpeg">
                         </div>
                         <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4 center">Jabón de capucchino</span>
+                            <span class="card-title activator grey-text text-darken-4 center">Kit de café y naranja</span>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4 center">Jabón de capucchino<i class="material-icons right">close</i></span>
+                            <span class="card-title grey-text text-darken-4 center">Kit de café y naranja<i class="material-icons right">close</i></span>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quos cumque nostrum veritatis adipisci 
                             maiores minus quasi autem ad. Quod quis omnis, excepturi accusamus quo dolor quam aperiam iusto quasi.</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 3. Catálogo de productos-->
-            <h5 class="center white-text" id="title">Catálogo de productos</h5>
-            <!-- Fila para mostrar las categorías disponibles -->
-            <div class="row" id="categorias"></div>
         </div>
     </div>
 

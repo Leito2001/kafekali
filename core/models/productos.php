@@ -172,7 +172,8 @@ class Productos extends Validator
     //Leer todos los productos
     public function readAllProductos()
     {
-        $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, tipo_producto.tipo_producto, proveedor.nombre_prov, productos.imagen_producto, productos.estado_producto
+        $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, 
+        tipo_producto.tipo_producto, proveedor.nombre_prov, productos.imagen_producto, productos.estado_producto, productos.stock
                 FROM productos INNER JOIN tipo_producto ON productos.id_tipo_producto = tipo_producto.id_tipo_producto
                 INNER JOIN proveedor ON productos.id_proveedor = proveedor.id_proveedor
                 ORDER BY nombre_producto';
@@ -184,7 +185,7 @@ class Productos extends Validator
     public function readOneProducto()
     {
         $sql = 'SELECT productos.id_producto, productos.nombre_producto, productos.descripcion, productos.precio, 
-                tipo_producto.id_tipo_producto, proveedor.id_proveedor, productos.imagen_producto, productos.estado_producto
+                tipo_producto.id_tipo_producto, proveedor.id_proveedor, productos.imagen_producto, productos.estado_producto, productos.stock
                 FROM productos 
                 INNER JOIN tipo_producto USING (id_tipo_producto)
                 INNER JOIN proveedor USING (id_proveedor)

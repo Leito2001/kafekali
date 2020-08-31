@@ -72,6 +72,7 @@ if (isset($_GET['action'])) {
                                                         } else {
                                                             $result['exception'] = Database::getException();;
                                                         }
+                                                        
                                                     } else {
                                                         $result['exception'] = 'Estado incorrecto';
                                                     }
