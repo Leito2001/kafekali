@@ -34,7 +34,7 @@ Commerce::headerTemplate('Carrito de compras');
         <a href="../../core/reports/commerce/factura.php" target="_blank" class="btn waves-effect amber darken-2"><i class="material-icons left">assignment</i>Generar factura</a>
         
         <!-- Botón: seguir comprando -->
-        <a href="index.php" class="waves-effect waves-light btn"><i class="material-icons left">store</i>Seguir comprando</a>
+        <a href="catalogo.php" class="waves-effect waves-light btn"><i class="material-icons left">store</i>Seguir comprando</a>
         
         <!-- Botón: finalizar pedido -->
         <button type="button" onclick="finishOrder()" class="btn waves-effect green"><i class="material-icons left">check_circle</i>Finalizar pedido</button>

@@ -62,20 +62,26 @@ if (isset($_GET['action'])) {
                                             if (is_uploaded_file($_FILES['imagen_producto']['tmp_name'])) {
 
                                                 if ($producto->setImagen($_FILES['imagen_producto'])) {
-
                                                     //Lee el estado booleano de producto
                                                     if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
 
-                                                        if ($producto->createProducto()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Producto creado correctamente';
+                                                        if($producto->setStock($_POST['stock'])) {
+
+                                                            if ($producto->createProducto()) {
+                                                                $result['status'] = 1;
+                                                                $result['message'] = 'Producto creado correctamente';
+                                                            } else {
+                                                                $result['exception'] = Database::getException();;
+                                                            }
+
                                                         } else {
-                                                            $result['exception'] = Database::getException();;
+                                                            $result['exception'] = 'Verifique el stock';
                                                         }
                                                         
                                                     } else {
                                                         $result['exception'] = 'Estado incorrecto';
                                                     }
+
                                                 } else {
                                                     $result['exception'] = $producto->getImageError();
                                                 }
@@ -134,44 +140,50 @@ if (isset($_GET['action'])) {
 
                                         if ($producto->setProveedor($_POST['nombre_prov'])) {
 
-                                            if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
+                                            if($producto->setStock($_POST['stock'])) {
 
-                                                if (is_uploaded_file($_FILES['imagen_producto']['tmp_name'])) {
+                                                if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
+                                                    
+                                                    if (is_uploaded_file($_FILES['imagen_producto']['tmp_name'])) {
 
-                                                    //If si se ha actualizado la imagen o no
-                                                    if ($producto->setImagen($_FILES['imagen_producto'])) {
+                                                        //If si se ha actualizado la imagen o no
+                                                        if ($producto->setImagen($_FILES['imagen_producto'])) {
 
+                                                            if ($producto->updateProducto()) {
+                                                                $result['status'] = 1;
+
+                                                                if ($producto->deleteFile($producto->getRuta(), $data['imagen_producto'])) {
+                                                                    $result['message'] = 'Producto modificado correctamente';
+                                                                } else {
+                                                                    $result['message'] = 'Producto modificada pero no se borro la imagen anterior';
+                                                                }
+                                                            } else {
+                                                                $result['exception'] = Database::getException();
+                                                            }
+                                                        } else {
+                                                            $result['exception'] = $producto->getImageError();
+                                                        }
+                                                    } else {
+                                                        //No se actualiza imagen
                                                         if ($producto->updateProducto()) {
                                                             $result['status'] = 1;
-
-                                                            if ($producto->deleteFile($producto->getRuta(), $data['imagen_producto'])) {
-                                                                $result['message'] = 'Producto modificado correctamente';
-                                                            } else {
-                                                                $result['message'] = 'Producto modificada pero no se borro la imagen anterior';
-                                                            }
+                                                            $result['message'] = 'Producto modificado correctamente';
                                                         } else {
                                                             $result['exception'] = Database::getException();
                                                         }
-                                                    } else {
-                                                        $result['exception'] = $producto->getImageError();
                                                     }
+
                                                 } else {
-                                                    //No se actualiza imagen
-                                                    if ($producto->updateProducto()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Producto modificado correctamente';
-                                                    } else {
-                                                        $result['exception'] = Database::getException();
-                                                    }
+                                                    $result['exception'] = 'Estado inválido';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Estado invalido';
+                                                $result['exception'] = 'Verifique el stock';
                                             }
                                         } else {
-                                            $result['exception'] = 'Proveedor invalido';
+                                            $result['exception'] = 'Proveedor inválido';
                                         }
                                     } else {
-                                        $result['exception'] = 'Categoria invalida';
+                                        $result['exception'] = 'Categoria inválida';
                                     }
                                 } else {
                                     $result['exception'] = 'Precio incorrecto';
@@ -245,4 +257,3 @@ if (isset($_GET['action'])) {
 } else {
     exit('Recurso denegado');
 }
-?>

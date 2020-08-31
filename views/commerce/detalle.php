@@ -32,7 +32,7 @@ Commerce::headerTemplate('Detalles del producto');
                         <input type="number" id="id_producto" name="id_producto" class="hide"/>
                         <input type="number" id="precio_producto" name="precio_producto" step="0.01" class="hide"/>
 
-                        //Se llena según la función para leer el stock
+                        <!-- Se llena según la función para leer el stock -->
                         <div class="row center" id="comprar">
 
                         </div>

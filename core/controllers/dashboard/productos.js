@@ -188,6 +188,7 @@ function openUpdateModal( id )
             $( '#nombre_producto' ).val( jsonResponse.nombre_producto );
             $( '#descripcion' ).val( jsonResponse.descripcion );
             $( '#precio' ).val( jsonResponse.precio );
+            $( '#stock' ).val( jsonResponse.stock );
             //Se configura el switch del estado según lo ingresado en la base, true o false.
             (jsonResponse.estado_producto ) ? $( '#estado_producto' ).prop( 'checked', true ) : $( '#estado_producto' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.

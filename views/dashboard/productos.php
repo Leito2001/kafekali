@@ -53,7 +53,7 @@ Dashboard::headerTemplate('Administrar productos');
                 <!-- Input con validación: una cadena de texto de 120 carácteres máximo con letras, números y espacios -->
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">note_add</i>
-                    <input id="descripcion" type="text" name="descripcion" pattern="[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s\,\.]{1,400}" maxlength="400" class="validate" required/>
+                    <input id="descripcion" type="text" name="descripcion" pattern="[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s,.]{1,400}" maxlength="400" class="validate" required/>
                     <label for="descripcion">Descripción del producto</label>
                 </div>
 
@@ -62,6 +62,13 @@ Dashboard::headerTemplate('Administrar productos');
                   	<i class="material-icons prefix">attach_money</i>
                   	<input id="precio" type="number" name="precio" class="validate" max="999.99" min="0.01" step="any" required/>
                   	<label for="precio">Precio (US$)</label>
+                </div>
+
+                <!-- Input con validación: solo números -->
+                <div class="input-field col s12 m6">
+                  	<i class="material-icons prefix">archive</i>
+                  	<input id="stock" type="number" name="stock" class="validate" min="0" step="any" required/>
+                  	<label for="stock">Cantidad en stock</label>
                 </div>
 
                 <!-- Combobox para categoría -->
@@ -92,7 +99,7 @@ Dashboard::headerTemplate('Administrar productos');
                 </div>
 
                 <!-- Switch estado -->
-                <div class="col s12 m12">
+                <div class="col s12 m6">
                     <p>
                         <div class="switch center">
                             <span>Estado:‎‎  ‏‏</span>

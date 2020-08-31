@@ -11,6 +11,7 @@ class Productos extends Validator
     private $precio = null;
     private $categoria = null;
     private $proveedor = null;
+    private $stock = null;
     private $imagen = null;
     private $estado = null;
     private $archivo = null;
@@ -80,6 +81,16 @@ class Productos extends Validator
         }
     }
 
+    public function setStock($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->stock = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public function setImagen($file)
     {
@@ -141,6 +152,10 @@ class Productos extends Validator
         return $this->proveedor;
     }
 
+    public function getStock()
+    {
+        return $this->stock;
+    }
 
     public function getEstado()
     {
@@ -160,9 +175,9 @@ class Productos extends Validator
     public function createProducto()
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'INSERT INTO productos (nombre_producto, descripcion, precio, id_tipo_producto, id_proveedor, imagen_producto, estado_producto)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)';
-            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->imagen, $this->estado);
+            $sql = 'INSERT INTO productos (nombre_producto, descripcion, precio, id_tipo_producto, id_proveedor, imagen_producto, estado_producto, stock)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->imagen, $this->estado, $this->stock);
             return Database::executeRow($sql, $params);
         } else {
             return false;
@@ -207,14 +222,14 @@ class Productos extends Validator
     {
         if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'UPDATE productos 
-                    SET nombre_producto = ?, descripcion = ?, precio = ?, id_tipo_producto = ?, id_proveedor = ?, imagen_producto = ?, estado_producto = ?
+                    SET nombre_producto = ?, descripcion = ?, precio = ?, id_tipo_producto = ?, id_proveedor = ?, imagen_producto = ?, estado_producto = ?, stock = ?
                     WHERE id_producto = ?';
-            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->imagen, $this->estado, $this->id);
+            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->imagen, $this->estado, $this->stock, $this->id);
         } else {
             $sql = 'UPDATE productos 
-                    SET nombre_producto = ?, descripcion = ?, precio = ?, id_tipo_producto = ?, id_proveedor = ?, estado_producto = ?
+                    SET nombre_producto = ?, descripcion = ?, precio = ?, id_tipo_producto = ?, id_proveedor = ?, estado_producto = ?, stock = ?
                     WHERE id_producto = ?';
-            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->estado, $this->id);
+            $params = array($this->producto, $this->descripcion, $this->precio, $this->categoria, $this->proveedor, $this->estado, $this->stock, $this->id);
         }
         return Database::executeRow($sql, $params);
     }

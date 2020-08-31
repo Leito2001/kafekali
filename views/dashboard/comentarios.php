@@ -37,31 +37,31 @@ Dashboard::headerTemplate('Administrar reseñas');
             <div class="row">
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">note_add</i>
+                    <i class="material-icons prefix">category</i>
                     <input id="nombre_producto" type="text" name="nombre_producto" class="validate" required/>
                     <label for="nombre_producto">Nombre del producto</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">note_add</i>
+                    <i class="material-icons prefix">chat_bubble</i>
                     <input id="comentario" type="text" name="comentario" class="validate" required/>
                     <label for="comentario">Comentario</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">note_add</i>
+                    <i class="material-icons prefix">star</i>
                     <input id="calificacion" type="number" name="calificacion" class="validate" required/>
                     <label for="calificacion">Calificación</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">note_add</i>
+                    <i class="material-icons prefix">person</i>
                     <input id="usuario_c" type="text" name="usuario_c" class="validate" required/>
                     <label for="usuario_c">Cliente</label>
                 </div>
 
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">note_add</i>
+                    <i class="material-icons prefix">calendar_today</i>
                     <input id="fecha_review" type="date" name="fecha_review" class="validate" required/>
                     <label for="fecha_review">Fecha del pedido</label>
                 </div>

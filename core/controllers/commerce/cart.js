@@ -51,7 +51,7 @@ function readCart()
             // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
             $( '.tooltipped' ).tooltip();
         } else {
-            sweetAlert( 4, response.exception, 'index.php' );
+            sweetAlert( 4, response.exception, 'catalogo.php' );
         }
     })
     .fail(function( jqXHR ) {
