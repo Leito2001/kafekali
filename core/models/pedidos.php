@@ -235,8 +235,8 @@ class Pedidos extends Validator
     // Método para agregar un review
     public function createReview()
     {
-        $sql = 'INSERT INTO comentarios (comentario, calificacion, estado_comentario, id_detalle_pedido) 
-                VALUES (?, ?, true, ?)';
+        $sql = 'INSERT INTO comentarios (comentario, calificacion, estado_comentario, id_detalle_pedido, fecha_review) 
+                VALUES (?, ?, true, ?, getdate())';
         $params = array($this->comentario, $this->calificacion, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
@@ -253,7 +253,7 @@ class Pedidos extends Validator
                 INNER JOIN cliente USING (id_cliente)
                 WHERE id_comentario = ? AND id_detalle_pedido = ?' ;
         $params = array($this->id_comentario, $this->id_detalle);
-        return Database::getRows($sql, $params); 
+        return Database::getRows($sql, $params);
     }
 
     // Método utilizado en dashboard para leer todas las reseñas
@@ -336,10 +336,10 @@ class Pedidos extends Validator
                 INNER JOIN detalle_pedido USING(id_pedido) 
                 INNER JOIN productos USING(id_producto)
                 INNER JOIN estado_pedido USING(id_estado_pedido)
-                WHERE id_detalle_pedido = ?
+                WHERE id_detalle_pedido = ? AND id_pedido = ?
                 GROUP BY id_pedido, imagen_producto, id_detalle_pedido, nombre_producto, estado_pedido
                 ORDER BY fecha';
-        $params = array($this->id_detalle);
+        $params = array($this->id_detalle, $this->id_pedido);
         return Database::getRows($sql, $params); 
     }
 

@@ -82,6 +82,11 @@ function openUpdateModal( comentario, detalle )
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar estado de la reseña' );
+    $( '#usuario_c' ).prop( 'disabled', true );
+    $( '#nombre_producto' ).prop( 'disabled', true );
+    $( '#calificacion' ).prop( 'disabled', true );
+    $( '#fecha_review' ).prop( 'disabled', true );
+    $( '#comentario' ).prop( 'disabled', true );
 
     $.ajax({
         dataType: 'json',
@@ -92,12 +97,15 @@ function openUpdateModal( comentario, detalle )
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
-            jsonResponse = response.dataset;
+            jsonResponse = response.dataset[0];
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
             $( '#id_detalle_pedido' ).val( jsonResponse.id_detalle_pedido );
             $( '#id_comentario' ).val( jsonResponse.id_comentario );
             $( '#usuario_c' ).val( jsonResponse.usuario_c );
             $( '#nombre_producto' ).val( jsonResponse.nombre_producto );
+            $( '#calificacion' ).val( jsonResponse.calificacion );
+            $( '#fecha_review' ).val( jsonResponse.fecha_review );
+            $( '#comentario' ).val( jsonResponse.comentario );
             //Se configura el switch del estado según lo ingresado en la base, true o false.
             (jsonResponse.estado_comentario ) ? $( '#estado_comentario' ).prop( 'checked', true ) : $( '#estado_comentario' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.

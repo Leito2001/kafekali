@@ -194,6 +194,14 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Leer el stock de un producto
+    public function getProductQuantity($id)
+    {
+        $sql = 'SELECT stock FROM productos WHERE id_producto = ?';
+        $params = array($id);
+        return Database::getRow($sql, $params);
+    }
+
     //Actualizar
     public function updateProducto()
     {
@@ -218,6 +226,21 @@ class Productos extends Validator
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    //Leer reviews de un producto
+    public function readReviews()
+    {
+        $sql = 'SELECT comentario, calificacion, estado_comentario, to_char(fecha_review, \'DD Mon YYYY\') AS fecha_review, usuario_c
+                FROM comentarios
+                INNER JOIN detalle_pedido USING (id_detalle_pedido)
+                INNER JOIN productos USING (id_producto)
+                INNER JOIN pedido USING (id_pedido)
+                INNER JOIN cliente USING (id_cliente)
+                WHERE id_producto = ? AND estado_comentario = true
+                ORDER BY fecha_review';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
     }
 
     /*

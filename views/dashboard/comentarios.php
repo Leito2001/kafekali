@@ -31,8 +31,8 @@ Dashboard::headerTemplate('Administrar reseñas');
         <form method="post" id="save-form" enctype="multipart/form-data">
 
             <!-- Campo oculto para asignar el id del detalle y del pedido al momento de modificar -->
-            <input type="number" id="id_detalle_pedido" name="id_detalle_pedido"/>
-            <input type="number" id="id_comentario" name="id_comentario"/>
+            <input class="hide" type="number" id="id_detalle_pedido" name="id_detalle_pedido"/>
+            <input class="hide" type="number" id="id_comentario" name="id_comentario"/>
             
             <div class="row">
 

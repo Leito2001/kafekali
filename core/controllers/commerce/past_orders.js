@@ -112,9 +112,5 @@ $( '#save-form' ).submit(function( event ) {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario se crea un registro.
-    if ( $( '#id_detalle_pedido' ).val() ) {
-        saveRow( API_PEDIDOS, 'update', this, 'save-modal' );
-    } else {
         saveRow( API_PEDIDOS, 'createReview', this, 'save-modal' );
-    }
 });

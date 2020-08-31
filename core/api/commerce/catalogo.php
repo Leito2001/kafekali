@@ -13,11 +13,24 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
+
         case 'readAll':
             if ($result['dataset'] = $categoria->readAllCategorias()) {
                 $result['status'] = 1;
             } else {
                 $result['exception'] = 'Contenido no disponible';
+            }
+            break;
+
+        case 'readReviews':
+            if ($producto->setId($_POST['id_producto'])) {
+                if ($result['dataset'] = $producto->readReviews()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'Contenido no disponible';
+                }
+            } else {
+                $result['exception'] = 'Producto incorrecto';
             }
             break;
 

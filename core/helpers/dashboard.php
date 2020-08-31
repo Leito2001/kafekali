@@ -53,13 +53,17 @@ class Dashboard
                                         <li><a href="pedidos.php"><i class="material-icons left">view_module</i>Pedidos</a></li>
                                         <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
                                         <li><a href="tipo_producto.php"><i class="material-icons left">dashboard</i>Categorías</a></li>
-                                        <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>                                     
+                                        <li><a href="#" class="dropdown-trigger" data-target="dropdown2"><i class="material-icons left">category</i>Administrar productos</a></li>                                     
                                         <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">account_circle</i>Cuenta: <b>'.$_SESSION['usuario_u'].'</b></a></li>
                                     </ul>
                                     <ul id="dropdown" class="dropdown-content">
                                         <li><a href="#" onclick="openModalProfile()"><i class="material-icons">face</i>Editar perfil</a></li>
                                         <li><a href="#password-modal" class="modal-trigger"><i class="material-icons">lock</i>Cambiar clave</a></li>
                                         <li><a href="#" onclick="signOff()"><i class="material-icons">clear</i>Salir</a></li>
+                                    </ul>
+                                    <ul id="dropdown2" class="dropdown-content">
+                                        <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>
+                                        <li><a href="comentarios.php"><i class="material-icons left">star</i>Reseñas</a></li>
                                     </ul>
                                 </div>
                             </nav>
@@ -69,14 +73,18 @@ class Dashboard
                             <li><a href="clientes.php"><i class="material-icons left">group</i>Clientes</a></li>
                             <li><a href="pedidos.php"><i class="material-icons left">view_module</i>Pedidos</a></li>
                             <li><a href="proveedores.php"><i class="material-icons left">swap_horizontal_circle</i>Proveedores</a></li>
-                            <li><a href="tipo_producto.php"><i class="material-icons left">category</i>Categorías</a></li>
-                            <li><a href="productos.php"><i class="material-icons left">dashboard</i>Productos</a></li>
-                            <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">account_circle</i>Cuenta: <b>'.$_SESSION['usuario_u'].'</b></a></li>
+                            <li><a href="tipo_producto.php"><i class="material-icons left">dashboard</i>Categorías</a></li>
+                            <li><a href="#" class="dropdown-trigger" data-target="dropdown2-mobile"><i class="material-icons left">category</i>Administrar productos</a></li>                                     
+                            <li><a href="#" class="dropdown-trigger" data-target="dropdown-mobile"><i class="material-icons left">account_circle</i>Cuenta: <b>'.$_SESSION['usuario_u'].'</b></a></li>
                         </ul>
                         <ul id="dropdown-mobile" class="dropdown-content">
-                            <li><a href="#" onclick="openModalProfile()">Editar perfil</a></li>
-                            <li><a href="#password-modal" class="modal-trigger">Cambiar clave</a></li>
-                            <li><a href="#" onclick="signOff()">Salir</a></li>
+                            <li><a href="#" onclick="openModalProfile()"><i class="material-icons">face</i>Editar perfil</a></li>
+                            <li><a href="#password-modal" class="modal-trigger"><i class="material-icons">lock</i>Cambiar clave</a></li>
+                            <li><a href="#" onclick="signOff()"><i class="material-icons">clear</i>Salir</a></li>
+                        </ul>
+                        <ul id="dropdown2-mobile" class="dropdown-content">
+                            <li><a href="productos.php"><i class="material-icons left">category</i>Productos</a></li>
+                            <li><a href="comentarios.php"><i class="material-icons left">star</i>Reseñas</a></li>
                         </ul>
                     </header>
                     <main class="container">
