@@ -179,6 +179,7 @@ if (isset($_GET['action'])) {
                                             } else {
                                                 $result['exception'] = 'Verifique el stock';
                                             }
+                                            
                                         } else {
                                             $result['exception'] = 'Proveedor inválido';
                                         }

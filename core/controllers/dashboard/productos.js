@@ -168,8 +168,10 @@ function openUpdateModal( id )
     $( '#save-modal' ).modal( 'open' );
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar producto' );
-    // Se establece el campo de tipo archivo como opcional.
+    // Se establecen los campos como opcionales.
     $( '#imagen_producto' ).prop( 'required', false );
+    $( '#stock' ).prop( 'required', false );
+    $( '#estado_producto' ).prop( 'required', false );
 
     $.ajax({
         dataType: 'json',
@@ -183,6 +185,7 @@ function openUpdateModal( id )
             jsonResponse = response.dataset;
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
             getProveedor(jsonResponse.id_proveedor);
+            console.log(jsonResponse.id_proveedor);
             getCategorias(jsonResponse.id_tipo_producto);
             $( '#id_producto' ).val( jsonResponse.id_producto );
             $( '#nombre_producto' ).val( jsonResponse.nombre_producto );

@@ -5,7 +5,7 @@ const API_USUARIOS = '../../core/api/dashboard/usuarios.php?action=';
 // Método que se ejecuta cuando el documento está listo.
 $( document ).ready(function() {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows( API_USUARIOS, $('#categoriesSpinner')[0]);
+    readRows( API_USUARIOS );
     // Se declara e inicializa un objeto para obtener la fecha y hora actual.
     let today = new Date();
     // Se declara e inicializa una variable para guardar el día en formato de 2 dígitos.
@@ -69,14 +69,6 @@ function fillTable( dataset )
         } );
     }
 }
-
-// Evento para mostrar los resultados de una búsqueda.
-    $( '#search-form' ).submit(function( event ) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows( API_USUARIOS, this );
-});
 
 // Función que prepara formulario para insertar un registro.
 function openCreateModal()

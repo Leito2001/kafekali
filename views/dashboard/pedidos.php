@@ -15,6 +15,7 @@ Dashboard::headerTemplate('Administrar pedidos');
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
     <thead>
         <tr>
+            <th>Nº ORDEN</th>
             <th>IMAGEN</th>
             <th>CLIENTE</th>
             <th>PRODUCTO</th>

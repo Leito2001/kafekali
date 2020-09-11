@@ -12,8 +12,8 @@ class Productos extends Validator
     private $categoria = null;
     private $proveedor = null;
     private $stock = null;
-    private $imagen = null;
     private $estado = null;
+    private $imagen = null;
     private $archivo = null;
     private $ruta = '../../../resources/img/productos/';
 

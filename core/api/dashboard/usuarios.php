@@ -321,7 +321,7 @@ if (isset($_GET['action'])) {
                     //Verifica que la contraseña coincida con la que está en la base
                     if ($usuario->checkPassword($data['clave'])) {
                         $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
+                        $result['message'] = 'Bienvenido, '.($data['usuario_u']);
                         $_SESSION['id_usuario'] = $usuario->getId();
                         $_SESSION['usuario_u'] = $usuario->getUsuario();
                     } else {

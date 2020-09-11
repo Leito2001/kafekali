@@ -34,6 +34,7 @@ function fillTable( dataset )
             },
             columns: [
                 //Se mandan a llamar los campos con el nombre que poseen en la base
+                { data: 'id_pedido' },
                 { data: null,
                     ordereable: false,
                     render: function(data, type, meta) 

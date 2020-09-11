@@ -354,7 +354,7 @@ class Pedidos extends Validator
                 INNER JOIN detalle_pedido USING(id_pedido) 
                 INNER JOIN productos USING(id_producto)
                 INNER JOIN estado_pedido USING(id_estado_pedido)
-                ORDER BY fecha, semana';
+                ORDER BY fecha DESC';
         $params = null;
         return Database::getRows($sql, $params);
     }
