@@ -7,7 +7,7 @@ Commerce::headerTemplate('Iniciar sesión');
     <!-- Título para la página web -->
     <h4 class="center-align">Iniciar sesión</h4>
     <!-- Formulario para iniciar sesión -->
-    <form method="post" id="session-form">
+    <form method="post" id="session-form" autocomplete="off">
         <div class="row">
 
             <!-- Input con validación: una cadena de texto de 20 carácteres máximo entre letras, carácteres especiales (_ y .) y números sin espacios -->
@@ -38,6 +38,38 @@ Commerce::headerTemplate('Iniciar sesión');
         <a href="signin.php" type="submit" class="btn waves-effect indigo tooltipped" data-tooltip="Registrarse"><i class="material-icons">person</i></a>
     </div>
 </div>
+
+<!--Botn para recuperar contraseña-->
+<div class="col s12 center-align">
+               <p><a href="#correo-modal" class="btn waves-effect blue tooltipped modal-trigger" data-tooltip="Recuperar Contraseña"><i class="material-icons">person</i></a></p>
+        </div>
+
+        <div id="correo-modal" class="modal">
+            <div class="modal-content">
+                <h4  class="center-align" >Recuperar contraseña</h4>
+                <!-- Formulario para crear o actualizar un producto -->
+                <form method="post" id="correo-form"  autocomplete="off">
+                
+                    <div class="row">
+
+                        <!-- Input con validación: una cadena de texto de 60 carácteres máximo con letras, números y espacios -->
+                        <div class="input-field col s12 m6 offset-m3">
+                            <i class="material-icons prefix">email</i>
+                            <input id="correo_usuario" type="email" name="correo_usuario"  maxlength="60" class="validate" autocomplete="off" required/>
+                            <label for="correo_usuario">Correo</label>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Opciones para guardar y cancelar -->
+                    <div class="row center-align">
+                        <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                        <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Enviar"><i class="material-icons">send</i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 <?php
 Commerce::footerTemplate('login.js');

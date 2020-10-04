@@ -118,6 +118,7 @@ function openUpdateModal( id )
         type: 'post'
     })
     .done(function( response ){
+        if(response.session){
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             console.log(response.dataset);
@@ -137,6 +138,10 @@ function openUpdateModal( id )
         } else {
             sweetAlert( 2, result.exception, null );
         }
+    }else{
+        sweetAlert( 4, result.exception, 'index.php' );
+    }
+        
     })
     .fail(function( jqXHR ){
         // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
@@ -146,6 +151,7 @@ function openUpdateModal( id )
             console.log( jqXHR.status + ' ' + jqXHR.statusText );
         }
     });
+
 }
 
 // Evento para crear o modificar un registro.

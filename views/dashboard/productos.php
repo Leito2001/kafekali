@@ -37,7 +37,7 @@ Dashboard::headerTemplate('Administrar productos');
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
         <!-- Formulario para crear o actualizar un producto -->
-        <form method="post" id="save-form" enctype="multipart/form-data">
+        <form method="post" id="save-form" enctype="multipart/form-data" autocomplete="off">
             <!-- Campo oculto para asignar el id del producto al momento de modificar -->
             <input class="hide" type="number" id="id_producto" name="id_producto"/>
             

@@ -30,7 +30,7 @@ Dashboard::headerTemplate('Administrar categorías');
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
         <!-- Formulario para crear o actualizar un registro -->
-        <form method="post" id="save-form" enctype="multipart/form-data">
+        <form method="post" id="save-form" enctype="multipart/form-data" autocomplete="off">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input class="hide" type="number" id="id_tipo_producto" name="id_tipo_producto"/>
             <div class="row">

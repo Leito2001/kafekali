@@ -176,6 +176,20 @@ class Usuarios extends Validator
         }
     }
 
+    public function checkCorreo()
+    {
+        $sql = 'SELECT nombres, apellidos, id_usuario FROM usuario WHERE correo = ?';
+        $params = array($this->correo);
+        if ( $data = Database::getRow($sql, $params)) {
+            $this->nombres = $data['nombres'];
+            $this->apellidos = $data['apellidos'];
+            $this->id = $data['id_usuario'];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Compara la contraseña ingresada con la encriptada en la base de datos
     public function checkPassword($password)
     {

@@ -7,23 +7,27 @@ require_once('../../models/usuarios.php');
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
+    
+    
+        
     // Se instancia la clase correspondiente.
     $usuario = new Usuarios;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'message' => null, 'exception' => null);
+    $result = array('status' => 0, 'message' => null, 'exception' => null, 'session' =>0);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['id_usuario'])) {
+        if($usuario->validateSessionTime()){
+            $result['session'] = 1;
+
+        
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
 
             case 'logout':
-                if (session_destroy()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión cerrada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
-                }
-                break;
+                unset($_SESSION['id_usuario']);
+                $result['status'] = 1;
+                $result['message'] = 'sesion eliminada correctamente';
+            break;
 
             case 'readProfile':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
@@ -91,7 +95,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave nueva menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError(); //getPasswordError para validar contraseña;
                                     }
                                 } else {
                                     $result['exception'] = 'Claves nuevas diferentes';
@@ -100,7 +104,7 @@ if (isset($_GET['action'])) {
                                 $result['exception'] = 'Clave actual incorrecta';
                             }
                         } else {
-                            $result['exception'] = 'Clave actual menor a 6 caracteres';
+                            $result['exception'] = $usuario->getPasswordError();
                         }
                     } else {
                         $result['exception'] = 'Claves actuales diferentes';
@@ -147,7 +151,7 @@ if (isset($_GET['action'])) {
                                                         $result['exception'] = Database::getException();
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Clave menor a 6 caracteres';
+                                                    $result['exception'] = $cliente->getPasswordError(); //getPasswordError para validar contraseña;
                                                 }
                                             } else {
                                                 $result['exception'] = 'Claves diferentes';
@@ -245,6 +249,9 @@ if (isset($_GET['action'])) {
             default:
                 exit('Acción no disponible log');
         }
+    }else{
+        $result['exception'] = 'Su sesion ha caducado';
+    }
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
@@ -286,7 +293,7 @@ if (isset($_GET['action'])) {
                                                         $result['exception'] = Database::getException();
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Clave menor a 6 caracteres';
+                                                    $result['exception'] = $usuario->getPasswordError();
                                                 }
                                             } else {
                                                 $result['exception'] = 'Claves diferentes';
@@ -324,6 +331,8 @@ if (isset($_GET['action'])) {
                         $result['message'] = 'Autenticación correcta';
                         $_SESSION['id_usuario'] = $usuario->getId();
                         $_SESSION['usuario_u'] = $usuario->getUsuario();
+                        $_SESSION['tiempo'] = time();
+                         $result['status'] = 1;
                     } else {
                         $result['exception'] = 'Clave incorrecta';
                     }
@@ -331,6 +340,95 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Usuario incorrecto';
                 }
                 break;
+
+                case 'recuperar':
+                    if ($usuario->setCorreo($_POST['correo_usuario'])) {
+                        //Verifica que la contraseña coincida con la que está en la base
+                        if ($usuario->checkCorreo()) {
+                            $password = uniqid();
+                            require '../../../libraries/phpmailer52/class.phpmailer.php';
+                            require '../../../libraries/phpmailer52/class.smtp.php';
+    
+                            //Create a new PHPMailer instance
+                            $mail = new PHPMailer;
+                            //Uso de UTF-8
+                            $mail->CharSet='UTF-8';
+    
+                            //Tell PHPMailer to use SMTP
+                            $mail->isSMTP();
+    
+                            //Enable SMTP debugging
+                            // SMTP::DEBUG_OFF = off (for production use)
+                            // SMTP::DEBUG_CLIENT = client messages
+                            // SMTP::DEBUG_SERVER = client and server messages
+                            //$mail->SMTPDebug = 2;
+    
+    
+                            //Set the hostname of the mail server
+                            $mail->Host = 'smtp.gmail.com';
+                            // use
+                            // $mail->Host = gethostbyname('smtp.gmail.com');
+                            // if your network does not support SMTP over IPv6
+    
+                            //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+                            $mail->Port = 465;
+    
+                            $mail->SMTPSecure = 'ssl';
+    
+                            //Whether to use SMTP authentication
+                            $mail->SMTPAuth = true;
+    
+                            //Username to use for SMTP authentication - use full email address for gmail
+                            $mail->Username = 'leomoi30553@gmail.com';
+    
+                            //Password to use for SMTP authentication
+                            $mail->Password = 'leito1724spidermaneslaley';
+    
+                            //Set who the message is to be sent from
+                            $mail->setFrom('leomoi30553@gmail.com', 'Kafekali');
+    
+                            //Set an alternative reply-to address
+                            //$mail->addReplyTo('replyto@example.com', 'First Last');
+                            
+                            //Set who the message is to be sent to
+                            $mail->addAddress($_POST['correo_usuario'], $usuario->getNombres().' '.$usuario->getApellidos());
+    
+                            //Set the subject line
+                            $mail->Subject = 'Restauración de contraseña';
+    
+                            //Read an HTML message body from an external file, convert referenced images to embedded,
+                            //convert HTML into a basic plain-text alternative body
+                            //$mail->msgHTML(file_get_contents('contents.html'), __DIR__);
+    
+                            //Replace the plain text body with one created manually
+                            $mail->Body = 'Su nueva contraseña es: '.$password;
+    
+                            //Attach an image file
+                            //$mail->addAttachment('images/phpmailer_mini.png');
+    
+                            //send the message, check for errors
+                            if ($mail->send()) {
+                                if($usuario->setPassword($password)){
+                                    if($usuario->changePassword()){
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Su contraseña ha sido restablecida correctamente, revise su correo.';
+                                    }else{
+                                        $result['exception'] = 'Ocurrió un problema al cambiar la contraseña';
+                                    }
+                                }else{
+                                    $result['exception'] = 'Contraseña incorrecta';
+                                }
+                            } else {
+                                $result['exception'] = $mail->ErrorInfo;
+                            }
+                        } else {
+                            $result['exception'] = 'Correo inexistente';
+                        }
+                    } else {
+                        $result['exception'] = 'Correo incorrecto';
+                    }
+                break;
+
             default:
                 exit('Acción no disponible fuera de la sesión');
         }

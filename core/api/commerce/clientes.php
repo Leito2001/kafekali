@@ -17,13 +17,10 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
 
             case 'logout':
-                if (session_destroy()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión cerrada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
-                }
-                break;
+                unset($_SESSION['id_cliente']);
+                $result['status'] = 1;
+                $result['message'] = 'sesion eliminada correctamente';
+            break;
             default:
                 exit('Acción no disponible dentro de la sesión');
         }
@@ -148,6 +145,94 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Nombre de usuario incorrecto';
                 }
+                break;
+
+                case 'recuperar':
+                    if ($cliente->setCorreo($_POST['correo_usuario'])) {
+                        //Verifica que la contraseña coincida con la que está en la base
+                        if ($cliente->checkCorreo()) {
+                            $password = uniqid();
+                            require '../../../libraries/phpmailer52/class.phpmailer.php';
+                            require '../../../libraries/phpmailer52/class.smtp.php';
+    
+                            //Create a new PHPMailer instance
+                            $mail = new PHPMailer;
+
+                            //Uso de UTF-8
+                            $mail->CharSet='UTF-8';
+                            //Tell PHPMailer to use SMTP
+                            $mail->isSMTP();
+    
+                            //Enable SMTP debugging
+                            // SMTP::DEBUG_OFF = off (for production use)
+                            // SMTP::DEBUG_CLIENT = client messages
+                            // SMTP::DEBUG_SERVER = client and server messages
+                            //$mail->SMTPDebug = 2;
+    
+    
+                            //Set the hostname of the mail server
+                            $mail->Host = 'smtp.gmail.com';
+                            // use
+                            // $mail->Host = gethostbyname('smtp.gmail.com');
+                            // if your network does not support SMTP over IPv6
+    
+                            //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+                            $mail->Port = 465;
+    
+                            $mail->SMTPSecure = 'ssl';
+    
+                            //Whether to use SMTP authentication
+                            $mail->SMTPAuth = true;
+    
+                            //Username to use for SMTP authentication - use full email address for gmail
+                            $mail->Username = 'leomoi30553@gmail.com';
+    
+                            //Password to use for SMTP authentication
+                            $mail->Password = 'leito1724spidermaneslaley';
+    
+                            //Set who the message is to be sent from
+                            $mail->setFrom('leomoi30553@gmail.com', 'Kafekali');
+    
+                            //Set an alternative reply-to address
+                            //$mail->addReplyTo('replyto@example.com', 'First Last');
+                            
+                            //Set who the message is to be sent to
+                            $mail->addAddress($_POST['correo_usuario'], $cliente->getNombre().' '.$cliente->getApellido());
+    
+                            //Set the subject line
+                            $mail->Subject = 'Restauración de contraseña';
+    
+                            //Read an HTML message body from an external file, convert referenced images to embedded,
+                            //convert HTML into a basic plain-text alternative body
+                            //$mail->msgHTML(file_get_contents('contents.html'), __DIR__);
+    
+                            //Replace the plain text body with one created manually
+                            $mail->Body = 'Su nueva contraseña es: '.$password;
+    
+                            //Attach an image file
+                            //$mail->addAttachment('images/phpmailer_mini.png');
+    
+                            //send the message, check for errors
+                            if ($mail->send()) {
+                                if($cliente->setPasswordC($password)){
+                                    if($cliente->changePassword()){
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Su contraseña ha sido restablecida correctamente, revise su correo.';
+                                    }else{
+                                        $result['exception'] = 'Ocurrió un problema al cambiar la contraseña';
+                                    }
+                                }else{
+                                    $result['exception'] = 'Contraseña incorrecta';
+                                }
+                            } else {
+                                $result['exception'] = $mail->ErrorInfo;
+                            }
+                        } else {
+                            $result['exception'] = 'Correo inexistente';
+                        }
+                    } else {
+                        $result['exception'] = 'Correo incorrecto';
+                    }
                 break;
 
             default:
