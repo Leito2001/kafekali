@@ -37,7 +37,7 @@ function fillTable( dataset )
                 ordereable: false,
                 render: function(data, type, meta) 
                 {
-                    return `<img src="../../resources/img/pventa/${data.imagen}" class="materialboxed" height="100">`;
+                    return `<img src="../../resources/img/categorias/${data.imagen}" class="materialboxed" height="100">`;
                 },
                 targets: -1
                 },
