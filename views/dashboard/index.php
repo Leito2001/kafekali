@@ -8,6 +8,8 @@ Dashboard::headerTemplate('Iniciar sesión');
         <!-- Formulario para iniciar sesión -->
         <form method="post" id="session-form"> 
 
+        
+
             <!-- Input con validación: una cadena de texto de 20 carácteres máximo entre letras, carácteres especiales (_ y .) y números sin espacios -->
             <div class="input-field col s12 m6 offset-m3">
                 <i class="material-icons prefix">person</i>
