@@ -210,6 +210,20 @@ class Clientes extends Validator
         }
     }
 
+    public function checkCorreo()
+    {
+        $sql = 'SELECT nombre, apellido, id_cliente FROM cliente WHERE correo = ?';
+        $params = array($this->correo);
+        if ( $data = Database::getRow($sql, $params)) {
+            $this->nombres = $data['nombre'];
+            $this->apellidos = $data['apellido'];
+            $this->id = $data['id_cliente'];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Verifica que la contraseña ingresada
     public function checkPassword($password)
     {
@@ -227,7 +241,7 @@ class Clientes extends Validator
     //Método para cambiar contraseña
     public function changePassword()
     {
-        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $hash = password_hash($this->password_c, PASSWORD_DEFAULT);
         $sql = 'UPDATE cliente SET password_c = ? WHERE id_cliente = ?';
         $params = array($hash, $this->id);
         return Database::executeRow($sql, $params);

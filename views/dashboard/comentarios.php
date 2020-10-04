@@ -28,7 +28,7 @@ Dashboard::headerTemplate('Administrar reseñas');
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
         <!-- Formulario para actualizar el estado de un pedido -->
-        <form method="post" id="save-form" enctype="multipart/form-data">
+        <form method="post" id="save-form" enctype="multipart/form-data" autocomplete="off">
 
             <!-- Campo oculto para asignar el id del detalle y del pedido al momento de modificar -->
             <input class="hide" type="number" id="id_detalle_pedido" name="id_detalle_pedido"/>

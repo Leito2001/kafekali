@@ -36,7 +36,7 @@ Dashboard::headerTemplate('Administrar proveedores');
     <div class="modal-content">
         <h4 id="modal-title" class="center-align"></h4>
         <!-- Formulario para crear o actualizar un registro -->
-        <form method="post" id="save-form">
+        <form method="post" id="save-form" autocomplete="off">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input class="hide" type="number" id="id_proveedor" name="id_proveedor"/>
             <div class="row">

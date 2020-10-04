@@ -16,13 +16,19 @@ function readRows( api )
         url: api + 'readAll'
     })
     .done(function( response ) {
+        if(response.session){
+
         // Si no hay datos se muestra un mensaje indicando la situación.
         if ( ! response.status ) {
             sweetAlert( 4, response.exception, null );
         }
         // Se envían los datos a la función del controlador para que llene la tabla en la vista.
         fillTable( response.dataset );
+    }else{
+        sweetAlert( 4, response.exception, 'index.php' ); 
+    }
     })
+    
     .fail(function( jqXHR ) {
         // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
         if ( jqXHR.status == 200 ) {
@@ -136,6 +142,7 @@ function confirmDelete( api, identifier )
         closeOnClickOutside: false,
         closeOnEsc: false
     })
+    
     .then(function( value ) {
         // Se verifica si fue cliqueado el botón Sí para hacer la petición de borrado, de lo contrario no se hace nada.
         if ( value ) {

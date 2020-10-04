@@ -8,6 +8,7 @@ class Validator
     // Propiedades para manejar la validación de archivos de imagen.
     private $imageError = null;
     private $imageName = null;
+    private $passwordError = null;
 
     /*
     *   Método para obtener el nombre del archivo de la imagen validada previamente.
@@ -115,6 +116,11 @@ class Validator
             $this->imageError = 4;
             return false;
         }
+    }
+
+    public function getPasswordError()
+    {
+        return $this->passwordError;
     }
 
     /*
@@ -227,12 +233,26 @@ class Validator
     public function validatePassword($value)
     {
         // Se verifica que la longitud de la contraseña sea de al menos 6 caracteres.
-        if (strlen($value) >= 6) {
-            return true;
+          // Se verifica que la longitud de la contraseña no exceda de 10 caracteres.
+          if (strlen($value) >= 6 && strlen($value) <= 16) {
+            //Se verifica que la contraseña posea al menos una letra mayuscula
+            if (preg_match('`[A-Z]`',$value)){
+                if (preg_match('`[a-z]`',$value)){
+                    return true;
+                }else{
+                    $this->passwordError = "La clave debe tener al menos una letra minúscula";
+                    return false;
+                }
+            }else{
+                $this->passwordError = "La clave debe tener al menos una letra mayúscula";
+                return false;
+            }  
         } else {
+            $this->passwordError = "La clave debe tener entre 8 y 20 caracteres";
             return false;
         }
-    }
+        
+    }   
 
     /*
     *   Método para validar el formato del DUI (Documento Único de Identidad).
@@ -334,5 +354,18 @@ class Validator
             return false;
         }
     }
+    public function validateSessionTime(){
+        if(time() - $_SESSION['tiempo'] < 30){
+            $_SESSION['tiempo'] = time();
+            return true;
+        }else{
+            if(session_destroy()){
+                return false;
+            }else{
+                return false;
+            }
+        }
+    }
 }
+
 ?>

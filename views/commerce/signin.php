@@ -44,7 +44,7 @@ Commerce::headerTemplate('Registrarse');
             <!-- Input con validación: una cadena de texto sin restricciones de escritura con 200 carácteres máximo -->
             <div class="input-field col s12 m6">
                 <i class="material-icons prefix">place</i>
-                <input type="text" id="direccion" name="direccion" pattern="[a-zA-Z0-9#ñÑáÁéÉíÍóÓúÚ\s\,\:\;\.\-\+]" class="validate" maxlength="200" class="validate" required/>
+                <input type="text" id="direccion" name="direccion"  class="validate" maxlength="200" class="validate" required/>
                 <label for="direccion">Direccion del cliente</label>
             </div>
 

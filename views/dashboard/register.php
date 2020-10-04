@@ -4,7 +4,7 @@ Dashboard::headerTemplate('Registrar primer usuario');
 ?>
 
 <!-- Formulario para registrar al primer usuario del dashboard -->
-<form method="post" id="register-form">
+<form method="post" id="register-form" autocomplete="off">
     
     <div class="row">
 
@@ -59,14 +59,14 @@ Dashboard::headerTemplate('Registrar primer usuario');
         <!-- Input con validación: mínimo 6 carácteres -->
         <div class="input-field col s12 m6">
             <i class="material-icons prefix">security</i>
-            <input id="clave1" type="password" name="clave1" minlength="6" class="validate" required/>
+            <input id="clave1" type="password" name="clave1" minlength="6" maxlength="16" class="validate" required/>
             <label for="clave1">Clave</label>
         </div>
 
         <!-- Input con validación: mínimo 6 carácteres -->
         <div class="input-field col s12 m6">
             <i class="material-icons prefix">security</i>
-            <input id="clave2" type="password" name="clave2" minlength="6" class="validate" required/>
+            <input id="clave2" type="password" name="clave2" minlength="6" maxlength="16" class="validate" required/>
             <label for="clave2">Confirmar clave</label>
         </div>
 
