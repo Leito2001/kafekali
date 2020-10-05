@@ -16,109 +16,116 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['id_usuario'])) {
-        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
-        switch ($_GET['action']) {
+        if ($pedido->validateSessionTime()) {
+            $result['session'] = 1;
+            // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+            switch ($_GET['action']) {
 
-            case 'readAll':
-                if ($result['dataset'] = $pedido->readAllPedidos()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay pedidos registrados';
-                }
-                break;
-
-            case 'readAllReviews':
-                if ($result['dataset'] = $pedido->readAllReviews()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay reseñas registradas';
-                }
-                break;
-
-                //Case para obtener los estados y leerlos en un combobox
-            case 'getEstados':
-                if ($result['dataset'] = $pedido->getEstadosCb()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
-
-            case 'readOne':
-                if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
-                    if ($result['dataset'] = $pedido->readOnePedido()) {
+                case 'readAll':
+                    if ($result['dataset'] = $pedido->readAllPedidos()) {
                         $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'Pedido inexistente';
+                        $result['exception'] = 'No hay pedidos registrados';
                     }
-                } else {
-                    $result['exception'] = 'Pedido incorrecto';
-                }
-                break;
+                    break;
 
-            case 'readOneReview':
-                if ($pedido->setIdComentario($_POST['id_comentario'])) {
-                    if ($result['dataset'] = $pedido->readProductoReviews()) {
+                case 'readAllReviews':
+                    if ($result['dataset'] = $pedido->readAllReviews()) {
                         $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'Reseña inexistente';
+                        $result['exception'] = 'No hay reseñas registradas';
                     }
-                } else {
-                    $result['exception'] = 'Comentario incorrecto';
-                }
-                break;
+                    break;
 
-            case 'updateEstado':
-                if ($pedido->setIdPedido($_POST['id_pedido'])) {
-                    $_POST = $pedido->validateForm($_POST);
-                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                        if ($pedido->setEstado($_POST['estado_pedido'])) {
-                            if ($pedido->updateOrderStatus()) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Estado modificado correctamente';
-                            } else {
-                                $result['exception'] = 'Ocurrió un problema al modificar el estado';
-                            }
+                    //Case para obtener los estados y leerlos en un combobox
+                case 'getEstados':
+                    if ($result['dataset'] = $pedido->getEstadosCb()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
+
+                case 'readOne':
+                    if ($pedido->setIdPedido($_POST['id_detalle_pedido'])) {
+                        if ($result['dataset'] = $pedido->readOnePedido()
+                        ) {
+                            $result['status'] = 1;
                         } else {
-                            $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
+                            $result['exception'] = 'Pedido inexistente';
                         }
                     } else {
-                        $result['exception'] = 'Detalle incorrecto';
+                        $result['exception'] = 'Pedido incorrecto';
                     }
-                } else {
-                    $result['exception'] = 'Pedido incorrecto';
-                }
-                break;
+                    break;
 
-                //Case para leer el método fiveClientes que genera una gráfica de dona
-            case 'fiveClients':
-                if ($result['dataset'] = $pedido->fiveClients()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
+                case 'readOneReview':
+                    if ($pedido->setIdComentario($_POST['id_comentario'])) {
+                        if ($result['dataset'] = $pedido->readProductoReviews()
+                        ) {
+                            $result['status'] = 1;
+                        } else {
+                            $result['exception'] = 'Reseña inexistente';
+                        }
+                    } else {
+                        $result['exception'] = 'Comentario incorrecto';
+                    }
+                    break;
 
-                //Case para leer el método ventas7Dias que genera una gráfica de barras
-            case '7Dias':
-                if ($result['dataset'] = $pedido->ventas7Dias()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
+                case 'updateEstado':
+                    if ($pedido->setIdPedido($_POST['id_pedido'])) {
+                        $_POST = $pedido->validateForm($_POST);
+                        if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
+                            if ($pedido->setEstado($_POST['estado_pedido'])) {
+                                if ($pedido->updateOrderStatus()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Estado modificado correctamente';
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al modificar el estado';
+                                }
+                            } else {
+                                $result['exception'] = 'Estado pendiente es inválido, no se puede modificar';
+                            }
+                        } else {
+                            $result['exception'] = 'Detalle incorrecto';
+                        }
+                    } else {
+                        $result['exception'] = 'Pedido incorrecto';
+                    }
+                    break;
 
-                //Case para leer el método ventasSemana que genera una gráfica de barras
-            case 'ventasSemana':
-                if ($result['dataset'] = $pedido->ventasSemana()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
+                    //Case para leer el método fiveClientes que genera una gráfica de dona
+                case 'fiveClients':
+                    if ($result['dataset'] = $pedido->fiveClients()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
 
-            default:
-                exit('Acción no disponible dentro de la sesión');
+                    //Case para leer el método ventas7Dias que genera una gráfica de barras
+                case '7Dias':
+                    if ($result['dataset'] = $pedido->ventas7Dias()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
+
+                    //Case para leer el método ventasSemana que genera una gráfica de barras
+                case 'ventasSemana':
+                    if ($result['dataset'] = $pedido->ventasSemana()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
+
+                default:
+                    exit('Acción no disponible dentro de la sesión');
+            }
+        } else {
+            $result['exception'] = 'Su sesión ha caducado';
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');

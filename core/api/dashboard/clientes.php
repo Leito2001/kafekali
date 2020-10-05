@@ -14,67 +14,72 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['id_usuario'])) {
-        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
-        switch ($_GET['action']) {
+        if ($cliente->validateSessionTime()) {
+            $result['session'] = 1;
+            // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+            switch ($_GET['action']) {
 
-            case 'readAll':
-                if ($result['dataset'] = $cliente->readAllClientes()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay clientes registrados';
-                }
-                break;
-
-            case 'readOne':
-                if ($cliente->setId($_POST['id_cliente'])) {
-                    if ($result['dataset'] = $cliente->readOneCliente()) {
+                case 'readAll':
+                    if ($result['dataset'] = $cliente->readAllClientes()) {
                         $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'Cliente inexistente';
+                        $result['exception'] = 'No hay clientes registrados';
                     }
-                } else {
-                    $result['exception'] = 'Cliente incorrecto';
-                }
-                break;
+                    break;
 
-            case 'update':
-                $_POST = $cliente->validateForm($_POST);
-
-                if ($cliente->setId($_POST['id_cliente'])) {
-
-                    if ($cliente->readOneCliente()) {
-
-                        //Lee el estado del cliente según valores booleanos true or false
-                        if ($cliente->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)) {
-
-                            if ($cliente->updateStatus()) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Estado modificado correctamente';
-                            } else {
-                                $result['exception'] = Database::getException();
-                            }
+                case 'readOne':
+                    if ($cliente->setId($_POST['id_cliente'])) {
+                        if ($result['dataset'] = $cliente->readOneCliente()) {
+                            $result['status'] = 1;
                         } else {
-                            $result['exception'] = 'Estado incorrecto';
+                            $result['exception'] = 'Cliente inexistente';
                         }
                     } else {
-                        $result['exception'] = 'Usuario inexistente';
+                        $result['exception'] = 'Cliente incorrecto';
                     }
-                } else {
-                    $result['exception'] = 'Usuario incorrecto';
-                }
-                break;
+                    break;
 
-                //Case para leer los datos de la gráfica a generar
-            case '7DiasClientes':
-                if ($result['dataset'] = $cliente->clientes7Dias()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
+                case 'update':
+                    $_POST = $cliente->validateForm($_POST);
 
-            default:
-                exit('Acción no disponible dentro de la sesión');
+                    if ($cliente->setId($_POST['id_cliente'])) {
+
+                        if ($cliente->readOneCliente()) {
+
+                            //Lee el estado del cliente según valores booleanos true or false
+                            if ($cliente->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)) {
+
+                                if ($cliente->updateStatus()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Estado modificado correctamente';
+                                } else {
+                                    $result['exception'] = Database::getException();
+                                }
+                            } else {
+                                $result['exception'] = 'Estado incorrecto';
+                            }
+                        } else {
+                            $result['exception'] = 'Usuario inexistente';
+                        }
+                    } else {
+                        $result['exception'] = 'Usuario incorrecto';
+                    }
+                    break;
+
+                    //Case para leer los datos de la gráfica a generar
+                case '7DiasClientes':
+                    if ($result['dataset'] = $cliente->clientes7Dias()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                    break;
+
+                default:
+                    exit('Acción no disponible dentro de la sesión');
+            }
+        } else {
+            $result['exception'] = 'Su sesión ha caducado';
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');

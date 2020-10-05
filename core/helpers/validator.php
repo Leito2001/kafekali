@@ -354,18 +354,15 @@ class Validator
             return false;
         }
     }
+
     public function validateSessionTime(){
         if(time() - $_SESSION['tiempo'] < 30){
             $_SESSION['tiempo'] = time();
             return true;
-        }else{
-            if(session_destroy()){
-                return false;
-            }else{
-                return false;
-            }
+        } else {
+            unset($_SESSION['id_usuario']);
+            return false;
         }
     }
 }
-
 ?>

@@ -16,58 +16,63 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['id_usuario'])) {
-        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
-        switch ($_GET['action']) {
+        if ($pedido->validateSessionTime()) {
+            $result['session'] = 1;
+            // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+            switch ($_GET['action']) {
 
-            case 'readAll':
-                if ($result['dataset'] = $pedido->readAllReviews()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay reseñas registradas';
-                }
-                break;
-
-            case 'readOne':
-                if ($pedido->setIdComentario($_POST['id_comentario'])) {
-                    $_POST = $pedido->validateForm($_POST);
-                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                        if ($result['dataset'] = $pedido->readProductoReviews()) {
-                            $result['status'] = 1;
-                        } else {
-                            $result['exception'] = 'Reseña inexistente';
-                        }
+                case 'readAll':
+                    if ($result['dataset'] = $pedido->readAllReviews()) {
+                        $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'Detalle incorrecto';
+                        $result['exception'] = 'No hay reseñas registradas';
                     }
-                } else {
-                    $result['exception'] = 'Comentario incorrecto';
-                }
-                break;
+                    break;
 
-            case 'updateEstado':
-                if ($pedido->setIdComentario($_POST['id_comentario'])) {
-                    $_POST = $pedido->validateForm($_POST);
-                    if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
-                        if ($pedido->setEstadoComentario(isset($_POST['estado_comentario']) ? 1 : 0)) {
-                            if ($pedido->updateReview()) {
+                case 'readOne':
+                    if ($pedido->setIdComentario($_POST['id_comentario'])) {
+                        $_POST = $pedido->validateForm($_POST);
+                        if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
+                            if ($result['dataset'] = $pedido->readProductoReviews()) {
                                 $result['status'] = 1;
-                                $result['message'] = 'Estado modificado correctamente';
                             } else {
-                                $result['exception'] = 'Ocurrió un problema al modificar el estado';
+                                $result['exception'] = 'Reseña inexistente';
                             }
                         } else {
-                            $result['exception'] = 'Estado inválido';
+                            $result['exception'] = 'Detalle incorrecto';
                         }
                     } else {
-                        $result['exception'] = 'Detalle incorrecto';
+                        $result['exception'] = 'Comentario incorrecto';
                     }
-                } else {
-                    $result['exception'] = 'Comentario incorrecto';
-                }
-                break;
+                    break;
 
-            default:
-                exit('Acción no disponible dentro de la sesión');
+                case 'updateEstado':
+                    if ($pedido->setIdComentario($_POST['id_comentario'])) {
+                        $_POST = $pedido->validateForm($_POST);
+                        if ($pedido->setIdDetalle($_POST['id_detalle_pedido'])) {
+                            if ($pedido->setEstadoComentario(isset($_POST['estado_comentario']) ? 1 : 0)) {
+                                if ($pedido->updateReview()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Estado modificado correctamente';
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al modificar el estado';
+                                }
+                            } else {
+                                $result['exception'] = 'Estado inválido';
+                            }
+                        } else {
+                            $result['exception'] = 'Detalle incorrecto';
+                        }
+                    } else {
+                        $result['exception'] = 'Comentario incorrecto';
+                    }
+                    break;
+
+                default:
+                    exit('Acción no disponible dentro de la sesión');
+            }
+        } else {
+            $result['exception'] = 'Su sesión ha caducado';
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');
